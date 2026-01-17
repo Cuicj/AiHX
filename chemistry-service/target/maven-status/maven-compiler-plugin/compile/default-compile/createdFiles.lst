@@ -1,0 +1,6 @@
+com\cmatedata\chemistryservice\service\ElementService.class
+com\cmatedata\chemistryservice\repository\ElementRepository.class
+com\cmatedata\chemistryservice\entity\Element.class
+com\cmatedata\chemistryservice\controller\ElementController.class
+com\cmatedata\chemistryservice\ChemistryServiceApplication.class
+com\cmatedata\chemistryservice\config\DataInitializer.class
