@@ -7,6 +7,12 @@ spring:
   cloud:
     gateway:
       routes:
+        - id: frontend
+          uri: file:///F:/TEST/CMateData/frontend/
+          predicates:
+            - Path=/**
+          filters:
+            - RewritePath=/(?<segment>.*), /${segment}
         - id: chemistry-service
           uri: lb://chemistry-service
           predicates:
