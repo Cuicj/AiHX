@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cmatedata.chemistryservice.mapper.ElementMapper">
+    <resultMap id="ElementResultMap" type="Element">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="symbol" property="symbol" />
+        <result column="atomic_number" property="atomicNumber" />
+        <result column="atomic_mass" property="atomicMass" />
+        <result column="group_number" property="groupNumber" />
+        <result column="period" property="period" />
+        <result column="category" property="category" />
+        <result column="electron_configuration" property="electronConfiguration" />
+    </resultMap>
+
+    <select id="findAll" resultMap="ElementResultMap">
+        SELECT * FROM elements
+    </select>
+
+    <select id="findById" resultMap="ElementResultMap">
+        SELECT * FROM elements WHERE id = #{id}
+    </select>
+
+    <select id="findByName" resultMap="ElementResultMap">
+        SELECT * FROM elements WHERE name = #{name}
+    </select>
+
+    <select id="findBySymbol" resultMap="ElementResultMap">
+        SELECT * FROM elements WHERE symbol = #{symbol}
+    </select>
+
+    <insert id="insert" parameterType="Element" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO elements (name, symbol, atomic_number, atomic_mass, group_number, period, category, electron_configuration)
+        VALUES (#{name}, #{symbol}, #{atomicNumber}, #{atomicMass}, #{groupNumber}, #{period}, #{category}, #{electronConfiguration})
+    </insert>
+
+    <update id="update" parameterType="Element">
+        UPDATE elements
+        SET name = #{name}, symbol = #{symbol}, atomic_number = #{atomicNumber}, atomic_mass = #{atomicMass},
+            group_number = #{groupNumber}, period = #{period}, category = #{category}, electron_configuration = #{electronConfiguration}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="Long">
+        DELETE FROM elements WHERE id = #{id}
+    </delete>
+</mapper>

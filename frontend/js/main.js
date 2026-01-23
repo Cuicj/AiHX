@@ -416,3 +416,165 @@ const modalHTML = `
 
 // 将模态框结构添加到页面末尾
 document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+// 与后端API交互的函数
+async function fetchElements() {
+    try {
+        const response = await fetch('/api/chemistry/elements');
+        if (!response.ok) {
+            throw new Error('Failed to fetch elements');
+        }
+        const elements = await response.json();
+        console.log('Elements fetched:', elements);
+        return elements;
+    } catch (error) {
+        console.error('Error fetching elements:', error);
+        return [];
+    }
+}
+
+// 获取元素详情
+async function fetchElementById(id) {
+    try {
+        const response = await fetch(`/api/chemistry/elements/${id}`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch element');
+        }
+        const element = await response.json();
+        console.log('Element fetched:', element);
+        return element;
+    } catch (error) {
+        console.error('Error fetching element:', error);
+        return null;
+    }
+}
+
+// 搜索元素
+async function searchElement(query) {
+    try {
+        const response = await fetch(`/api/chemistry/elements/search?query=${encodeURIComponent(query)}`);
+        if (!response.ok) {
+            throw new Error('Failed to search elements');
+        }
+        const results = await response.json();
+        console.log('Search results:', results);
+        return results;
+    } catch (error) {
+        console.error('Error searching elements:', error);
+        return [];
+    }
+}
+
+// 在页面加载时获取元素数据
+window.addEventListener('DOMContentLoaded', async function() {
+    console.log('Page loaded, fetching elements...');
+    const elements = await fetchElements();
+    if (elements.length > 0) {
+        console.log(`Fetched ${elements.length} elements from backend`);
+        // 可以在这里更新页面内容，例如显示元素列表
+    }
+});
+
+// 登录页面逻辑
+if (window.location.pathname.includes('login')) {
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('Login page loaded');
+        
+        // 密码显示/隐藏功能
+        const togglePassword = document.querySelector('.toggle-password');
+        if (togglePassword) {
+            togglePassword.addEventListener('click', function() {
+                const passwordInput = document.getElementById('password');
+                const passwordIcon = this.querySelector('svg');
+                
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    // 切换为眼睛关闭图标
+                    passwordIcon.outerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-slash" viewBox="0 0 16 16">
+                            <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7.028 7.028 0 0 0-2.79.588l.77.771A5.944 5.944 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.134 13.134 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755-.165.165-.337.328-.517.486l.708.709z"/>
+                            <path d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.829 2.829l.822.822zm-2.943 1.299.822.822a3.5 3.5 0 0 1-4.474-4.474l.823.823a2.5 2.5 0 0 0 2.829 2.829z"/>
+                            <path d="M3.35 5.47c-.18.16-.353.322-.518.487A13.134 13.134 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7.029 7.029 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709zm10.296 8.884-12-12 .708-.708 12 12-.708.708z"/>
+                        </svg>
+                    `;
+                } else {
+                    passwordInput.type = 'password';
+                    // 切换为眼睛图标
+                    passwordIcon.outerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                            <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                            <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                        </svg>
+                    `;
+                }
+            });
+        }
+        
+        // 登录表单提交处理
+        const loginForm = document.getElementById('loginForm');
+        if (loginForm) {
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const username = document.getElementById('username').value.trim();
+                const password = document.getElementById('password').value.trim();
+                
+                // 简单表单验证
+                if (!username || !password) {
+                    alert('请输入用户名和密码');
+                    return;
+                }
+                
+                // 模拟登录请求
+                console.log('Login attempt with username:', username);
+                
+                // 显示加载状态
+                const loginBtn = document.querySelector('.login-btn');
+                const originalText = loginBtn.textContent;
+                loginBtn.textContent = '登录中...';
+                loginBtn.disabled = true;
+                
+                // 模拟API请求延迟
+                setTimeout(() => {
+                    // 模拟登录成功
+                    console.log('Login successful');
+                    
+                    // 恢复按钮状态
+                    loginBtn.textContent = originalText;
+                    loginBtn.disabled = false;
+                    
+                    // 跳转到首页
+                    window.location.href = 'index.html';
+                }, 1500);
+            });
+        }
+        
+        // 其他登录方式
+        const socialBtns = document.querySelectorAll('.social-btn');
+        socialBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const provider = this.textContent.trim();
+                console.log(`Login with ${provider}`);
+                alert(`请使用${provider}进行登录`);
+            });
+        });
+        
+        // 忘记密码链接
+        const forgotPassword = document.querySelector('.forgot-password');
+        if (forgotPassword) {
+            forgotPassword.addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('忘记密码功能正在开发中');
+            });
+        }
+        
+        // 注册链接
+        const registerLink = document.querySelector('.register-link');
+        if (registerLink) {
+            registerLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('注册功能正在开发中');
+            });
+        }
+    });
+}

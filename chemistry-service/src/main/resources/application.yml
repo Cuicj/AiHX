@@ -9,15 +9,17 @@ spring:
     driverClassName: org.h2.Driver
     username: sa
     password: password
-  jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-    hibernate:
-      ddl-auto: create-drop
-    show-sql: true
   h2:
     console:
       enabled: true
       path: /h2-console
+
+mybatis:
+  mapper-locations: classpath:mappers/*.xml
+  type-aliases-package: com.cmatedata.chemistryservice.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 eureka:
   client:

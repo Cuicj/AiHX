@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录 - 化学学习平台</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body class="login-body">
+    <!-- 登录容器 -->
+    <div class="login-container">
+        <div class="login-card">
+            <!-- 登录头部 -->
+            <div class="login-header">
+                <div class="logo">
+                    <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=chemistry%20logo%20science%20education%20modern%20simple%20blue&image_size=square" alt="化学学习平台">
+                    <h1>化学学习平台</h1>
+                </div>
+                <p class="login-subtitle">登录您的账户，开始探索化学世界</p>
+            </div>
+            
+            <!-- 登录表单 -->
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label for="username" class="form-label">用户名</label>
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                                <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z"/>
+                            </svg>
+                        </span>
+                        <input type="text" class="form-control" id="username" placeholder="请输入用户名" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password" class="form-label">密码</label>
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lock" viewBox="0 0 16 16">
+                                <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zM5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/>
+                            </svg>
+                        </span>
+                        <input type="password" class="form-control" id="password" placeholder="请输入密码" required>
+                        <button type="button" class="input-group-text toggle-password">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                                <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="form-options">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="remember">
+                        <label class="form-check-label" for="remember">记住我</label>
+                    </div>
+                    <a href="#" class="forgot-password">忘记密码？</a>
+                </div>
+                
+                <button type="submit" class="btn btn-primary w-100 login-btn">登录</button>
+                
+                <div class="divider">
+                    <span>或</span>
+                </div>
+                
+                <!-- 其他登录方式 -->
+                <div class="social-login">
+                    <button type="button" class="social-btn wechat">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-wechat" viewBox="0 0 16 16">
+                            <path d="M11.176 14.429c-2.665 0-4.82-1.392-4.82-3.1 0-.29.02-.577.058-.856.1-.753.293-1.49.566-2.19.388.096.78.177 1.187.236-.37-.616-.589-1.336-.589-2.1 0-1.944 1.986-3.516 4.43-3.516 2.445 0 4.43 1.572 4.43 3.516 0 1.659-1.523 3.034-4.003 3.034-1.202 0-2.224-.507-2.677-1.19.27.072.55.142.846.205 1.137.237 1.834.977 1.834 1.898 0 1.137-1.09 2.057-2.445 2.057zm-9.176-3.1c0 1.708 2.155 3.1 4.82 3.1 1.355 0 2.445-.92 2.445-2.057 0-.921-.697-1.661-1.834-1.898a7.33 7.33 0 0 1-.846-.205c-.453.683-1.475 1.19-2.677 1.19-2.477 0-4.003-1.375-4.003-3.034 0-1.944 1.986-3.516 4.43-3.516 1.646 0 3.1.917 3.742 2.208-.39-.05-.772-.13-1.14-.22-.305.727-.52 1.493-.616 2.292a3.9 3.9 0 0 0-.058.856c0 1.708-2.155 3.1-4.82 3.1z"/>
+                        </svg>
+                        微信登录
+                    </button>
+                    <button type="button" class="social-btn qq">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-qq" viewBox="0 0 16 16">
+                            <path d="M13.601 2.326A8.001 8.001 0 0 0 4.935 15.999a7.977 7.977 0 0 0 2.562-.999H9a5 5 0 0 1 4.601-4.928 6 6 0 1 0-1.26-2.864A8.003 8.003 0 0 0 8 16a8.001 8.001 0 0 0 5.601-13.674ZM8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0Z"/>
+                        </svg>
+                        QQ登录
+                    </button>
+                </div>
+            </form>
+            
+            <!-- 注册链接 -->
+            <div class="login-footer">
+                <p>还没有账户？ <a href="#" class="register-link">立即注册</a></p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/constants.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
