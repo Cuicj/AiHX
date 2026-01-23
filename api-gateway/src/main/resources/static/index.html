@@ -296,6 +296,162 @@
                 transform: translateY(0);
             }
         }
+        
+        /* 豆包AI浮动框样式 */
+        .doubao-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+        .doubao-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .doubao-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+        .doubao-btn img {
+            width: 30px;
+            height: 30px;
+        }
+        .doubao-panel {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            width: 350px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            display: none;
+            animation: slideUp 0.3s ease;
+        }
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .doubao-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 20px;
+            font-weight: 600;
+            font-size: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .doubao-close {
+            cursor: pointer;
+            font-size: 20px;
+            transition: color 0.3s ease;
+        }
+        .doubao-close:hover {
+            color: #f0f0f0;
+        }
+        .doubao-body {
+            padding: 20px;
+        }
+        .doubao-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            resize: none;
+            min-height: 100px;
+        }
+        .doubao-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        .doubao-footer {
+            padding: 0 20px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .doubao-count {
+            font-size: 12px;
+            color: #718096;
+        }
+        .doubao-send {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        .doubao-send:hover {
+            background: #5a67d8;
+            transform: translateY(-1px);
+        }
+        .doubao-send:disabled {
+            background: #a0aec0;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .doubao-login {
+            padding: 20px;
+            text-align: center;
+        }
+        .doubao-login h4 {
+            margin-bottom: 15px;
+            color: #2d3748;
+        }
+        .doubao-qrcode {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 15px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .doubao-qrcode img {
+            width: 100%;
+            height: 100%;
+        }
+        .doubao-login p {
+            font-size: 14px;
+            color: #718096;
+            margin-bottom: 20px;
+        }
+        .doubao-login-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        .doubao-login-btn:hover {
+            background: #5a67d8;
+            transform: translateY(-1px);
+        }
     </style>
 </head>
 <body>
@@ -539,6 +695,34 @@
             <span class="close">&times;</span>
             <h3 class="modal-title" id="modalTitle"></h3>
             <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+    
+    <!-- 豆包AI浮动框 -->
+    <div class="doubao-float">
+        <button class="doubao-btn" id="doubaoBtn">
+            <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=cute%20robot%20assistant%20icon%20blue%20white%20simple%20design&image_size=square" alt="豆包">
+        </button>
+        <div class="doubao-panel" id="doubaoPanel">
+            <div class="doubao-header">
+                <span>豆包AI助手</span>
+                <span class="doubao-close" id="doubaoClose">&times;</span>
+            </div>
+            <div class="doubao-body" id="doubaoBody">
+                <textarea class="doubao-input" id="doubaoInput" placeholder="请问有什么可以帮助您的？"></textarea>
+            </div>
+            <div class="doubao-footer">
+                <span class="doubao-count" id="doubaoCount">免费使用次数：3/3</span>
+                <button class="doubao-send" id="doubaoSend">发送</button>
+            </div>
+            <div class="doubao-login" id="doubaoLogin" style="display: none;">
+                <h4>登录豆包</h4>
+                <div class="doubao-qrcode">
+                    <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=QR%20code%20for%20login%20blue%20background%20simple%20clean&image_size=square" alt="登录二维码">
+                </div>
+                <p>请使用豆包APP扫描二维码登录</p>
+                <button class="doubao-login-btn" id="doubaoLoginBtn">打开豆包APP</button>
+            </div>
         </div>
     </div>
     
@@ -806,6 +990,117 @@
             const modal = document.getElementById('keywordModal');
             modal.style.display = 'none';
         }
+        
+        // 豆包AI浮动框逻辑
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化变量
+            let freeUsageCount = 3;
+            const doubaoBtn = document.getElementById('doubaoBtn');
+            const doubaoPanel = document.getElementById('doubaoPanel');
+            const doubaoClose = document.getElementById('doubaoClose');
+            const doubaoInput = document.getElementById('doubaoInput');
+            const doubaoSend = document.getElementById('doubaoSend');
+            const doubaoCount = document.getElementById('doubaoCount');
+            const doubaoBody = document.getElementById('doubaoBody');
+            const doubaoLogin = document.getElementById('doubaoLogin');
+            const doubaoLoginBtn = document.getElementById('doubaoLoginBtn');
+            
+            // 切换豆包面板显示/隐藏
+            doubaoBtn.addEventListener('click', function() {
+                doubaoPanel.style.display = doubaoPanel.style.display === 'block' ? 'none' : 'block';
+            });
+            
+            // 关闭豆包面板
+            doubaoClose.addEventListener('click', function() {
+                doubaoPanel.style.display = 'none';
+            });
+            
+            // 点击面板外部关闭
+            window.addEventListener('click', function(event) {
+                if (!doubaoBtn.contains(event.target) && !doubaoPanel.contains(event.target)) {
+                    doubaoPanel.style.display = 'none';
+                }
+            });
+            
+            // 发送消息
+            doubaoSend.addEventListener('click', function() {
+                const message = doubaoInput.value.trim();
+                if (message) {
+                    if (freeUsageCount > 0) {
+                        // 减少免费使用次数
+                        freeUsageCount--;
+                        doubaoCount.textContent = `免费使用次数：${freeUsageCount}/3`;
+                        
+                        // 显示发送的消息
+                        showMessage(message, 'user');
+                        
+                        // 模拟AI回复
+                        setTimeout(() => {
+                            showMessage('这是豆包AI的回复，您的问题已收到。', 'ai');
+                        }, 1000);
+                        
+                        // 清空输入框
+                        doubaoInput.value = '';
+                        
+                        // 检查是否需要显示登录面板
+                        if (freeUsageCount === 0) {
+                            setTimeout(() => {
+                                showLoginPanel();
+                            }, 2000);
+                        }
+                    } else {
+                        // 显示登录面板
+                        showLoginPanel();
+                    }
+                }
+            });
+            
+            // 回车键发送消息
+            doubaoInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    doubaoSend.click();
+                }
+            });
+            
+            // 打开豆包APP
+            doubaoLoginBtn.addEventListener('click', function() {
+                // 这里可以添加打开豆包APP的逻辑
+                alert('请使用豆包APP扫描二维码登录');
+            });
+            
+            // 显示消息
+            function showMessage(text, type) {
+                const messageDiv = document.createElement('div');
+                messageDiv.style.marginBottom = '10px';
+                messageDiv.style.padding = '8px 12px';
+                messageDiv.style.borderRadius = '8px';
+                messageDiv.style.maxWidth = '80%';
+                messageDiv.style.wordBreak = 'break-word';
+                
+                if (type === 'user') {
+                    messageDiv.style.backgroundColor = '#f0f0f0';
+                    messageDiv.style.alignSelf = 'flex-end';
+                    messageDiv.style.marginLeft = 'auto';
+                } else {
+                    messageDiv.style.backgroundColor = '#e3f2fd';
+                    messageDiv.style.alignSelf = 'flex-start';
+                }
+                
+                messageDiv.textContent = text;
+                doubaoBody.appendChild(messageDiv);
+                
+                // 滚动到底部
+                doubaoBody.scrollTop = doubaoBody.scrollHeight;
+            }
+            
+            // 显示登录面板
+            function showLoginPanel() {
+                doubaoBody.style.display = 'none';
+                document.querySelector('.doubao-footer').style.display = 'none';
+                doubaoLogin.style.display = 'block';
+            }
+        });
     </script>
 </body>
 </html>
