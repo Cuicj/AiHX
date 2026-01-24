@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>元素详情 - 化学探索</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <style>
+        /* 元素详情页面样式 */
+        .element-header {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 元素头部背景 */
+        .element-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(13, 110, 253, 0.1), rgba(13, 110, 253, 0.05));
+            z-index: 0;
+        }
+
+        /* 元素头部内容 */
+        .element-header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 元素符号 */
+        .element-symbol {
+            font-size: 8rem;
+            font-weight: bold;
+            text-align: center;
+            margin: 0;
+            line-height: 1;
+        }
+
+        /* 元素名称 */
+        .element-name {
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        /* 元素序号和原子量 */
+        .element-info {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 20px 0;
+        }
+
+        .info-item {
+            text-align: center;
+        }
+
+        .info-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        /* 元素分类标签 */
+        .element-category {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        /* 内容卡片 */
+        .content-card {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        /* 卡片悬停效果 */
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        /* 卡片标题 */
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
+        }
+
+        /* 发现历史时间轴 */
+        .discovery-timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .discovery-timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 10px;
+            width: 2px;
+            height: 100%;
+            background-color: #e9ecef;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: -30px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #0d6efd;
+        }
+
+        .timeline-date {
+            font-weight: bold;
+            color: #0d6efd;
+        }
+
+        /* 化学性质列表 */
+        .property-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .property-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .property-name {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .property-value {
+            color: #666;
+        }
+
+        /* 应用领域标签 */
+        .application-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .application-tag {
+            background-color: #e9ecef;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .application-tag:hover {
+            background-color: #0d6efd;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        /* 相关元素 */
+        .related-elements {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .related-element {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .related-element:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* 元素类别样式 */
+        .alkali-metal {
+            background-color: #ffcccc;
+            border: 2px solid #ff9999;
+        }
+
+        .alkaline-earth-metal {
+            background-color: #ffe6cc;
+            border: 2px solid #ffcc99;
+        }
+
+        .transition-metal {
+            background-color: #ffffcc;
+            border: 2px solid #ffcc66;
+        }
+
+        .post-transition-metal {
+            background-color: #e6ffcc;
+            border: 2px solid #b3ff66;
+        }
+
+        .metalloid {
+            background-color: #ccffe6;
+            border: 2px solid #66ffb3;
+        }
+
+        .nonmetal {
+            background-color: #cce6ff;
+            border: 2px solid #66b3ff;
+        }
+
+        .halogen {
+            background-color: #e6ccff;
+            border: 2px solid #b366ff;
+        }
+
+        .noble-gas {
+            background-color: #ffcce6;
+            border: 2px solid #ff66b3;
+        }
+
+        .lanthanoid {
+            background-color: #ffcccc;
+            border: 2px solid #ff6666;
+        }
+
+        .actinoid {
+            background-color: #ccccff;
+            border: 2px solid #6666ff;
+        }
+
+        /* 加载动画 */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 400px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #0d6efd;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .element-symbol {
+                font-size: 5rem;
+            }
+
+            .element-name {
+                font-size: 1.8rem;
+            }
+
+            .element-info {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .content-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <span class="logo-text">化学探索</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">首页</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="#" id="elementDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            元素世界
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="elementDropdown">
+                            <li><a class="dropdown-item" href="periodic-table.html">元素周期表</a></li>
+                            <li><a class="dropdown-item" href="element-discovery.html">元素发现历史</a></li>
+                            <li><a class="dropdown-item" href="element-categories.html">元素分类</a></li>
+                            <li><a class="dropdown-item" href="element-detail.html">元素详情</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="reactionDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            化学反应
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="reactionDropdown">
+                            <li><a class="dropdown-item" href="#">基本反应类型</a></li>
+                            <li><a class="dropdown-item" href="#">氧化还原反应</a></li>
+                            <li><a class="dropdown-item" href="#">酸碱反应</a></li>
+                            <li><a class="dropdown-item" href="#">配位反应</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="chemistryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            化学分支
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="chemistryDropdown">
+                            <li><a class="dropdown-item" href="#">有机化学</a></li>
+                            <li><a class="dropdown-item" href="#">无机化学</a></li>
+                            <li><a class="dropdown-item" href="#">分析化学</a></li>
+                            <li><a class="dropdown-item" href="#">物理化学</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="applicationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            应用化学
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="applicationDropdown">
+                            <li><a class="dropdown-item" href="#">环境化学</a></li>
+                            <li><a class="dropdown-item" href="#">医药化学</a></li>
+                            <li><a class="dropdown-item" href="#">材料化学</a></li>
+                            <li><a class="dropdown-item" href="#">能源化学</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">学习资源</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html">登录/注册</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container py-5">
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+        </div>
+
+        <div id="element-content" style="display: none;">
+            <!-- 元素头部信息 -->
+            <div class="element-header">
+                <div class="element-header-content">
+                    <h1 class="element-symbol" id="element-symbol"></h1>
+                    <h2 class="element-name" id="element-name"></h2>
+                    <div class="element-info">
+                        <div class="info-item">
+                            <div class="info-label">原子序数</div>
+                            <div class="info-value" id="atomic-number"></div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">原子量</div>
+                            <div class="info-value" id="atomic-mass"></div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">周期</div>
+                            <div class="info-value" id="period"></div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">族</div>
+                            <div class="info-value" id="group"></div>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <span class="element-category" id="element-category"></span>
+                        <span class="element-category" id="element-origin" style="margin-left: 10px;"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 元素概述 -->
+            <div class="content-card">
+                <h3 class="card-title">元素概述</h3>
+                <p id="element-description"></p>
+            </div>
+
+            <!-- 发现历史 -->
+            <div class="content-card">
+                <h3 class="card-title">发现历史</h3>
+                <div class="discovery-timeline" id="discovery-history">
+                    <!-- 发现历史内容将通过JavaScript动态生成 -->
+                </div>
+            </div>
+
+            <!-- 化学性质 -->
+            <div class="content-card">
+                <h3 class="card-title">化学性质</h3>
+                <ul class="property-list" id="chemical-properties">
+                    <!-- 化学性质将通过JavaScript动态生成 -->
+                </ul>
+            </div>
+
+            <!-- 物理性质 -->
+            <div class="content-card">
+                <h3 class="card-title">物理性质</h3>
+                <ul class="property-list" id="physical-properties">
+                    <!-- 物理性质将通过JavaScript动态生成 -->
+                </ul>
+            </div>
+
+            <!-- 应用领域 -->
+            <div class="content-card">
+                <h3 class="card-title">应用领域</h3>
+                <div class="application-tags" id="applications">
+                    <!-- 应用领域将通过JavaScript动态生成 -->
+                </div>
+            </div>
+
+            <!-- 相关元素 -->
+            <div class="content-card">
+                <h3 class="card-title">相关元素</h3>
+                <div class="related-elements" id="related-elements">
+                    <!-- 相关元素将通过JavaScript动态生成 -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>关于项目</h3>
+                    <p>这是一个基于Spring Cloud的化学学习微服务项目，旨在通过微服务架构实现化学知识的管理和学习进度的跟踪。</p>
+                </div>
+                <div class="col-md-4">
+                    <h3>快速链接</h3>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html">首页</a></li>
+                        <li><a href="periodic-table.html">元素周期表</a></li>
+                        <li><a href="element-discovery.html">元素发现历史</a></li>
+                        <li><a href="element-categories.html">元素分类</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h3>联系方式</h3>
+                    <p>如有问题或建议，请联系我们。</p>
+                    <p>Email: contact@example.com</p>
+                </div>
+            </div>
+            <div class="border-top border-gray-700 mt-4 pt-4 text-center">
+                <p>&copy; 2026 化学学习微服务项目. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 元素数据
+        const elementData = {
+            1: {
+                symbol: "H",
+                name: "氢",
+                atomicMass: "1.008",
+                category: "nonmetal",
+                categoryName: "非金属",
+                period: 1,
+                group: 1,
+                isNatural: true,
+                origin: "天然",
+                description: "氢是宇宙中最丰富的元素，也是最轻的元素。它在地球上主要以水的形式存在，是所有酸的组成部分，也是燃料电池的重要燃料。",
+                discovery: [
+                    { year: "1766", event: "亨利·卡文迪许首次识别出氢气作为一种独特的元素" },
+                    { year: "1783", event: "安托万·拉瓦锡将其命名为'氢'，意为'水的形成者'" }
+                ],
+                chemicalProperties: [
+                    { name: "氧化态", value: "+1, -1" },
+                    { name: "电负性", value: "2.20" },
+                    { name: "电离能", value: "13.598 eV" },
+                    { name: "化学反应性", value: "高度反应性，易燃" }
+                ],
+                physicalProperties: [
+                    { name: "密度", value: "0.0899 g/L" },
+                    { name: "熔点", value: "-259.16 °C" },
+                    { name: "沸点", value: "-252.87 °C" },
+                    { name: "状态", value: "气态" },
+                    { name: "颜色", value: "无色" }
+                ],
+                applications: ["燃料电池", "合成氨", "火箭燃料", "加氢裂化", "焊接"],
+                relatedElements: [2, 3, 4, 5]
+            },
+            6: {
+                symbol: "C",
+                name: "碳",
+                atomicMass: "12.011",
+                category: "nonmetal",
+                categoryName: "非金属",
+                period: 2,
+                group: 14,
+                isNatural: true,
+                origin: "天然",
+                description: "碳是生命的基础元素，存在于所有有机化合物中。它具有多种同素异形体，如金刚石、石墨和富勒烯，每种都有独特的性质和应用。",
+                discovery: [
+                    { year: "古代", event: "人类很早就知道碳的存在，如木炭和煤" },
+                    { year: "1772", event: "安托万·拉瓦锡证明钻石是由碳组成的" },
+                    { year: "1985", event: "富勒烯的发现" }
+                ],
+                chemicalProperties: [
+                    { name: "氧化态", value: "-4, -3, -2, -1, 0, +1, +2, +3, +4" },
+                    { name: "电负性", value: "2.55" },
+                    { name: "电离能", value: "11.260 eV" },
+                    { name: "化学反应性", value: "在高温下与氧反应" }
+                ],
+                physicalProperties: [
+                    { name: "密度", value: "金刚石: 3.51 g/cm³, 石墨: 2.267 g/cm³" },
+                    { name: "熔点", value: "3550 °C (金刚石)" },
+                    { name: "沸点", value: "4027 °C" },
+                    { name: "状态", value: "固态" },
+                    { name: "颜色", value: "金刚石: 无色, 石墨: 黑色" }
+                ],
+                applications: ["有机化学", "燃料", "冶金", "建筑材料", "电子元件"],
+                relatedElements: [1, 7, 8, 14]
+            },
+            8: {
+                symbol: "O",
+                name: "氧",
+                atomicMass: "15.999",
+                category: "nonmetal",
+                categoryName: "非金属",
+                period: 2,
+                group: 16,
+                isNatural: true,
+                origin: "天然",
+                description: "氧是地球大气中第二丰富的气体，对所有需氧生物至关重要。它是水的组成部分，也是许多氧化物和酸的组成元素。",
+                discovery: [
+                    { year: "1774", event: "约瑟夫·普里斯特利和卡尔·威廉·舍勒独立发现氧气" },
+                    { year: "1777", event: "安托万·拉瓦锡将其命名为'氧'，意为'酸的形成者'" }
+                ],
+                chemicalProperties: [
+                    { name: "氧化态", value: "-2, -1, 0, +1, +2" },
+                    { name: "电负性", value: "3.44" },
+                    { name: "电离能", value: "13.618 eV" },
+                    { name: "化学反应性", value: "高度反应性，支持燃烧" }
+                ],
+                physicalProperties: [
+                    { name: "密度", value: "1.429 g/L" },
+                    { name: "熔点", value: "-218.79 °C" },
+                    { name: "沸点", value: "-182.95 °C" },
+                    { name: "状态", value: "气态" },
+                    { name: "颜色", value: "无色（液态和固态为淡蓝色）" }
+                ],
+                applications: ["呼吸", "医疗氧疗", "焊接", "火箭燃料", "水处理"],
+                relatedElements: [7, 9, 16, 17]
+            },
+            26: {
+                symbol: "Fe",
+                name: "铁",
+                atomicMass: "55.845",
+                category: "transition-metal",
+                categoryName: "过渡金属",
+                period: 4,
+                group: 8,
+                isNatural: true,
+                origin: "天然",
+                description: "铁是地球上最丰富的元素之一，也是人类历史上最重要的金属。它是钢铁工业的基础，也是血红蛋白的重要组成部分，负责在血液中运输氧气。",
+                discovery: [
+                    { year: "古代", event: "人类早在公元前5000年就开始使用铁" },
+                    { year: "公元前1200年", event: "铁器时代开始" },
+                    { year: "1789", event: "安托万·拉瓦锡确认铁为一种元素" }
+                ],
+                chemicalProperties: [
+                    { name: "氧化态", value: "0, +2, +3, +4, +5, +6" },
+                    { name: "电负性", value: "1.83" },
+                    { name: "电离能", value: "7.902 eV" },
+                    { name: "化学反应性", value: "易与氧反应生锈" }
+                ],
+                physicalProperties: [
+                    { name: "密度", value: "7.874 g/cm³" },
+                    { name: "熔点", value: "1538 °C" },
+                    { name: "沸点", value: "2861 °C" },
+                    { name: "状态", value: "固态" },
+                    { name: "颜色", value: "银白色" }
+                ],
+                applications: ["钢铁制造", "建筑结构", "机械工程", "交通工具", "医疗器械"],
+                relatedElements: [25, 27, 28, 29]
+            },
+            79: {
+                symbol: "Au",
+                name: "金",
+                atomicMass: "196.97",
+                category: "transition-metal",
+                categoryName: "过渡金属",
+                period: 6,
+                group: 11,
+                isNatural: true,
+                origin: "天然",
+                description: "金是一种珍贵的金属，以其美丽的黄色光泽和化学稳定性而闻名。它在人类历史上一直被用作货币、珠宝和装饰品，也是电子工业的重要材料。",
+                discovery: [
+                    { year: "古代", event: "人类早在公元前6000年就开始使用金" },
+                    { year: "公元前3000年", event: "古埃及人开始大规模开采黄金" },
+                    { year: "1751", event: "亨利·卡文迪许确认金为一种元素" }
+                ],
+                chemicalProperties: [
+                    { name: "氧化态", value: "0, +1, +3" },
+                    { name: "电负性", value: "2.54" },
+                    { name: "电离能", value: "9.226 eV" },
+                    { name: "化学反应性", value: "化学性质稳定，不易腐蚀" }
+                ],
+                physicalProperties: [
+                    { name: "密度", value: "19.282 g/cm³" },
+                    { name: "熔点", value: "1064.18 °C" },
+                    { name: "沸点", value: "2856 °C" },
+                    { name: "状态", value: "固态" },
+                    { name: "颜色", value: "金黄色" }
+                ],
+                applications: ["珠宝首饰", "货币储备", "电子元件", "牙科材料", "航空航天"],
+                relatedElements: [47, 78, 80, 81]
+            }
+        };
+
+        // 获取URL参数
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            const results = regex.exec(location.search);
+            return results === null ? 1 : parseInt(decodeURIComponent(results[1].replace(/\+/g, ' ')));
+        }
+
+        // 加载元素数据
+        function loadElementData() {
+            const atomicNumber = getUrlParameter('atomicNumber');
+            const element = elementData[atomicNumber] || elementData[1]; // 默认显示氢元素
+
+            // 隐藏加载动画，显示内容
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('element-content').style.display = 'block';
+
+            // 填充元素基本信息
+            document.getElementById('element-symbol').textContent = element.symbol;
+            document.getElementById('element-name').textContent = element.name;
+            document.getElementById('atomic-number').textContent = atomicNumber;
+            document.getElementById('atomic-mass').textContent = element.atomicMass;
+            document.getElementById('period').textContent = element.period;
+            document.getElementById('group').textContent = element.group;
+            document.getElementById('element-category').textContent = element.categoryName;
+            document.getElementById('element-category').className = 'element-category ' + element.category;
+            document.getElementById('element-origin').textContent = element.origin;
+            document.getElementById('element-origin').style.backgroundColor = element.isNatural ? '#d4edda' : '#f8d7da';
+            document.getElementById('element-origin').style.color = element.isNatural ? '#155724' : '#721c24';
+            document.getElementById('element-description').textContent = element.description;
+
+            // 填充发现历史
+            const discoveryHistory = document.getElementById('discovery-history');
+            discoveryHistory.innerHTML = '';
+            element.discovery.forEach(item => {
+                const timelineItem = document.createElement('div');
+                timelineItem.className = 'timeline-item';
+                timelineItem.innerHTML = `
+                    <div class="timeline-date">${item.year}</div>
+                    <div class="timeline-event">${item.event}</div>
+                `;
+                discoveryHistory.appendChild(timelineItem);
+            });
+
+            // 填充化学性质
+            const chemicalProperties = document.getElementById('chemical-properties');
+            chemicalProperties.innerHTML = '';
+            element.chemicalProperties.forEach(property => {
+                const li = document.createElement('li');
+                li.className = 'property-item';
+                li.innerHTML = `
+                    <span class="property-name">${property.name}</span>
+                    <span class="property-value">${property.value}</span>
+                `;
+                chemicalProperties.appendChild(li);
+            });
+
+            // 填充物理性质
+            const physicalProperties = document.getElementById('physical-properties');
+            physicalProperties.innerHTML = '';
+            element.physicalProperties.forEach(property => {
+                const li = document.createElement('li');
+                li.className = 'property-item';
+                li.innerHTML = `
+                    <span class="property-name">${property.name}</span>
+                    <span class="property-value">${property.value}</span>
+                `;
+                physicalProperties.appendChild(li);
+            });
+
+            // 填充应用领域
+            const applications = document.getElementById('applications');
+            applications.innerHTML = '';
+            element.applications.forEach(app => {
+                const tag = document.createElement('span');
+                tag.className = 'application-tag';
+                tag.textContent = app;
+                applications.appendChild(tag);
+            });
+
+            // 填充相关元素
+            const relatedElements = document.getElementById('related-elements');
+            relatedElements.innerHTML = '';
+            element.relatedElements.forEach(relAtomicNumber => {
+                const relElement = elementData[relAtomicNumber];
+                if (relElement) {
+                    const relatedElement = document.createElement('div');
+                    relatedElement.className = 'related-element ' + relElement.category;
+                    relatedElement.onclick = () => navigateToElementDetail(relAtomicNumber);
+                    relatedElement.innerHTML = `
+                        <span style="font-size: 0.8rem; position: absolute; top: 5px; left: 5px;">${relAtomicNumber}</span>
+                        <span style="font-size: 1.5rem;">${relElement.symbol}</span>
+                        <span style="font-size: 0.7rem; margin-top: 5px;">${relElement.name}</span>
+                    `;
+                    relatedElements.appendChild(relatedElement);
+                }
+            });
+        }
+
+        // 导航到元素详情页
+        function navigateToElementDetail(atomicNumber) {
+            window.location.href = `element-detail.html?atomicNumber=${atomicNumber}`;
+        }
+
+        // 页面加载时加载元素数据
+        document.addEventListener('DOMContentLoaded', loadElementData);
+    </script>
+</body>
+</html>

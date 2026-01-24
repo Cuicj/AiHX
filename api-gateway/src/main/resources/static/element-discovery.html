@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>元素发现历史 - 化学探索</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <style>
+        /* 发现历史页面样式 */
+        .discovery-timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* 时间轴 */
+        .discovery-timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: #e9ecef;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+            border-radius: 3px;
+        }
+
+        /* 时间节点容器 */
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+        }
+
+        /* 时间节点 */
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            right: -13px;
+            background-color: white;
+            border: 4px solid #0d6efd;
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+
+        /* 左侧时间节点 */
+        .left {
+            left: 0;
+        }
+
+        /* 右侧时间节点 */
+        .right {
+            left: 50%;
+        }
+
+        /* 左侧时间节点箭头 */
+        .left::before {
+            content: "";
+            height: 0;
+            position: absolute;
+            top: 22px;
+            width: 0;
+            z-index: 1;
+            right: 30px;
+            border: medium solid #f8f9fa;
+            border-width: 10px 0 10px 10px;
+            border-color: transparent transparent transparent #f8f9fa;
+        }
+
+        /* 右侧时间节点箭头 */
+        .right::before {
+            content: "";
+            height: 0;
+            position: absolute;
+            top: 22px;
+            width: 0;
+            z-index: 1;
+            left: 30px;
+            border: medium solid #f8f9fa;
+            border-width: 10px 10px 10px 0;
+            border-color: transparent #f8f9fa transparent transparent;
+        }
+
+        /* 右侧时间节点调整 */
+        .right::after {
+            left: -13px;
+        }
+
+        /* 时间节点内容卡片 */
+        .timeline-content {
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        /* 鼠标悬停效果 */
+        .timeline-item:hover::after {
+            transform: scale(1.2);
+            box-shadow: 0 0 15px rgba(13, 110, 253, 0.5);
+        }
+
+        .timeline-item:hover .timeline-content {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        /* 发现时间 */
+        .discovery-year {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #0d6efd;
+            margin-bottom: 10px;
+        }
+
+        /* 元素列表 */
+        .element-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 10px 0;
+        }
+
+        /* 元素标签 */
+        .element-tag {
+            background-color: #e9ecef;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 4px 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .element-tag:hover {
+            background-color: #0d6efd;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        /* 响应式设计 */
+        @media screen and (max-width: 768px) {
+            /* 时间轴居中 */
+            .discovery-timeline::after {
+                left: 31px;
+            }
+
+            /* 所有时间节点占满宽度 */
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+
+            /* 调整箭头 */
+            .timeline-item::before {
+                left: 60px;
+                border: medium solid #f8f9fa;
+                border-width: 10px 10px 10px 0;
+                border-color: transparent #f8f9fa transparent transparent;
+            }
+
+            /* 调整所有时间节点点 */
+            .left::after,
+            .right::after {
+                left: 18px;
+            }
+
+            /* 右侧时间节点调整 */
+            .right {
+                left: 0%;
+            }
+        }
+
+        /* 页面标题动画 */
+        .page-title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 2rem;
+        }
+
+        .page-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 0;
+            height: 4px;
+            background-color: #0d6efd;
+            transition: width 0.5s ease;
+        }
+
+        .page-title:hover::after {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <span class="logo-text">化学探索</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">首页</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="#" id="elementDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            元素世界
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="elementDropdown">
+                            <li><a class="dropdown-item" href="periodic-table.html">元素周期表</a></li>
+                            <li><a class="dropdown-item" href="element-discovery.html">元素发现历史</a></li>
+                            <li><a class="dropdown-item" href="element-categories.html">元素分类</a></li>
+                            <li><a class="dropdown-item" href="element-detail.html">元素详情</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="reactionDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            化学反应
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="reactionDropdown">
+                            <li><a class="dropdown-item" href="#">基本反应类型</a></li>
+                            <li><a class="dropdown-item" href="#">氧化还原反应</a></li>
+                            <li><a class="dropdown-item" href="#">酸碱反应</a></li>
+                            <li><a class="dropdown-item" href="#">配位反应</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="chemistryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            化学分支
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="chemistryDropdown">
+                            <li><a class="dropdown-item" href="#">有机化学</a></li>
+                            <li><a class="dropdown-item" href="#">无机化学</a></li>
+                            <li><a class="dropdown-item" href="#">分析化学</a></li>
+                            <li><a class="dropdown-item" href="#">物理化学</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="applicationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            应用化学
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="applicationDropdown">
+                            <li><a class="dropdown-item" href="#">环境化学</a></li>
+                            <li><a class="dropdown-item" href="#">医药化学</a></li>
+                            <li><a class="dropdown-item" href="#">材料化学</a></li>
+                            <li><a class="dropdown-item" href="#">能源化学</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">学习资源</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html">登录/注册</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container py-5">
+        <h1 class="page-title text-center">元素发现历史</h1>
+        <p class="text-center text-muted mb-5">从古代到现代，人类对元素的探索历程</p>
+
+        <!-- 发现历史时间轴 -->
+        <div class="discovery-timeline">
+            <!-- 古代 -->
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <div class="discovery-year">古代 (公元前)</div>
+                    <h3>早期元素的发现</h3>
+                    <p>古代人类发现并使用了一些简单的元素，主要用于工具制造和装饰品。</p>
+                    <div class="element-list">
+                        <span class="element-tag">金 (Au)</span>
+                        <span class="element-tag">银 (Ag)</span>
+                        <span class="element-tag">铜 (Cu)</span>
+                        <span class="element-tag">铁 (Fe)</span>
+                        <span class="element-tag">锡 (Sn)</span>
+                        <span class="element-tag">铅 (Pb)</span>
+                        <span class="element-tag">硫 (S)</span>
+                        <span class="element-tag">碳 (C)</span>
+                    </div>
+                    <p class="small text-muted">这些元素大多以单质形式存在于自然界中，或通过简单的冶炼工艺获得。</p>
+                </div>
+            </div>
+
+            <!-- 17世纪 -->
+            <div class="timeline-item right">
+                <div class="timeline-content">
+                    <div class="discovery-year">17世纪</div>
+                    <h3>近代化学的开端</h3>
+                    <p>随着科学实验方法的建立，更多元素被系统地发现和研究。</p>
+                    <div class="element-list">
+                        <span class="element-tag">磷 (P)</span>
+                        <span class="element-tag">砷 (As)</span>
+                    </div>
+                    <p class="small text-muted">1669年，德国炼金术士亨尼希·布兰德通过蒸馏尿液发现了磷元素。</p>
+                </div>
+            </div>
+
+            <!-- 18世纪 -->
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <div class="discovery-year">18世纪</div>
+                    <h3>气体元素的发现</h3>
+                    <p>科学家们开始系统地研究气体，发现了多种气体元素。</p>
+                    <div class="element-list">
+                        <span class="element-tag">氢 (H)</span>
+                        <span class="element-tag">氧 (O)</span>
+                        <span class="element-tag">氮 (N)</span>
+                        <span class="element-tag">氯 (Cl)</span>
+                        <span class="element-tag">氟 (F)</span>
+                    </div>
+                    <p class="small text-muted">1766年，亨利·卡文迪许发现氢气；1774年，约瑟夫·普里斯特利发现氧气。</p>
+                </div>
+            </div>
+
+            <!-- 19世纪初 -->
+            <div class="timeline-item right">
+                <div class="timeline-content">
+                    <div class="discovery-year">19世纪初</div>
+                    <h3>碱金属和碱土金属的发现</h3>
+                    <p>通过电解法，科学家们发现了活泼的金属元素。</p>
+                    <div class="element-list">
+                        <span class="element-tag">钠 (Na)</span>
+                        <span class="element-tag">钾 (K)</span>
+                        <span class="element-tag">钙 (Ca)</span>
+                        <span class="element-tag">镁 (Mg)</span>
+                    </div>
+                    <p class="small text-muted">1807年，汉弗莱·戴维通过电解熔融的碱金属和碱土金属的氢氧化物，成功分离出钠和钾。</p>
+                </div>
+            </div>
+
+            <!-- 19世纪中期 -->
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <div class="discovery-year">19世纪中期</div>
+                    <h3>元素周期表的诞生</h3>
+                    <p>门捷列夫根据元素的原子量和化学性质，编制了第一张元素周期表。</p>
+                    <p class="small text-muted">1869年，德米特里·门捷列夫发表了元素周期表，预测了当时尚未发现的元素。</p>
+                </div>
+            </div>
+
+            <!-- 19世纪末 -->
+            <div class="timeline-item right">
+                <div class="timeline-content">
+                    <div class="discovery-year">19世纪末</div>
+                    <h3>稀有气体的发现</h3>
+                    <p>科学家们发现了性质稳定的稀有气体元素。</p>
+                    <div class="element-list">
+                        <span class="element-tag">氦 (He)</span>
+                        <span class="element-tag">氖 (Ne)</span>
+                        <span class="element-tag">氩 (Ar)</span>
+                        <span class="element-tag">氪 (Kr)</span>
+                        <span class="element-tag">氙 (Xe)</span>
+                    </div>
+                    <p class="small text-muted">1894年，瑞利勋爵和威廉·拉姆齐发现了氩气，随后又发现了其他稀有气体。</p>
+                </div>
+            </div>
+
+            <!-- 20世纪初 -->
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <div class="discovery-year">20世纪初</div>
+                    <h3>放射性元素的发现</h3>
+                    <p>居里夫妇等科学家发现了放射性元素，开启了核化学的研究。</p>
+                    <div class="element-list">
+                        <span class="element-tag">钋 (Po)</span>
+                        <span class="element-tag">镭 (Ra)</span>
+                        <span class="element-tag">锕 (Ac)</span>
+                    </div>
+                    <p class="small text-muted">1898年，玛丽·居里和皮埃尔·居里发现了钋和镭元素。</p>
+                </div>
+            </div>
+
+            <!-- 20世纪中期 -->
+            <div class="timeline-item right">
+                <div class="timeline-content">
+                    <div class="discovery-year">20世纪中期</div>
+                    <h3>人工合成元素的开始</h3>
+                    <p>通过核反应，科学家们开始合成自然界中不存在的元素。</p>
+                    <div class="element-list">
+                        <span class="element-tag">锝 (Tc)</span>
+                        <span class="element-tag">钷 (Pm)</span>
+                        <span class="element-tag">镎 (Np)</span>
+                        <span class="element-tag">钚 (Pu)</span>
+                    </div>
+                    <p class="small text-muted">1937年，卡洛·佩里埃和埃米利奥·塞格雷首次合成了锝元素，这是第一个人工合成的元素。</p>
+                </div>
+            </div>
+
+            <!-- 20世纪后期 -->
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <div class="discovery-year">20世纪后期</div>
+                    <h3>超铀元素的合成</h3>
+                    <p>科学家们合成了更多的超重元素，扩展了元素周期表。</p>
+                    <div class="element-list">
+                        <span class="element-tag">镅 (Am)</span>
+                        <span class="element-tag">锔 (Cm)</span>
+                        <span class="element-tag">锫 (Bk)</span>
+                        <span class="element-tag">锎 (Cf)</span>
+                    </div>
+                    <p class="small text-muted">这些元素大多是在粒子加速器中通过重离子碰撞合成的。</p>
+                </div>
+            </div>
+
+            <!-- 21世纪 -->
+            <div class="timeline-item right">
+                <div class="timeline-content">
+                    <div class="discovery-year">21世纪</div>
+                    <h3>超重元素的探索</h3>
+                    <p>科学家们继续探索周期表的边界，合成更重的元素。</p>
+                    <div class="element-list">
+                        <span class="element-tag">鿏 (Mt)</span>
+                        <span class="element-tag">𫟼 (Ds)</span>
+                        <span class="element-tag">𬬭 (Rg)</span>
+                        <span class="element-tag">鎶 (Cn)</span>
+                        <span class="element-tag">鿬 (Ts)</span>
+                        <span class="element-tag">鿏 (Og)</span>
+                    </div>
+                    <p class="small text-muted">这些超重元素的半衰期极短，需要复杂的实验设备和技术来合成和检测。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 发现统计 -->
+        <section class="mt-10">
+            <h2 class="text-center mb-5">元素发现统计</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card text-center p-4">
+                        <div class="card-body">
+                            <h3 class="card-title display-4">118</h3>
+                            <p class="card-text">已发现的元素总数</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-center p-4">
+                        <div class="card-body">
+                            <h3 class="card-title display-4">94</h3>
+                            <p class="card-text">天然存在的元素</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-center p-4">
+                        <div class="card-body">
+                            <h3 class="card-title display-4">24</h3>
+                            <p class="card-text">人工合成的元素</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>关于项目</h3>
+                    <p>这是一个基于Spring Cloud的化学学习微服务项目，旨在通过微服务架构实现化学知识的管理和学习进度的跟踪。</p>
+                </div>
+                <div class="col-md-4">
+                    <h3>快速链接</h3>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html">首页</a></li>
+                        <li><a href="periodic-table.html">元素周期表</a></li>
+                        <li><a href="element-discovery.html">元素发现历史</a></li>
+                        <li><a href="element-categories.html">元素分类</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h3>联系方式</h3>
+                    <p>如有问题或建议，请联系我们。</p>
+                    <p>Email: contact@example.com</p>
+                </div>
+            </div>
+            <div class="border-top border-gray-700 mt-4 pt-4 text-center">
+                <p>&copy; 2026 化学学习微服务项目. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 页面加载动画
+        document.addEventListener('DOMContentLoaded', function() {
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            
+            // 为每个时间节点添加动画延迟
+            timelineItems.forEach((item, index) => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(20px)';
+                item.style.transition = 'all 0.6s ease';
+                
+                setTimeout(() => {
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateY(0)';
+                }, 100 * index);
+            });
+        });
+    </script>
+</body>
+</html>

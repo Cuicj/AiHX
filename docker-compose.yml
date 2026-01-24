@@ -1,6 +1,30 @@
 version: '3.8'
 
 services:
+  # Harbor私有镜像仓库
+  harbor:
+    image: goharbor/harbor-offline-installer:v2.9.0
+    ports:
+      - "8081:80"
+      - "4443:443"
+      - "5000:5000"
+    volumes:
+      - ./harbor/data:/data
+      - ./harbor/config:/etc/harbor
+      - ./harbor/log:/var/log/harbor
+    environment:
+      - harbor_admin_password=Harbor12345
+      - hostname=localhost
+      - ui_url_protocol=http
+      - db_password=root123
+      - redis_password=root123
+      - clair_db_password=root123
+      - notary_db_password=root123
+    networks:
+      - cmatenet
+    restart: always
+
+  # 微服务
   eureka-server:
     build:
       context: ./eureka-server
@@ -9,6 +33,8 @@ services:
       - "8761:8761"
     networks:
       - cmatenet
+    depends_on:
+      - harbor
     environment:
       - SPRING_PROFILES_ACTIVE=docker
 
@@ -22,6 +48,7 @@ services:
       - cmatenet
     depends_on:
       - eureka-server
+      - harbor
     environment:
       - SPRING_PROFILES_ACTIVE=docker
 
@@ -35,6 +62,7 @@ services:
       - cmatenet
     depends_on:
       - eureka-server
+      - harbor
     environment:
       - SPRING_PROFILES_ACTIVE=docker
 
@@ -48,6 +76,7 @@ services:
       - cmatenet
     depends_on:
       - eureka-server
+      - harbor
     environment:
       - SPRING_PROFILES_ACTIVE=docker
 
@@ -61,6 +90,7 @@ services:
       - cmatenet
     depends_on:
       - eureka-server
+      - harbor
     environment:
       - SPRING_PROFILES_ACTIVE=docker
 

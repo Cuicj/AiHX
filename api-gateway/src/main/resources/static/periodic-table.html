@@ -13,16 +13,18 @@
             grid-template-columns: repeat(18, 1fr);
             grid-gap: 4px;
             margin: 20px 0;
-            overflow-x: auto;
+            width: 100%;
+            max-width: none;
+            overflow-x: visible;
         }
 
         .element {
             border: 1px solid #ddd;
             border-radius: 4px;
-            padding: 8px;
+            padding: 6px;
             text-align: center;
-            min-width: 80px;
-            min-height: 80px;
+            min-width: 70px;
+            min-height: 90px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -31,8 +33,92 @@
         }
 
         .element:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transform: scale(1.2);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+            animation: pulse 0.5s ease-in-out;
+        }
+
+        /* 脉冲动画 */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.25);
+            }
+            100% {
+                transform: scale(1.2);
+            }
+        }
+
+        /* 元素卡片过渡效果 */
+        .element {
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 悬停时的发光效果 */
+        .element:hover::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 70%);
+            transform: rotate(45deg);
+            animation: shine 1s ease-in-out;
+        }
+
+        /* 闪光动画 */
+        @keyframes shine {
+            0% {
+                transform: translateX(-100%) rotate(45deg);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(100%) rotate(45deg);
+                opacity: 0;
+            }
+        }
+
+        /* 元素符号动画 */
+        .element:hover .element-symbol {
+            animation: bounce 0.5s ease-in-out;
+        }
+
+        /* 弹跳动画 */
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        /* 元素信息动画 */
+        .element:hover .element-name,
+        .element:hover .element-mass,
+        .element:hover .element-origin {
+            animation: fadeInUp 0.5s ease-in-out;
+        }
+
+        /* 淡入上移动画 */
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .element-number {
@@ -42,19 +128,85 @@
         }
 
         .element-symbol {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: 700;
-            margin: 4px 0;
+            margin: 2px 0;
         }
 
         .element-name {
             font-size: 0.6rem;
-            margin: 2px 0;
+            margin: 1px 0;
         }
 
         .element-mass {
             font-size: 0.5rem;
             opacity: 0.8;
+        }
+
+        .element-origin {
+            font-size: 0.45rem;
+            font-weight: 600;
+            margin-top: 2px;
+            padding: 1px 4px;
+            border-radius: 2px;
+            align-self: center;
+        }
+
+        /* 天然元素样式 */
+        .natural .element-origin {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        /* 人工合成元素样式 */
+        .synthetic .element-origin {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* 强制平铺布局 */
+        @media (min-width: 1400px) {
+            .container {
+                max-width: 1600px;
+            }
+        }
+
+        @media (min-width: 1600px) {
+            .container {
+                max-width: 1800px;
+            }
+        }
+
+        @media (min-width: 1800px) {
+            .container {
+                max-width: 2000px;
+            }
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 1400px) {
+            .element {
+                min-width: 65px;
+                min-height: 80px;
+            }
+
+            .element-symbol {
+                font-size: 1.1rem;
+            }
+
+            .element-name {
+                font-size: 0.5rem;
+            }
+
+            .element-mass {
+                font-size: 0.4rem;
+            }
+
+            .element-origin {
+                font-size: 0.4rem;
+            }
         }
 
         /* 元素类别样式 */
@@ -288,94 +440,32 @@
             </div>
         </section>
 
-        <!-- 元素周期表解释部分 -->
-        <section class="periodic-table-explanation">
-            <h2 class="text-center mb-4">元素周期表解释</h2>
-            
-            <div class="explanation-section">
-                <h3>元素周期表的历史</h3>
-                <p>元素周期表是由俄国化学家门捷列夫于1869年发明的，他根据元素的原子量和化学性质，将元素排列成一个表格。随着科学的发展，元素周期表不断完善，现在的元素周期表是根据元素的原子序数（即原子核中的质子数）排列的。</p>
-                <p>元素周期表的发明是化学史上的重要里程碑，它不仅帮助科学家预测了当时尚未发现的元素，还为现代化学的发展奠定了基础。</p>
-            </div>
-
-            <div class="explanation-section">
-                <h3>元素周期表的结构</h3>
-                <p>元素周期表由横行（周期）和纵列（族）组成：</p>
-                <ul>
-                    <li><strong>周期</strong>：横行，共有7个周期，每个周期代表元素原子核外电子层的数量</li>
-                    <li><strong>族</strong>：纵列，共有18个族，每个族代表元素最外层电子数的相似性</li>
-                    <li><strong>元素类别</strong>：根据元素的化学性质，元素周期表中的元素可以分为多个类别，如碱金属、碱土金属、过渡金属、非金属等</li>
-                </ul>
-            </div>
-
-            <div class="explanation-section">
-                <h3>元素类别</h3>
-                <ul class="element-category-list">
-                    <li>
-                        <span class="category-color alkali-metal"></span>
-                        <strong>碱金属</strong>：第1族（除氢外），如锂、钠、钾等，化学性质活泼，容易失去电子
-                    </li>
-                    <li>
-                        <span class="category-color alkaline-earth-metal"></span>
-                        <strong>碱土金属</strong>：第2族，如铍、镁、钙等，化学性质较活泼
-                    </li>
-                    <li>
-                        <span class="category-color transition-metal"></span>
-                        <strong>过渡金属</strong>：第3-12族，如铁、铜、锌等，具有可变的氧化态
-                    </li>
-                    <li>
-                        <span class="category-color post-transition-metal"></span>
-                        <strong>后过渡金属</strong>：如铝、锡、铅等，物理性质介于金属和非金属之间
-                    </li>
-                    <li>
-                        <span class="category-color metalloid"></span>
-                        <strong>类金属</strong>：如硅、锗、砷等，具有金属和非金属的双重性质
-                    </li>
-                    <li>
-                        <span class="category-color nonmetal"></span>
-                        <strong>非金属</strong>：如碳、氮、氧等，通常不具有金属光泽
-                    </li>
-                    <li>
-                        <span class="category-color halogen"></span>
-                        <strong>卤素</strong>：第17族，如氟、氯、溴等，化学性质活泼，容易获得电子
-                    </li>
-                    <li>
-                        <span class="category-color noble-gas"></span>
-                        <strong>稀有气体</strong>：第18族，如氦、氖、氩等，化学性质稳定，不易发生反应
-                    </li>
-                    <li>
-                        <span class="category-color lanthanoid"></span>
-                        <strong>镧系元素</strong>：原子序数57-71的元素，如镧、铈、镨等
-                    </li>
-                    <li>
-                        <span class="category-color actinoid"></span>
-                        <strong>锕系元素</strong>：原子序数89-103的元素，如锕、钍、铀等，大多具有放射性
-                    </li>
-                </ul>
-            </div>
-
-            <div class="explanation-section">
-                <h3>元素周期律</h3>
-                <p>元素周期律是指元素的性质随着原子序数的递增而呈现周期性变化的规律。主要表现为：</p>
-                <ul>
-                    <li><strong>原子半径</strong>：同一周期从左到右逐渐减小，同一族从上到下逐渐增大</li>
-                    <li><strong>电离能</strong>：同一周期从左到右逐渐增大，同一族从上到下逐渐减小</li>
-                    <li><strong>电负性</strong>：同一周期从左到右逐渐增大，同一族从上到下逐渐减小</li>
-                    <li><strong>金属性</strong>：同一周期从左到右逐渐减弱，同一族从上到下逐渐增强</li>
-                    <li><strong>非金属性</strong>：同一周期从左到右逐渐增强，同一族从上到下逐渐减弱</li>
-                </ul>
-            </div>
-
-            <div class="explanation-section">
-                <h3>元素周期表的应用</h3>
-                <p>元素周期表在化学研究和教学中有着广泛的应用：</p>
-                <ul>
-                    <li>预测元素的化学性质和物理性质</li>
-                    <li>指导新元素的合成和发现</li>
-                    <li>帮助理解化学键的形成和化学反应的机制</li>
-                    <li>为材料科学、医药化学等领域提供理论基础</li>
-                    <li>作为化学教育的重要工具，帮助学生理解元素之间的关系</li>
-                </ul>
+        <!-- 元素周期表图例 -->
+        <section class="mb-5">
+            <h3 class="text-center mb-3">图例</h3>
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card p-3">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="d-flex align-items-center mb-2">
+                                    <div class="element natural p-2 mr-2" style="min-width: 60px; min-height: 60px;">
+                                        <div class="element-origin">天然</div>
+                                    </div>
+                                    <span>天然元素</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="d-flex align-items-center mb-2">
+                                    <div class="element synthetic p-2 mr-2" style="min-width: 60px; min-height: 60px;">
+                                        <div class="element-origin">人工</div>
+                                    </div>
+                                    <span>人工合成元素</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
     </main>
