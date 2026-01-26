@@ -1,6 +1,7 @@
 F:\TEST\CMateData\user-service\src\main\java\com\cmatedata\userservice\controller\UserController.java
 F:\TEST\CMateData\user-service\src\main\java\com\cmatedata\userservice\service\MessageProducer.java
 F:\TEST\CMateData\user-service\src\main\java\com\cmatedata\userservice\config\SecurityConfig.java
+F:\TEST\CMateData\user-service\src\main\java\com\cmatedata\userservice\config\RedisConfig.java
 F:\TEST\CMateData\user-service\src\main\java\com\cmatedata\userservice\entity\User.java
 F:\TEST\CMateData\user-service\src\main\java\com\cmatedata\userservice\service\MessageConsumer.java
 F:\TEST\CMateData\user-service\src\main\java\com\cmatedata\userservice\config\MessageConfig.java
