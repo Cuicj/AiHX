@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>注册 - 化学学习APP</title>
+    <!-- MUI 样式 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mui@3.7.1/dist/css/mui.min.css">
+    <!-- Element Plus 样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css">
+    <!-- 自定义样式 -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f7fa;
+        }
+        .mui-bar {
+            background-color: #409EFF;
+            color: white;
+        }
+        .mui-bar .mui-title {
+            color: white;
+        }
+        .mui-content {
+            padding: 20px;
+            padding-top: 100px;
+        }
+        .login-container {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+        }
+        .login-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .logo {
+            margin-bottom: 10px;
+        }
+        .logo img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+        }
+        .login-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+        .login-subtitle {
+            font-size: 14px;
+            color: #909399;
+            margin-top: 5px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: #606266;
+        }
+        .input-group {
+            position: relative;
+        }
+        .input-group-text {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #909399;
+        }
+        .form-control {
+            padding-left: 35px;
+        }
+        .form-options {
+            margin-bottom: 20px;
+        }
+        .form-check {
+            font-size: 12px;
+        }
+        .form-check-label {
+            color: #606266;
+        }
+        .form-check-label a {
+            color: #409EFF;
+            text-decoration: none;
+        }
+        .login-btn {
+            width: 100%;
+        }
+        .divider {
+            text-align: center;
+            margin: 20px 0;
+            position: relative;
+        }
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: #e4e7ed;
+        }
+        .divider span {
+            position: relative;
+            background-color: white;
+            padding: 0 10px;
+            font-size: 12px;
+            color: #909399;
+        }
+        .social-login {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+        .social-btn {
+            flex: 1;
+            margin: 0 5px;
+        }
+        .login-footer {
+            text-align: center;
+            font-size: 12px;
+            color: #909399;
+        }
+        .login-link {
+            color: #409EFF;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- MUI 导航栏 -->
+    <header class="mui-bar mui-bar-nav">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+        <h1 class="mui-title">用户注册</h1>
+    </header>
+
+    <!-- 主内容区 -->
+    <div class="mui-content">
+        <div class="login-container">
+            <!-- 注册头部 -->
+            <div class="login-header">
+                <div class="logo">
+                    <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=chemistry%20logo%20science%20education%20modern%20simple%20blue&image_size=square" alt="化学学习平台">
+                </div>
+                <h2 class="login-title">化学学习APP</h2>
+                <p class="login-subtitle">创建您的账户，开始探索化学世界</p>
+            </div>
+            
+            <!-- 注册表单 -->
+            <form class="login-form" id="registerForm">
+                <div class="form-group">
+                    <label for="username" class="form-label">用户名</label>
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                                <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z"/>
+                            </svg>
+                        </span>
+                        <el-input v-model="form.username" id="username" placeholder="请输入用户名" class="form-control"></el-input>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email" class="form-label">邮箱</label>
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
+                                <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z"/>
+                            </svg>
+                        </span>
+                        <el-input v-model="form.email" id="email" type="email" placeholder="请输入邮箱" class="form-control"></el-input>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password" class="form-label">密码</label>
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lock" viewBox="0 0 16 16">
+                                <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zM5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/>
+                            </svg>
+                        </span>
+                        <el-input v-model="form.password" id="password" type="password" placeholder="请输入密码" class="form-control"></el-input>
+                        <button type="button" class="input-group-text toggle-password" style="right: 10px; left: auto; cursor: pointer;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                                <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirmPassword" class="form-label">确认密码</label>
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lock" viewBox="0 0 16 16">
+                                <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zM5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/>
+                            </svg>
+                        </span>
+                        <el-input v-model="form.confirmPassword" id="confirmPassword" type="password" placeholder="请确认密码" class="form-control"></el-input>
+                        <button type="button" class="input-group-text toggle-password" style="right: 10px; left: auto; cursor: pointer;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                                <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="form-options">
+                    <div class="form-check">
+                        <el-checkbox v-model="form.agree" required>我同意<a href="#">用户协议</a>和<a href="#">隐私政策</a></el-checkbox>
+                    </div>
+                </div>
+                
+                <el-button type="primary" class="login-btn" @click="handleRegister">注册</el-button>
+                
+                <div class="divider">
+                    <span>或</span>
+                </div>
+                
+                <!-- 其他注册方式 -->
+                <div class="social-login">
+                    <el-button type="success" class="social-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-wechat" viewBox="0 0 16 16">
+                            <path d="M11.176 14.429c-2.665 0-4.82-1.392-4.82-3.1 0-.29.02-.577.058-.856.1-.753.293-1.49.566-2.19.388.096.78.177 1.187.236-.37-.616-.589-1.336-.589-2.1 0-1.944 1.986-3.516 4.43-3.516 2.445 0 4.43 1.572 4.43 3.516 0 1.659-1.523 3.034-4.003 3.034-1.202 0-2.224-.507-2.677-1.19.27.072.55.142.846.205 1.137.237 1.834.977 1.834 1.898 0 1.137-1.09 2.057-2.445 2.057zm-9.176-3.1c0 1.708 2.155 3.1 4.82 3.1 1.355 0 2.445-.92 2.445-2.057 0-.921-.697-1.661-1.834-1.898a7.33 7.33 0 0 1-.846-.205c-.453.683-1.475 1.19-2.677 1.19-2.477 0-4.003-1.375-4.003-3.034 0-1.944 1.986-3.516 4.43-3.516 1.646 0 3.1.917 3.742 2.208-.39-.05-.772-.13-1.14-.22-.305.727-.52 1.493-.616 2.292a3.9 3.9 0 0 0-.058.856c0 1.708-2.155 3.1-4.82 3.1z"/>
+                        </svg>
+                        微信注册
+                    </el-button>
+                    <el-button type="primary" class="social-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-qq" viewBox="0 0 16 16">
+                            <path d="M13.601 2.326A8.001 8.001 0 0 0 4.935 15.999a7.977 7.977 0 0 0 2.562-.999H9a5 5 0 0 1 4.601-4.928 6 6 0 1 0-1.26-2.864A8.003 8.003 0 0 0 8 16a8.001 8.001 0 0 0 5.601-13.674ZM8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0Z"/>
+                        </svg>
+                        QQ注册
+                    </el-button>
+                </div>
+            </form>
+            
+            <!-- 登录链接 -->
+            <div class="login-footer">
+                <p>已有账户？ <a href="login.html" class="login-link">立即登录</a></p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- MUI 脚本 -->
+    <script src="https://cdn.jsdelivr.net/npm/mui@3.7.1/dist/js/mui.min.js"></script>
+    <!-- Vue 3 脚本 -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <!-- Element Plus 脚本 -->
+    <script src="https://unpkg.com/element-plus/dist/index.full.js"></script>
+
+    <script>
+        // 机器人验证相关函数
+        function isRobotVerified() {
+            const verified = localStorage.getItem('robotVerified');
+            const verifiedAt = localStorage.getItem('robotVerifiedAt');
+            
+            if (!verified || !verifiedAt) {
+                return false;
+            }
+            
+            // 验证有效期为1小时
+            const oneHour = 60 * 60 * 1000;
+            const now = new Date().getTime();
+            const verifiedTime = parseInt(verifiedAt);
+            
+            return now - verifiedTime < oneHour;
+        }
+
+        function getRobotVerificationUrl(callbackUrl) {
+            return '../robot-verification.html?callback=' + encodeURIComponent(callbackUrl);
+        }
+
+        function verifyRobotBeforeAction(callback) {
+            if (isRobotVerified()) {
+                // 已验证，直接执行回调
+                callback();
+            } else {
+                // 未验证，跳转到验证页面
+                const currentUrl = window.location.href;
+                window.location.href = getRobotVerificationUrl(currentUrl);
+            }
+        }
+
+        // 检查是否从验证页面返回
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('verified') === 'true') {
+                // 验证成功，移除URL参数
+                const url = new URL(window.location.href);
+                url.searchParams.delete('verified');
+                window.history.replaceState({}, document.title, url.toString());
+            }
+        });
+
+        const { createApp } = Vue;
+
+        createApp({
+            data() {
+                return {
+                    form: {
+                        username: '',
+                        email: '',
+                        password: '',
+                        confirmPassword: '',
+                        agree: false
+                    }
+                };
+            },
+            methods: {
+                handleRegister() {
+                    // 验证表单
+                    if (!this.form.username || !this.form.email || !this.form.password || !this.form.confirmPassword) {
+                        mui.toast('请填写所有必填字段');
+                        return;
+                    }
+                    
+                    if (this.form.password !== this.form.confirmPassword) {
+                        mui.toast('密码与确认密码不一致');
+                        return;
+                    }
+                    
+                    if (!this.form.agree) {
+                        mui.toast('请同意用户协议和隐私政策');
+                        return;
+                    }
+                    
+                    // 机器人验证
+                    verifyRobotBeforeAction(() => {
+                        // 构建用户数据
+                        const userData = {
+                            username: this.form.username,
+                            email: this.form.email,
+                            password: this.form.password
+                        };
+                        
+                        // 发送注册请求
+                        fetch('/api/user/users', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(userData)
+                        })
+                        .then(response => {
+                            if (response.ok) {
+                                return response.json();
+                            } else {
+                                throw new Error('注册失败');
+                            }
+                        })
+                        .then(data => {
+                            mui.toast('注册成功！请登录');
+                            setTimeout(() => {
+                                window.location.href = 'login.html';
+                            }, 1000);
+                        })
+                        .catch(error => {
+                            mui.toast('注册失败：' + error.message);
+                        });
+                    });
+                }
+            }
+        }).use(ElementPlus).mount('body');
+
+        // 密码显示/隐藏切换
+        document.querySelectorAll('.toggle-password').forEach(button => {
+            button.addEventListener('click', function() {
+                const input = this.parentElement.querySelector('input');
+                const icon = this.querySelector('svg');
+                
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.classList.remove('bi-eye');
+                    icon.classList.add('bi-eye-slash');
+                } else {
+                    input.type = 'password';
+                    icon.classList.remove('bi-eye-slash');
+                    icon.classList.add('bi-eye');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

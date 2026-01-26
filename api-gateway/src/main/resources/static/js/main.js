@@ -475,10 +475,51 @@ window.addEventListener('DOMContentLoaded', async function() {
     }
 });
 
+// 机器人验证相关函数
+function isRobotVerified() {
+    const verified = localStorage.getItem('robotVerified');
+    const verifiedAt = localStorage.getItem('robotVerifiedAt');
+    
+    if (!verified || !verifiedAt) {
+        return false;
+    }
+    
+    // 验证有效期为1小时
+    const oneHour = 60 * 60 * 1000;
+    const now = new Date().getTime();
+    const verifiedTime = parseInt(verifiedAt);
+    
+    return now - verifiedTime < oneHour;
+}
+
+function getRobotVerificationUrl(callbackUrl) {
+    return `robot-verification.html?callback=${encodeURIComponent(callbackUrl)}`;
+}
+
+function verifyRobotBeforeAction(callback) {
+    if (isRobotVerified()) {
+        // 已验证，直接执行回调
+        callback();
+    } else {
+        // 未验证，跳转到验证页面
+        const currentUrl = window.location.href;
+        window.location.href = getRobotVerificationUrl(currentUrl);
+    }
+}
+
 // 登录页面逻辑
 if (window.location.pathname.includes('login')) {
     document.addEventListener('DOMContentLoaded', function() {
         console.log('Login page loaded');
+        
+        // 检查是否从验证页面返回
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('verified') === 'true') {
+            // 验证成功，移除URL参数
+            const url = new URL(window.location.href);
+            url.searchParams.delete('verified');
+            window.history.replaceState({}, document.title, url.toString());
+        }
         
         // 密码显示/隐藏功能
         const togglePassword = document.querySelector('.toggle-password');
@@ -525,27 +566,30 @@ if (window.location.pathname.includes('login')) {
                     return;
                 }
                 
-                // 模拟登录请求
-                console.log('Login attempt with username:', username);
-                
-                // 显示加载状态
-                const loginBtn = document.querySelector('.login-btn');
-                const originalText = loginBtn.textContent;
-                loginBtn.textContent = '登录中...';
-                loginBtn.disabled = true;
-                
-                // 模拟API请求延迟
-                setTimeout(() => {
-                    // 模拟登录成功
-                    console.log('Login successful');
+                // 机器人验证
+                verifyRobotBeforeAction(function() {
+                    // 模拟登录请求
+                    console.log('Login attempt with username:', username);
                     
-                    // 恢复按钮状态
-                    loginBtn.textContent = originalText;
-                    loginBtn.disabled = false;
+                    // 显示加载状态
+                    const loginBtn = document.querySelector('.login-btn');
+                    const originalText = loginBtn.textContent;
+                    loginBtn.textContent = '登录中...';
+                    loginBtn.disabled = true;
                     
-                    // 跳转到首页
-                    window.location.href = 'index.html';
-                }, 1500);
+                    // 模拟API请求延迟
+                    setTimeout(() => {
+                        // 模拟登录成功
+                        console.log('Login successful');
+                        
+                        // 恢复按钮状态
+                        loginBtn.textContent = originalText;
+                        loginBtn.disabled = false;
+                        
+                        // 跳转到首页
+                        window.location.href = 'index.html';
+                    }, 1500);
+                });
             });
         }
         
@@ -573,7 +617,7 @@ if (window.location.pathname.includes('login')) {
         if (registerLink) {
             registerLink.addEventListener('click', function(e) {
                 e.preventDefault();
-                alert('注册功能正在开发中');
+                window.location.href = 'register.html';
             });
         }
     });
