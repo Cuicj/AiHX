@@ -11,12 +11,14 @@ chemistry-learning/
 ├── chemistry-service/       # 化学数据服务模块
 ├── user-service/            # 用户服务模块
 ├── learning-progress-service/ # 学习进度服务模块
+├── data-source-service/     # 数据源管理服务模块
 ├── harbor/                  # Harbor私有镜像仓库配置
 ├── Dockerfile               # 根目录Dockerfile
 ├── docker-compose.yml       # Docker Compose配置
 ├── docker-build.bat         # Docker一键打包脚本
 ├── build.bat                # Maven构建脚本
 ├── start-services.bat       # 启动脚本
+├── start-services.ps1       # PowerShell启动脚本
 ├── stop-services.bat        # 停止脚本
 ├── cleanup-daily.bat        # 每天清理Docker资源脚本
 └── README.md                # 项目说明
@@ -31,20 +33,25 @@ chemistry-learning/
 - Spring Cloud Gateway (API网关)
 - Spring Data JPA (数据访问)
 - H2 Database (内存数据库)
+- MySQL Database (关系型数据库)
 - Spring Security (安全认证)
+- RabbitMQ (消息队列)
 - Docker & Docker Compose (容器化部署)
 - Harbor (私有镜像仓库)
 - Bootstrap 5 (前端框架)
 - CSS3 & JavaScript (前端开发)
+- HTML5 & CSS3 Animations (前端动画效果)
 
 ## 服务说明
 
-1. **eureka-server**：服务注册与发现中心，运行在端口8761
+1. **eureka-server**：服务注册与发现中心，运行在端口8761，支持优雅下线功能
 2. **api-gateway**：API网关，运行在端口8080，负责路由请求和前端静态资源服务
 3. **chemistry-service**：化学数据服务，运行在端口8081，提供元素等化学数据
-4. **user-service**：用户服务，运行在端口8082，提供用户管理功能
+4. **user-service**：用户服务，运行在端口8082，提供用户管理功能，集成RabbitMQ消息队列
 5. **learning-progress-service**：学习进度服务，运行在端口8085，跟踪用户学习进度
-6. **harbor**：私有镜像仓库，运行在端口8081（Web）、5000（Registry）
+6. **data-source-service**：数据源管理服务，运行在端口8086，控制数据源切换和管理
+7. **rabbitmq**：消息队列服务，运行在端口5672（AMQP）、15672（管理界面）
+8. **harbor**：私有镜像仓库，运行在端口8081（Web）、5000（Registry）
 
 ## 快速开始
 
@@ -70,10 +77,12 @@ chemistry-learning/
 
 #### 2.1 本地启动
 
-运行`start-services.bat`脚本启动所有服务：
+运行`start-services.bat`或`start-services.ps1`脚本启动所有服务：
 
 ```bash
 ./start-services.bat
+# 或
+./start-services.ps1
 ```
 
 服务将按照以下顺序启动：
@@ -82,6 +91,7 @@ chemistry-learning/
 3. Chemistry Service
 4. User Service
 5. Learning Progress Service
+6. Data Source Service
 
 #### 2.2 Docker启动
 
@@ -108,6 +118,8 @@ docker-compose up -d
 - Chemistry Service: http://localhost:8081
 - User Service: http://localhost:8082
 - Learning Progress Service: http://localhost:8085
+- Data Source Service: http://localhost:8086
+- RabbitMQ管理界面: http://localhost:15672 (默认用户名: guest, 密码: guest)
 - Harbor Web界面: http://localhost:8081 (Harbor)
 
 #### 3.2 Docker服务
@@ -117,6 +129,8 @@ docker-compose up -d
 - Chemistry Service: http://localhost:8081
 - User Service: http://localhost:8082
 - Learning Progress Service: http://localhost:8085
+- Data Source Service: http://localhost:8086
+- RabbitMQ管理界面: http://localhost:15672 (默认用户名: guest, 密码: guest)
 - Harbor Web界面: http://localhost:8081 (Harbor)
 
 ### 4. API接口
@@ -138,6 +152,13 @@ docker-compose up -d
 - POST /users - 创建新用户
 - PUT /users/{id} - 更新用户
 - DELETE /users/{id} - 删除用户
+- POST /send-sms-code - 发送短信验证码
+- POST /send-email - 发送邮件
+
+#### 数据源服务 (data-source-service)
+- GET /api/datasource/health - 获取所有数据源的健康状态
+- GET /api/datasource/current - 获取当前使用的数据源
+- GET /api/datasource/status - 检查数据源服务是否可用
 
 #### 学习进度服务 (learning-progress-service)
 - GET /progress - 获取所有学习进度
@@ -182,15 +203,18 @@ docker-compose up -d
 
 ### 2. 元素周期表模块
 
-项目添加了完整的元素周期表模块：
+项目添加了完整的元素周期表模块，并进行了优化：
 
 #### 2.1 功能特点
 
 - **完整展示**：包含所有元素的周期表展示
 - **分类颜色**：不同类型元素使用不同颜色标识
+- **自然/合成元素标识**：区分自然存在和人工合成的元素
+- **CSS3动画**：鼠标悬停时元素卡片炫酷放大效果
 - **响应式设计**：适配不同屏幕尺寸
 - **详细信息**：点击元素查看详细信息
 - **化学分类**：金属、非金属、稀有气体等分类展示
+- **多页面跳转**：分解为三个页面：元素发现历史、分类、详情页
 
 #### 2.2 访问方式
 
@@ -202,34 +226,105 @@ docker-compose up -d
 - **前端**：HTML5 + CSS3 + JavaScript
 - **布局**：CSS Grid实现周期表布局
 - **样式**：Bootstrap 5响应式设计
+- **动画**：CSS3 Transitions和Transforms实现悬停效果
 - **数据**：JavaScript动态生成元素数据
 
-### 3. Harbor私有镜像仓库
+### 3. RabbitMQ消息队列集成
+
+项目集成了RabbitMQ消息队列，用于处理异步消息：
+
+#### 3.1 功能特点
+
+- **异步消息处理**：支持短信验证码和邮件发送
+- **队列管理**：配置了专门的短信和邮件队列
+- **交换机和绑定**：使用Topic Exchange实现消息路由
+- **生产者/消费者模式**：标准的消息队列设计模式
+
+#### 3.2 访问方式
+
+- **发送短信验证码**：`POST http://localhost:8082/send-sms-code?phone={手机号}`
+- **发送邮件**：`POST http://localhost:8082/send-email`
+- **RabbitMQ管理界面**：http://localhost:15672 (默认用户名: guest, 密码: guest)
+
+### 4. 数据库配置变更
+
+项目修改了数据库配置，支持MySQL和H2数据库的切换：
+
+#### 4.1 功能特点
+
+- **统一配置**：使用`spring.cloud.data`前缀统一管理JDBC连接参数
+- **多数据源支持**：支持MySQL和H2数据库的切换
+- **动态配置**：通过配置文件控制数据源的选择
+
+#### 4.2 配置参数
+
+- `spring.cloud.data.url`：数据库连接URL
+- `spring.cloud.data.driver`：数据库驱动类
+- `spring.cloud.data.user`：数据库用户名
+- `spring.cloud.data.password`：数据库密码
+- `spring.cloud.data.dialect`：数据库方言
+
+### 5. 数据源服务
+
+项目添加了独立的数据源管理服务：
+
+#### 5.1 功能特点
+
+- **集中控制**：集中管理所有服务的数据源配置
+- **多数据源支持**：配置了primary、secondary和h2数据源
+- **自动切换**：当MySQL不可用时，自动切换到H2数据库
+- **健康检查**：定期检查数据源的健康状态
+- **API接口**：提供REST API接口查询数据源状态
+
+#### 5.2 访问方式
+
+- **服务地址**：http://localhost:8086
+- **健康状态**：http://localhost:8086/api/datasource/health
+- **当前数据源**：http://localhost:8086/api/datasource/current
+- **服务状态**：http://localhost:8086/api/datasource/status
+
+### 6. Eureka优雅下线功能
+
+项目为所有服务添加了Eureka优雅下线功能：
+
+#### 6.1 功能特点
+
+- **优雅下线**：服务停止时能够正常从注册中心注销
+- **健康检查**：启用服务健康检查，确保注册中心能够及时了解服务状态
+- **自我保护**：Eureka Server启用自我保护模式，避免网络波动时服务被误删
+- **服务续约**：调整服务续约和过期时间，确保服务状态的及时性
+
+#### 6.2 使用方法
+
+- **手动优雅下线**：向服务发送POST请求 `http://{服务地址}:{端口}/actuator/shutdown`
+- **自动优雅下线**：使用`spring-boot:run`启动服务时，按`Ctrl+C`停止服务
+
+### 7. Harbor私有镜像仓库
 
 项目集成了Harbor私有镜像仓库，解决Docker在国内访问慢的问题：
 
-#### 3.1 功能特点
+#### 7.1 功能特点
 
 - **本地存储**：所有镜像存储在本地，不依赖外部网络
 - **加速构建**：本地镜像仓库拉取速度快
 - **安全可控**：完全控制镜像的存储和访问
 - **企业级功能**：支持镜像签名、漏洞扫描等高级功能
 
-#### 3.2 使用方法
+#### 7.2 使用方法
 
-##### 3.2.1 启动Harbor
+##### 7.2.1 启动Harbor
 
 ```bash
 ./harbor/start-harbor.bat
 ```
 
-##### 3.2.2 访问Harbor
+##### 7.2.2 访问Harbor
 
 - **Web界面**：http://localhost:8081
 - **用户名**：admin
 - **密码**：Harbor12345
 
-##### 3.2.3 推送镜像
+##### 7.2.3 推送镜像
 
 ```bash
 # 登录Harbor
@@ -242,30 +337,30 @@ docker tag api-gateway:latest localhost:5000/cmatedata/api-gateway:latest
 docker push localhost:5000/cmatedata/api-gateway:latest
 ```
 
-##### 3.2.4 拉取镜像
+##### 7.2.4 拉取镜像
 
 ```bash
 docker pull localhost:5000/cmatedata/api-gateway:latest
 ```
 
-### 4. 定时任务
+### 8. 定时任务
 
 项目添加了Docker资源自动清理定时任务：
 
-#### 4.1 功能特点
+#### 8.1 功能特点
 
 - **自动执行**：每20分钟自动执行一次
 - **全面清理**：清理容器、镜像、卷、网络和系统垃圾
 - **安全可靠**：使用`-f`参数强制执行，不会因确认而中断
 - **详细日志**：提供完整的执行日志，便于排查问题
 
-#### 4.2 实现方式
+#### 8.2 实现方式
 
 - **技术**：Spring @Scheduled注解
 - **频率**：每20分钟执行一次 (cron: 0 */20 * * * *)
 - **位置**：eureka-server模块中的DockerCleanupScheduler类
 
-#### 4.3 执行内容
+#### 8.3 执行内容
 
 - 清理未使用的容器：`docker container prune -f`
 - 清理未使用的镜像：`docker image prune -f`
@@ -273,24 +368,24 @@ docker pull localhost:5000/cmatedata/api-gateway:latest
 - 清理未使用的网络：`docker network prune -f`
 - 清理系统垃圾：`docker system prune -f`
 
-### 5. 每天清理脚本
+### 9. 每天清理脚本
 
 项目提供了`cleanup-daily.bat`脚本，用于每天清理当天产生的Docker资源：
 
-#### 5.1 使用方法
+#### 9.1 使用方法
 
 ```bash
 ./cleanup-daily.bat
 ```
 
-#### 5.2 功能特点
+#### 9.2 功能特点
 
 - **智能识别**：自动识别当天日期，只清理当天产生的资源
 - **安全清理**：只清理当天的资源，不会影响之前的工作
 - **全面清理**：清理容器、镜像、卷和系统垃圾
 - **易于使用**：提供清晰的操作步骤和执行结果
 
-#### 5.3 自动执行
+#### 9.3 自动执行
 
 可将脚本添加到Windows任务计划程序中，实现每天自动执行：
 
@@ -302,7 +397,7 @@ docker pull localhost:5000/cmatedata/api-gateway:latest
 
 ## 停止服务
 
-### 4.1 本地服务停止
+### 10.1 本地服务停止
 
 运行`stop-services.bat`脚本查看运行的服务，然后手动关闭对应的命令窗口：
 
@@ -310,7 +405,7 @@ docker pull localhost:5000/cmatedata/api-gateway:latest
 ./stop-services.bat
 ```
 
-### 4.2 Docker服务停止
+### 10.2 Docker服务停止
 
 使用Docker Compose停止所有服务：
 
@@ -318,7 +413,7 @@ docker pull localhost:5000/cmatedata/api-gateway:latest
 docker-compose down
 ```
 
-### 4.3 Harbor停止
+### 10.3 Harbor停止
 
 运行`harbor/stop-harbor.bat`脚本停止Harbor服务：
 
@@ -328,14 +423,16 @@ docker-compose down
 
 ## 注意事项
 
-- 本项目使用H2内存数据库，重启服务后数据会重置
-- 服务启动顺序很重要，必须先启动Eureka Server，再启动其他服务
-- 首次启动时，服务注册可能需要一些时间，请耐心等待
-- Docker启动前请确保Docker Desktop已安装并运行
-- JDK版本要求：Java 21
-- Maven版本要求：3.6.0+
-- Harbor服务需要Docker和Docker Compose
-- 默认配置使用HTTP协议，生产环境建议配置HTTPS
+- **数据库配置**：本项目支持MySQL和H2数据库，默认使用H2内存数据库（重启服务后数据会重置），可通过`spring.cloud.data`配置项切换到MySQL
+- **服务启动顺序**：必须先启动Eureka Server，再启动其他服务
+- **RabbitMQ依赖**：user-service依赖RabbitMQ服务，请确保RabbitMQ已启动
+- **数据源服务**：data-source-service服务未启动时，其他服务会自动使用H2数据库
+- **首次启动**：服务注册可能需要一些时间，请耐心等待
+- **Docker要求**：Docker启动前请确保Docker Desktop已安装并运行
+- **JDK版本**：JDK版本要求：Java 21
+- **Maven版本**：Maven版本要求：3.6.0+
+- **Harbor服务**：Harbor服务需要Docker和Docker Compose
+- **默认协议**：默认配置使用HTTP协议，生产环境建议配置HTTPS
 
 ## Docker常用命令
 
@@ -349,6 +446,11 @@ docker-compose down
 - **登录Harbor**：`docker login localhost:5000`
 - **推送镜像**：`docker push localhost:5000/cmatedata/[服务名]:latest`
 - **拉取镜像**：`docker pull localhost:5000/cmatedata/[服务名]:latest`
+- **启动RabbitMQ**：`docker run -d --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.8-management`
+- **停止RabbitMQ**：`docker stop rabbitmq && docker rm rabbitmq`
+- **查看容器详情**：`docker inspect [容器ID]`
+- **进入容器**：`docker exec -it [容器ID] /bin/bash`
+- **清理未使用的资源**：`docker system prune -f`
 
 ## 项目目的
 
@@ -356,13 +458,17 @@ docker-compose down
 
 - Spring Cloud微服务架构的基本组件和使用方法
 - 服务注册与发现、API网关的配置和使用
+- Eureka优雅下线功能的实现和配置
 - 微服务之间的通信和数据管理
-- 基于JPA的数据访问和内存数据库的使用
+- 基于JPA的数据访问和多数据源管理
+- RabbitMQ消息队列的集成和使用
+- 数据源管理服务的设计和实现
 - Spring Security的基本配置和使用
 - Docker容器化部署和Docker Compose的使用
 - Harbor私有镜像仓库的搭建和使用
 - 前端静态资源管理和Bootstrap框架的使用
 - CSS3和JavaScript的前端开发技术
+- HTML5和CSS3动画效果的实现
 - 微服务项目的构建和部署流程
 - JDK版本升级和项目迁移
 - 定时任务的配置和使用
@@ -378,6 +484,12 @@ docker-compose down
 6. **响应式设计**：前端适配不同设备
 7. **功能丰富**：包含元素周期表等实用模块
 8. **文档完善**：详细的使用说明和技术文档
+9. **消息队列集成**：RabbitMQ实现异步消息处理
+10. **数据源管理**：独立的数据源服务控制数据源切换
+11. **优雅下线**：Eureka支持服务优雅下线
+12. **元素周期表优化**：CSS3动画效果和多页面跳转
+13. **多数据源支持**：MySQL和H2数据库切换
+14. **前端动画**：HTML5和CSS3动画效果
 
 ## 技术创新
 
@@ -389,3 +501,9 @@ docker-compose down
 6. **动态周期表**：JavaScript动态生成元素数据
 7. **多服务协同**：微服务之间的无缝集成
 8. **一键部署**：简化部署和管理流程
+9. **消息队列集成**：RabbitMQ实现异步消息处理
+10. **数据源管理服务**：独立服务控制数据源切换
+11. **Eureka优雅下线**：服务停止时正常注销
+12. **元素周期表优化**：CSS3动画效果和多页面跳转
+13. **多数据源支持**：MySQL和H2数据库自动切换
+14. **前端动画效果**：HTML5和CSS3动画
