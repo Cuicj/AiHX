@@ -723,3 +723,115 @@ docker-compose down redis-master redis-slave-1 redis-slave-2
 - **内存管理**：Redis是内存数据库，需要根据实际情况调整内存配置
 - **网络连接**：确保Redis集群和服务在同一个网络中，以便服务能够访问Redis
 - **监控**：建议在生产环境中添加Redis监控，及时发现和解决问题
+
+## 网络安全功能
+
+项目集成了多种网络安全功能，用于保护系统免受恶意攻击：
+
+### 1. 安全功能列表
+
+- **请求限流**：限制每个IP在一定时间内的请求次数
+- **IP白名单/黑名单**：只允许白名单中的IP访问，阻止黑名单中的IP
+- **请求验证**：检查请求头和请求参数的合法性
+- **CORS配置**：跨域资源共享配置
+- **XSS防护**：防止跨站脚本攻击
+- **CSRF防护**：防止跨站请求伪造攻击
+
+### 2. 安全配置文件
+
+- **API Gateway配置**：`api-gateway/src/main/resources/application.yml`
+- **安全配置类**：`api-gateway/src/main/java/com/cmatedata/apigateway/config/SecurityConfig.java`
+- **限流过滤器**：`api-gateway/src/main/java/com/cmatedata/apigateway/filter/RateLimitFilter.java`
+- **IP过滤器**：`api-gateway/src/main/java/com/cmatedata/apigateway/filter/IpFilter.java`
+- **请求验证过滤器**：`api-gateway/src/main/java/com/cmatedata/apigateway/filter/RequestValidationFilter.java`
+
+### 3. 请求限流配置
+
+在`application.yml`文件中配置请求限流：
+
+```yaml
+filters:
+  - name: RateLimit
+    args:
+      limit: 10  # 每秒最多10个请求
+      refreshInterval: 1  # 刷新间隔（秒）
+```
+
+### 4. IP白名单/黑名单配置
+
+在`application.yml`文件中配置IP白名单和黑名单：
+
+```yaml
+filters:
+  - name: IpFilter
+    args:
+      whitelist:
+        - 127.0.0.1
+        - 192.168.1.0/24
+      blacklist:
+        - 10.0.0.1
+```
+
+### 5. 请求验证配置
+
+在`application.yml`文件中配置请求验证：
+
+```yaml
+filters:
+  - name: RequestValidation
+    args:
+      requiredHeaders:
+        - User-Agent
+      requiredParams:
+        - timestamp
+```
+
+### 6. 安全功能使用方法
+
+#### 6.1 全局安全配置
+
+全局安全配置在`SecurityConfig.java`文件中定义，包括CORS、XSS和CSRF防护。
+
+#### 6.2 路由级安全配置
+
+可以在`application.yml`文件中为每个路由单独配置安全功能：
+
+```yaml
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: chemistry-service
+          uri: lb://chemistry-service
+          predicates:
+            - Path=/api/chemistry/**
+          filters:
+            - StripPrefix=2
+            - name: RateLimit
+              args:
+                limit: 10
+                refreshInterval: 1
+            - name: IpFilter
+              args:
+                whitelist:
+                  - 127.0.0.1
+                  - 192.168.1.0/24
+                blacklist:
+                  - 10.0.0.1
+```
+
+### 7. 功能特点
+
+- **灵活配置**：可以为每个路由单独配置安全功能
+- **高性能**：使用Redis作为限流存储，性能优异
+- **易于扩展**：可以根据需要添加自定义安全过滤器
+- **安全性高**：多层安全防护，有效防止恶意攻击
+- **用户友好**：配置简单，易于理解和使用
+
+### 8. 注意事项
+
+- **性能影响**：安全功能会对系统性能产生一定影响，需要根据实际情况调整配置
+- **误判风险**：过于严格的安全配置可能会导致合法请求被拒绝
+- **定期更新**：需要定期更新白名单和黑名单，以适应业务需求的变化
+- **监控**：建议添加安全监控，及时发现和处理安全问题
+- **日志记录**：记录安全相关的日志，以便后续分析和排查问题

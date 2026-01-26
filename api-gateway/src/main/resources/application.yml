@@ -13,18 +13,57 @@ spring:
             - Path=/api/chemistry/**
           filters:
             - StripPrefix=2
+            - name: RateLimit
+              args:
+                limit: 10
+                refreshInterval: 1
+            - name: IpFilter
+              args:
+                whitelist:
+                  - 127.0.0.1
+                  - 192.168.1.0/24
+                blacklist:
+                  - 10.0.0.1
         - id: user-service
           uri: lb://user-service
           predicates:
             - Path=/api/user/**
           filters:
             - StripPrefix=2
+            - name: RateLimit
+              args:
+                limit: 5
+                refreshInterval: 1
+            - name: IpFilter
+              args:
+                whitelist:
+                  - 127.0.0.1
+                  - 192.168.1.0/24
+                blacklist:
+                  - 10.0.0.1
+            - name: RequestValidation
+              args:
+                requiredHeaders:
+                  - User-Agent
+                requiredParams:
+                  - timestamp
         - id: learning-progress-service
           uri: lb://learning-progress-service
           predicates:
             - Path=/api/progress/**
           filters:
             - StripPrefix=2
+            - name: RateLimit
+              args:
+                limit: 8
+                refreshInterval: 1
+            - name: IpFilter
+              args:
+                whitelist:
+                  - 127.0.0.1
+                  - 192.168.1.0/24
+                blacklist:
+                  - 10.0.0.1
 
 eureka:
   client:
