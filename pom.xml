@@ -47,6 +47,7 @@
         <module>user-service</module>
         <module>learning-progress-service</module>
         <module>data-source-service</module>
+        <module>ai-service</module>
     </modules>
 
     <build>
