@@ -1,7 +1,10 @@
 com\cmatedata\userservice\entity\User.class
+com\cmatedata\userservice\service\MessageProducer.class
 com\cmatedata\userservice\repository\UserRepository.class
 com\cmatedata\userservice\UserServiceApplication.class
 com\cmatedata\userservice\config\DataInitializer.class
 com\cmatedata\userservice\config\SecurityConfig.class
+com\cmatedata\userservice\config\MessageConfig.class
 com\cmatedata\userservice\controller\UserController.class
+com\cmatedata\userservice\service\MessageConsumer.class
 com\cmatedata\userservice\service\UserService.class

@@ -1,1 +1,2 @@
 com\cmatedata\eurekaserver\EurekaServerApplication.class
+com\cmatedata\eurekaserver\schedule\DockerCleanupScheduler.class

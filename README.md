@@ -633,3 +633,93 @@ if (!window.isRobotVerified()) {
 - **用户友好**：界面美观，操作简单
 - **防机器人**：有效防止脚本机器人自动操作
 - **易于集成**：提供了简单的JavaScript API，便于集成到其他页面
+
+## Redis集群
+
+项目集成了Redis集群，用于缓存数据、管理会话和提高系统性能：
+
+### 1. Redis集群配置
+
+- **主节点**：redis-master (端口6379)
+- **从节点1**：redis-slave-1 (端口6380)
+- **从节点2**：redis-slave-2 (端口6381)
+- **密码**：redis-password
+- **网络**：cmatenet
+
+### 2. Redis配置文件
+
+每个服务模块都有对应的Redis配置类：
+
+- **api-gateway**：`api-gateway/src/main/java/com/cmatedata/apigateway/config/RedisConfig.java`
+- **chemistry-service**：`chemistry-service/src/main/java/com/cmatedata/chemistryservice/config/RedisConfig.java`
+- **user-service**：`user-service/src/main/java/com/cmatedata/userservice/config/RedisConfig.java`
+- **learning-progress-service**：`learning-progress-service/src/main/java/com/cmatedata/learningprogressservice/config/RedisConfig.java`
+- **data-source-service**：`data-source-service/src/main/java/com/cmatedata/datasourceservice/config/RedisConfig.java`
+
+### 3. 如何使用Redis
+
+可以在服务中注入`RedisTemplate`来使用Redis：
+
+```java
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class RedisService {
+
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
+
+    // 存储数据
+    public void set(String key, Object value) {
+        redisTemplate.opsForValue().set(key, value);
+    }
+
+    // 获取数据
+    public Object get(String key) {
+        return redisTemplate.opsForValue().get(key);
+    }
+
+    // 删除数据
+    public void delete(String key) {
+        redisTemplate.delete(key);
+    }
+
+    // 设置过期时间
+    public void setWithExpiration(String key, Object value, long expiration) {
+        redisTemplate.opsForValue().set(key, value, expiration, java.util.concurrent.TimeUnit.SECONDS);
+    }
+}
+```
+
+### 4. Redis集群启动和停止
+
+Redis集群会随着Docker Compose一起启动和停止：
+
+#### 4.1 启动Redis集群
+
+```bash
+docker-compose up -d redis-master redis-slave-1 redis-slave-2
+```
+
+#### 4.2 停止Redis集群
+
+```bash
+docker-compose down redis-master redis-slave-1 redis-slave-2
+```
+
+### 5. 功能特点
+
+- **高可用性**：主从复制架构，当主节点故障时，从节点可以提升为主节点
+- **数据持久化**：Redis默认使用RDB持久化，确保数据在重启后不丢失
+- **性能优化**：使用Lettuce连接池，提高连接效率
+- **安全认证**：设置了Redis密码，防止未授权访问
+- **易于扩展**：可以根据需要添加更多的从节点
+
+### 6. 注意事项
+
+- **密码保护**：Redis密码存储在配置文件中，生产环境中应该使用环境变量或密钥管理系统
+- **内存管理**：Redis是内存数据库，需要根据实际情况调整内存配置
+- **网络连接**：确保Redis集群和服务在同一个网络中，以便服务能够访问Redis
+- **监控**：建议在生产环境中添加Redis监控，及时发现和解决问题
