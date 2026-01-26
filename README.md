@@ -424,6 +424,7 @@ docker-compose down
 ## 注意事项
 
 - **数据库配置**：本项目支持MySQL和H2数据库，默认使用H2内存数据库（重启服务后数据会重置），可通过`spring.cloud.data`配置项切换到MySQL
+- **MySQL初始化**：项目提供了SQL初始化脚本，位于`sql/init.sql`，可用于初始化MySQL数据库
 - **服务启动顺序**：必须先启动Eureka Server，再启动其他服务
 - **RabbitMQ依赖**：user-service依赖RabbitMQ服务，请确保RabbitMQ已启动
 - **数据源服务**：data-source-service服务未启动时，其他服务会自动使用H2数据库
@@ -507,3 +508,66 @@ docker-compose down
 12. **元素周期表优化**：CSS3动画效果和多页面跳转
 13. **多数据源支持**：MySQL和H2数据库自动切换
 14. **前端动画效果**：HTML5和CSS3动画
+
+## MySQL数据库初始化
+
+项目提供了MySQL数据库初始化脚本，用于创建数据库表结构和插入默认数据：
+
+### 1. 初始化脚本位置
+
+- **脚本文件**：`sql/init.sql`
+- **Docker配置**：`sql/docker-compose-mysql.yml`
+- **启动脚本**：`sql/start-mysql.bat`
+- **停止脚本**：`sql/stop-mysql.bat`
+
+### 2. 使用方法
+
+#### 2.1 启动MySQL并初始化数据库
+
+1. 进入`sql`目录
+2. 运行`start-mysql.bat`脚本
+3. 等待MySQL容器启动并执行初始化脚本
+
+```bash
+cd sql
+./start-mysql.bat
+```
+
+#### 2.2 停止MySQL服务
+
+1. 进入`sql`目录
+2. 运行`stop-mysql.bat`脚本
+
+```bash
+cd sql
+./stop-mysql.bat
+```
+
+### 3. 数据库连接信息
+
+- **主机**：localhost
+- **端口**：3306
+- **数据库**：chemistry_learning
+- **用户名**：root
+- **密码**：123456
+
+### 4. 初始化内容
+
+#### 4.1 表结构
+
+- **element**：元素表，存储元素的基本信息
+- **user**：用户表，存储用户信息
+- **learning_progress**：学习进度表，存储用户的学习进度
+
+#### 4.2 默认数据
+
+- **元素数据**：前20个元素的基本信息
+- **用户数据**：管理员用户（admin）和普通用户（user）
+- **学习进度数据**：管理员用户和普通用户的学习进度
+
+### 5. 注意事项
+
+- **Docker要求**：使用前请确保Docker Desktop已安装并运行
+- **端口冲突**：确保3306端口未被其他服务占用
+- **初始化时间**：首次启动时，初始化脚本执行可能需要一些时间
+- **数据持久化**：MySQL数据存储在Docker卷中，容器重启后数据不会丢失
