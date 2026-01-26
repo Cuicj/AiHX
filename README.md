@@ -741,9 +741,9 @@ docker-compose down redis-master redis-slave-1 redis-slave-2
 
 - **API Gateway配置**：`api-gateway/src/main/resources/application.yml`
 - **安全配置类**：`api-gateway/src/main/java/com/cmatedata/apigateway/config/SecurityConfig.java`
-- **限流过滤器**：`api-gateway/src/main/java/com/cmatedata/apigateway/filter/RateLimitFilter.java`
-- **IP过滤器**：`api-gateway/src/main/java/com/cmatedata/apigateway/filter/IpFilter.java`
-- **请求验证过滤器**：`api-gateway/src/main/java/com/cmatedata/apigateway/filter/RequestValidationFilter.java`
+- **限流过滤器**：`api-gateway/src/main/java/com/cmatedata/apigateway/filter/RateLimitGatewayFilterFactory.java`
+- **IP过滤器**：`api-gateway/src/main/java/com/cmatedata/apigateway/filter/IpGatewayFilterFactory.java`
+- **请求验证过滤器**：`api-gateway/src/main/java/com/cmatedata/apigateway/filter/RequestValidationGatewayFilterFactory.java`
 
 ### 3. 请求限流配置
 
