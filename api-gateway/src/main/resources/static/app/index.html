@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>APP首页 - 化学学习</title>
+    <!-- MUI 样式 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mui@3.7.1/dist/css/mui.min.css">
+    <!-- Element Plus 样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css">
+    <!-- 自定义样式 -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f7fa;
+        }
+        .mui-bar {
+            background-color: #409EFF;
+            color: white;
+        }
+        .mui-bar .mui-title {
+            color: white;
+        }
+        .mui-content {
+            padding: 10px;
+        }
+        .app-container {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+        .header {
+            background-color: #409EFF;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .card {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+        }
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .card-content {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+        }
+        .btn-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            color: #909399;
+            font-size: 12px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- MUI 导航栏 -->
+    <header class="mui-bar mui-bar-nav">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+        <h1 class="mui-title">化学学习APP</h1>
+        <a class="mui-icon mui-icon-search mui-pull-right"></a>
+    </header>
+
+    <!-- 主内容区 -->
+    <div class="mui-content">
+        <div class="app-container">
+            <!-- 头部 -->
+            <div class="header">
+                <h1>{{ title }}</h1>
+                <p>{{ subtitle }}</p>
+            </div>
+
+            <!-- 卡片列表 -->
+            <div class="card" v-for="(item, index) in cards" :key="index">
+                <div class="card-title">{{ item.title }}</div>
+                <div class="card-content">{{ item.content }}</div>
+                <div class="btn-group">
+                    <el-button type="primary" size="small" @click="handleCardClick(item)">{{ item.buttonText }}</el-button>
+                    <el-button size="small" @click="handleCardMore(item)">更多</el-button>
+                </div>
+            </div>
+
+            <!-- 表单示例 -->
+            <div class="card">
+                <div class="card-title">学习反馈</div>
+                <el-form :model="feedbackForm" label-width="80px">
+                    <el-form-item label="姓名">
+                        <el-input v-model="feedbackForm.name" placeholder="请输入姓名"></el-input>
+                    </el-form-item>
+                    <el-form-item label="学科">
+                        <el-select v-model="feedbackForm.subject" placeholder="请选择学科">
+                            <el-option label="化学" value="chemistry"></el-option>
+                            <el-option label="物理" value="physics"></el-option>
+                            <el-option label="数学" value="math"></el-option>
+                            <el-option label="生物" value="biology"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="反馈">
+                        <el-input v-model="feedbackForm.content" type="textarea" placeholder="请输入反馈内容"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" @click="submitFeedback">提交反馈</el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
+
+            <!-- 底部 -->
+            <div class="footer">
+                <p>© 2026 化学学习APP - 基于MUI + Vue 3 + Element Plus</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MUI 脚本 -->
+    <script src="https://cdn.jsdelivr.net/npm/mui@3.7.1/dist/js/mui.min.js"></script>
+    <!-- Vue 3 脚本 -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <!-- Element Plus 脚本 -->
+    <script src="https://unpkg.com/element-plus/dist/index.full.js"></script>
+
+    <script>
+        const { createApp } = Vue;
+
+        createApp({
+            data() {
+                return {
+                    title: '化学学习APP',
+                    subtitle: '随时随地学习化学知识',
+                    cards: [
+                        {
+                            title: '元素周期表',
+                            content: '探索化学元素的奥秘，了解元素的性质、用途和发现历史。',
+                            buttonText: '开始学习'
+                        },
+                        {
+                            title: '化学反应',
+                            content: '学习各种化学反应类型，掌握反应原理和应用。',
+                            buttonText: '查看详情'
+                        },
+                        {
+                            title: '学习进度',
+                            content: '跟踪你的学习进度，制定个性化的学习计划。',
+                            buttonText: '查看进度'
+                        },
+                        {
+                            title: '实验视频',
+                            content: '观看精彩的化学实验视频，直观了解化学现象。',
+                            buttonText: '观看视频'
+                        }
+                    ],
+                    feedbackForm: {
+                        name: '',
+                        subject: 'chemistry',
+                        content: ''
+                    }
+                };
+            },
+            methods: {
+                handleCardClick(item) {
+                    console.log('点击卡片:', item);
+                    mui.toast('正在跳转到' + item.title);
+                },
+                handleCardMore(item) {
+                    console.log('更多操作:', item);
+                    mui.toast('更多操作功能开发中');
+                },
+                submitFeedback() {
+                    console.log('提交反馈:', this.feedbackForm);
+                    if (this.feedbackForm.name && this.feedbackForm.content) {
+                        mui.toast('反馈提交成功，感谢您的参与！');
+                        this.feedbackForm = {
+                            name: '',
+                            subject: 'chemistry',
+                            content: ''
+                        };
+                    } else {
+                        mui.toast('请填写完整的反馈信息');
+                    }
+                }
+            },
+            mounted() {
+                // 初始化MUI
+                mui.init();
+                console.log('APP页面初始化完成');
+            }
+        }).use(ElementPlus).mount('body');
+    </script>
+</body>
+</html>

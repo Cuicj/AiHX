@@ -717,12 +717,179 @@ docker-compose down redis-master redis-slave-1 redis-slave-2
 - **安全认证**：设置了Redis密码，防止未授权访问
 - **易于扩展**：可以根据需要添加更多的从节点
 
-### 6. 注意事项
+### 5. 注意事项
 
 - **密码保护**：Redis密码存储在配置文件中，生产环境中应该使用环境变量或密钥管理系统
 - **内存管理**：Redis是内存数据库，需要根据实际情况调整内存配置
 - **网络连接**：确保Redis集群和服务在同一个网络中，以便服务能够访问Redis
 - **监控**：建议在生产环境中添加Redis监控，及时发现和解决问题
+
+## Vue 3 + ElementUI 前端开发
+
+项目支持使用Vue 3和ElementUI（Element Plus）构建现代化前端界面，为后续的功能开发提供了良好的基础。
+
+### 1. 示例页面
+
+项目提供了一个Vue 3 + ElementUI的示例页面，展示了Element Plus的基本用法：
+
+- **页面文件**：`api-gateway/src/main/resources/static/vue3-elementui.html`
+
+### 2. 技术栈
+
+- **Vue 3**：最新版本的Vue框架，提供了Composition API等新特性
+- **Element Plus**：Element UI的Vue 3版本，提供了丰富的组件库
+- **CDN引入**：通过CDN方式引入Vue 3和Element Plus，无需构建工具
+
+### 3. 使用方法
+
+#### 3.1 直接访问示例页面
+
+```
+http://localhost:8080/vue3-elementui.html
+```
+
+#### 3.2 在新页面中使用Vue 3 + ElementUI
+
+1. **引入依赖**：在HTML文件的`<head>`标签中添加Vue 3和Element Plus的CDN链接
+
+```html
+<!-- Vue 3 -->
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<!-- Element Plus (ElementUI for Vue 3) -->
+<link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css">
+<script src="https://unpkg.com/element-plus/dist/index.full.js"></script>
+```
+
+2. **创建Vue应用**：在HTML文件的`<body>`标签中添加Vue应用的容器，并在`<script>`标签中创建Vue应用
+
+```html
+<div id="app">
+    <!-- 应用内容 -->
+</div>
+
+<script>
+    const { createApp } = Vue;
+
+    createApp({
+        // 应用配置
+    }).use(ElementPlus).mount('#app');
+</script>
+```
+
+3. **使用Element Plus组件**：在Vue应用中使用Element Plus的组件
+
+### 4. 组件示例
+
+示例页面中展示了以下Element Plus组件的用法：
+
+- **按钮**：各种类型和样式的按钮
+- **表单**：输入框、单选框、复选框、下拉选择器等表单控件
+- **表格**：数据表格，支持编辑和删除操作
+- **对话框**：模态对话框，用于显示重要信息或进行操作确认
+
+### 5. 注意事项
+
+- **CDN引入**：示例使用CDN方式引入Vue 3和Element Plus，适合快速开发和原型验证
+- **生产环境**：生产环境中建议使用构建工具（如Vite、Webpack）进行打包，以提高性能
+- **按需引入**：生产环境中建议按需引入Element Plus组件，以减小打包体积
+- **版本兼容性**：确保使用的Vue 3和Element Plus版本兼容
+- **响应式设计**：Element Plus提供了响应式设计，适配不同屏幕尺寸
+
+## APP包开发
+
+项目创建了专门的APP包目录，用于存放所有APP相关的页面，使用MUI、Vue 3和Element Plus进行开发，为移动应用提供良好的用户体验。
+
+### 1. APP包目录
+
+- **目录路径**：`api-gateway/src/main/resources/static/app/`
+
+### 2. 技术栈
+
+- **MUI**：移动端UI框架，提供了适合移动设备的组件和样式
+- **Vue 3**：最新版本的Vue框架，提供了Composition API等新特性
+- **Element Plus**：Element UI的Vue 3版本，提供了丰富的组件库
+- **CDN引入**：通过CDN方式引入所有依赖，无需构建工具
+
+### 3. 示例页面
+
+项目提供了一个APP包的示例页面，展示了如何使用MUI、Vue 3和Element Plus构建移动应用界面：
+
+- **页面文件**：`api-gateway/src/main/resources/static/app/index.html`
+
+### 4. 使用方法
+
+#### 4.1 直接访问APP首页
+
+```
+http://localhost:8080/app/index.html
+```
+
+#### 4.2 在APP包中创建新页面
+
+1. **创建HTML文件**：在`app`目录中创建新的HTML文件
+
+2. **引入依赖**：在HTML文件的`<head>`标签中添加MUI、Vue 3和Element Plus的CDN链接
+
+```html
+<!-- MUI 样式 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mui@3.7.1/dist/css/mui.min.css">
+<!-- Element Plus 样式 -->
+<link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css">
+<!-- MUI 脚本 -->
+<script src="https://cdn.jsdelivr.net/npm/mui@3.7.1/dist/js/mui.min.js"></script>
+<!-- Vue 3 脚本 -->
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<!-- Element Plus 脚本 -->
+<script src="https://unpkg.com/element-plus/dist/index.full.js"></script>
+```
+
+3. **创建MUI导航栏**：在HTML文件的`<body>`标签顶部添加MUI导航栏
+
+```html
+<header class="mui-bar mui-bar-nav">
+    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+    <h1 class="mui-title">页面标题</h1>
+    <a class="mui-icon mui-icon-search mui-pull-right"></a>
+</header>
+```
+
+4. **创建主内容区**：在导航栏下方添加MUI内容容器
+
+```html
+<div class="mui-content">
+    <!-- 页面内容 -->
+</div>
+```
+
+5. **创建Vue应用**：在`<script>`标签中创建Vue应用
+
+```html
+<script>
+    const { createApp } = Vue;
+
+    createApp({
+        // 应用配置
+    }).use(ElementPlus).mount('body');
+</script>
+```
+
+### 5. 组件示例
+
+APP示例页面中展示了以下组件的用法：
+
+- **MUI导航栏**：移动应用顶部导航栏，支持返回按钮和标题
+- **卡片列表**：展示各种学习内容的卡片，包含标题、内容和操作按钮
+- **Element Plus按钮**：各种类型和样式的按钮
+- **Element Plus表单**：输入框、下拉选择器等表单控件
+
+### 6. 注意事项
+
+- **移动适配**：MUI提供了移动设备的适配支持，确保页面在手机和平板上有良好的显示效果
+- **触摸交互**：MUI优化了触摸交互，提供了更好的移动端用户体验
+- **CDN引入**：示例使用CDN方式引入所有依赖，适合快速开发和原型验证
+- **生产环境**：生产环境中建议使用构建工具（如Vite、Webpack）进行打包，以提高性能
+- **按需引入**：生产环境中建议按需引入Element Plus组件，以减小打包体积
+- **版本兼容性**：确保使用的MUI、Vue 3和Element Plus版本兼容
 
 ## 网络安全功能
 

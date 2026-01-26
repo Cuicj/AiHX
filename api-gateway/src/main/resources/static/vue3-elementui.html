@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue 3 + ElementUI 示例页面</title>
+    <!-- Vue 3 -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <!-- Element Plus (ElementUI for Vue 3) -->
+    <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css">
+    <script src="https://unpkg.com/element-plus/dist/index.full.js"></script>
+    <!-- 自定义样式 -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f7fa;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background-color: #409EFF;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+        }
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            color: #909399;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="container">
+            <!-- 头部 -->
+            <div class="header">
+                <h1>{{ title }}</h1>
+                <p>{{ subtitle }}</p>
+            </div>
+
+            <!-- 内容区 -->
+            <div class="content">
+                <!-- 按钮示例 -->
+                <h2>按钮示例</h2>
+                <el-button type="primary">主要按钮</el-button>
+                <el-button type="success">成功按钮</el-button>
+                <el-button type="warning">警告按钮</el-button>
+                <el-button type="danger">危险按钮</el-button>
+                <el-button>默认按钮</el-button>
+                <el-button type="info">信息按钮</el-button>
+                <el-button type="primary" circle><el-icon><el-icon-menu /></el-icon></el-button>
+                <el-button type="success" circle><el-icon><el-icon-check /></el-icon></el-button>
+                <el-button type="warning" circle><el-icon><el-icon-warning /></el-icon></el-button>
+                <el-button type="danger" circle><el-icon><el-icon-delete /></el-icon></el-button>
+                <el-button type="info" circle><el-icon><el-icon-info /></el-icon></el-button>
+
+                <!-- 表单示例 -->
+                <h2 class="mt-4">表单示例</h2>
+                <el-form :model="form" label-width="120px">
+                    <el-form-item label="用户名">
+                        <el-input v-model="form.username" placeholder="请输入用户名"></el-input>
+                    </el-form-item>
+                    <el-form-item label="密码">
+                        <el-input v-model="form.password" type="password" placeholder="请输入密码"></el-input>
+                    </el-form-item>
+                    <el-form-item label="性别">
+                        <el-radio-group v-model="form.gender">
+                            <el-radio label="male">男</el-radio>
+                            <el-radio label="female">女</el-radio>
+                        </el-radio-group>
+                    </el-form-item>
+                    <el-form-item label="爱好">
+                        <el-checkbox-group v-model="form.hobbies">
+                            <el-checkbox label="reading">阅读</el-checkbox>
+                            <el-checkbox label="music">音乐</el-checkbox>
+                            <el-checkbox label="sports">运动</el-checkbox>
+                            <el-checkbox label="travel">旅行</el-checkbox>
+                        </el-checkbox-group>
+                    </el-form-item>
+                    <el-form-item label="学科">
+                        <el-select v-model="form.subject" placeholder="请选择学科">
+                            <el-option label="化学" value="chemistry"></el-option>
+                            <el-option label="物理" value="physics"></el-option>
+                            <el-option label="数学" value="math"></el-option>
+                            <el-option label="生物" value="biology"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" @click="submitForm">提交</el-button>
+                        <el-button @click="resetForm">重置</el-button>
+                    </el-form-item>
+                </el-form>
+
+                <!-- 表格示例 -->
+                <h2 class="mt-4">表格示例</h2>
+                <el-table :data="tableData" style="width: 100%">
+                    <el-table-column prop="date" label="日期" width="180"></el-table-column>
+                    <el-table-column prop="name" label="姓名" width="180"></el-table-column>
+                    <el-table-column prop="subject" label="学科"></el-table-column>
+                    <el-table-column prop="score" label="分数" width="180"></el-table-column>
+                    <el-table-column label="操作" width="180">
+                        <template #default="scope">
+                            <el-button type="primary" size="small" @click="handleEdit(scope.row)">编辑</el-button>
+                            <el-button type="danger" size="small" @click="handleDelete(scope.row)">删除</el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+
+                <!-- 对话框示例 -->
+                <h2 class="mt-4">对话框示例</h2>
+                <el-button type="primary" @click="dialogVisible = true">打开对话框</el-button>
+                <el-dialog
+                    v-model="dialogVisible"
+                    title="对话框示例"
+                    width="500px"
+                >
+                    <p>这是一个使用 Element Plus 对话框组件的示例。</p>
+                    <p>Element Plus 是 Element UI 的 Vue 3 版本，提供了丰富的组件库。</p>
+                    <template #footer>
+                        <span class="dialog-footer">
+                            <el-button @click="dialogVisible = false">取消</el-button>
+                            <el-button type="primary" @click="dialogVisible = false">确定</el-button>
+                        </span>
+                    </template>
+                </el-dialog>
+            </div>
+
+            <!-- 底部 -->
+            <div class="footer">
+                <p>© 2026 化学学习微服务项目 - Vue 3 + ElementUI 示例页面</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+        const { ElButton, ElIcon, ElForm, ElFormItem, ElInput, ElRadio, ElRadioGroup, ElCheckbox, ElCheckboxGroup, ElSelect, ElOption, ElTable, ElTableColumn, ElDialog } = ElementPlus;
+
+        createApp({
+            components: {
+                ElButton,
+                ElIcon,
+                ElForm,
+                ElFormItem,
+                ElInput,
+                ElRadio,
+                ElRadioGroup,
+                ElCheckbox,
+                ElCheckboxGroup,
+                ElSelect,
+                ElOption,
+                ElTable,
+                ElTableColumn,
+                ElDialog
+            },
+            data() {
+                return {
+                    title: 'Vue 3 + ElementUI 示例页面',
+                    subtitle: '使用 Element Plus 构建现代化前端界面',
+                    form: {
+                        username: '',
+                        password: '',
+                        gender: 'male',
+                        hobbies: ['reading', 'music'],
+                        subject: 'chemistry'
+                    },
+                    tableData: [
+                        { date: '2026-01-01', name: '张三', subject: '化学', score: 95 },
+                        { date: '2026-01-02', name: '李四', subject: '物理', score: 88 },
+                        { date: '2026-01-03', name: '王五', subject: '数学', score: 92 },
+                        { date: '2026-01-04', name: '赵六', subject: '生物', score: 85 }
+                    ],
+                    dialogVisible: false
+                };
+            },
+            methods: {
+                submitForm() {
+                    console.log('表单提交:', this.form);
+                    this.$message.success('表单提交成功');
+                },
+                resetForm() {
+                    this.form = {
+                        username: '',
+                        password: '',
+                        gender: 'male',
+                        hobbies: ['reading', 'music'],
+                        subject: 'chemistry'
+                    };
+                    this.$message.info('表单已重置');
+                },
+                handleEdit(row) {
+                    console.log('编辑:', row);
+                    this.$message.info('编辑操作');
+                },
+                handleDelete(row) {
+                    console.log('删除:', row);
+                    this.$message.warning('删除操作');
+                }
+            }
+        }).use(ElementPlus).mount('#app');
+    </script>
+</body>
+</html>
