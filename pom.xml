@@ -46,6 +46,7 @@
         <module>chemistry-service</module>
         <module>user-service</module>
         <module>learning-progress-service</module>
+        <module>data-source-service</module>
     </modules>
 
     <build>

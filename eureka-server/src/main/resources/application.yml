@@ -4,10 +4,34 @@ server:
 eureka:
   instance:
     hostname: localhost
+    # 启用健康检查
+    lease-renewal-interval-in-seconds: 30
+    lease-expiration-duration-in-seconds: 90
   client:
     registerWithEureka: false
     fetchRegistry: false
     serviceUrl:
       defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
   server:
+    # 启用自我保护模式
+    enable-self-preservation: true
+    # 自我保护阈值
+    renewal-percent-threshold: 0.85
+    # 服务过期时间
+    eviction-interval-timer-in-ms: 60000
+    # 同步空注册表等待时间
     waitTimeInMsWhenSyncEmpty: 0
+    # 响应缓存更新时间
+    response-cache-update-interval-ms: 30000
+
+# 暴露所有端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    shutdown:
+      enabled: true
+    health:
+      show-details: always

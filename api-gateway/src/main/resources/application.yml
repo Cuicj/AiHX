@@ -30,5 +30,26 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
+    # 启用健康检查
+    healthcheck:
+      enabled: true
   instance:
     prefer-ip-address: true
+    # 服务续约间隔
+    lease-renewal-interval-in-seconds: 30
+    # 服务过期时间
+    lease-expiration-duration-in-seconds: 90
+    # 实例ID
+    instance-id: ${spring.cloud.client.hostname}:${spring.application.name}:${server.port}
+
+# 暴露所有端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    shutdown:
+      enabled: true
+    health:
+      show-details: always

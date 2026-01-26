@@ -1,0 +1,80 @@
+server:
+  port: 8086
+
+spring:
+  application:
+    name: data-source-service
+  cloud:
+    data:
+      url: jdbc:mysql://localhost:3306/chemistry_learning?useSSL=false&serverTimezone=UTC&characterEncoding=utf8
+      driver: com.mysql.cj.jdbc.Driver
+      user: root
+      password: 123456
+      dialect: org.hibernate.dialect.MySQL8Dialect
+  # 多数据源配置
+  datasources:
+    # 主数据源
+    primary:
+      url: jdbc:mysql://localhost:3306/chemistry_learning?useSSL=false&serverTimezone=UTC&characterEncoding=utf8
+      driverClassName: com.mysql.cj.jdbc.Driver
+      username: root
+      password: 123456
+    # 备用数据源
+    secondary:
+      url: jdbc:mysql://localhost:3306/chemistry_learning_secondary?useSSL=false&serverTimezone=UTC&characterEncoding=utf8
+      driverClassName: com.mysql.cj.jdbc.Driver
+      username: root
+      password: 123456
+    # H2数据源
+    h2:
+      url: jdbc:h2:mem:datasourcedb
+      driverClassName: org.h2.Driver
+      username: sa
+      password: password
+
+# 数据源服务配置
+data-source:
+  # 是否启用MySQL数据源
+  mysql-enabled: true
+  # 重试配置
+  retry:
+    max-attempts: 3
+    backoff-ms: 1000
+
+# 暴露健康检查端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    # 启用健康检查
+    healthcheck:
+      enabled: true
+  instance:
+    prefer-ip-address: true
+    # 服务续约间隔
+    lease-renewal-interval-in-seconds: 30
+    # 服务过期时间
+    lease-expiration-duration-in-seconds: 90
+    # 实例ID
+    instance-id: ${spring.cloud.client.hostname}:${spring.application.name}:${server.port}
+
+# 暴露所有端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    shutdown:
+      enabled: true
+    health:
+      show-details: always

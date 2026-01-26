@@ -36,6 +36,10 @@ Start-Sleep -Seconds 5
 Write-Host "Starting Learning Progress Service..." -ForegroundColor Cyan
 Start-Process -FilePath "powershell.exe" -ArgumentList "-NoExit", "-Command", "cd 'f:\TEST\CMateData\learning-progress-service'; mvn spring-boot:run"
 
+# 启动Data Source Service
+Write-Host "Starting Data Source Service..." -ForegroundColor Cyan
+Start-Process -FilePath "powershell.exe" -ArgumentList "-NoExit", "-Command", "cd 'f:\TEST\CMateData\data-source-service'; mvn spring-boot:run"
+
 Write-Host "All services have been started!" -ForegroundColor Green
 Write-Host "You can access the services at:" -ForegroundColor White
 Write-Host "Eureka Server: http://localhost:8761" -ForegroundColor White
@@ -43,6 +47,7 @@ Write-Host "API Gateway: http://localhost:8080" -ForegroundColor White
 Write-Host "Chemistry Service: http://localhost:8081" -ForegroundColor White
 Write-Host "User Service: http://localhost:8082" -ForegroundColor White
 Write-Host "Learning Progress Service: http://localhost:8085" -ForegroundColor White
+Write-Host "Data Source Service: http://localhost:8086" -ForegroundColor White
 
 Write-Host "Press Enter to exit..." -ForegroundColor Yellow
 Read-Host

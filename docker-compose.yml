@@ -1,6 +1,19 @@
 version: '3.8'
 
 services:
+  # RabbitMQ消息队列
+  rabbitmq:
+    image: rabbitmq:3.8-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    networks:
+      - cmatenet
+    restart: always
+
   # Harbor私有镜像仓库
   harbor:
     image: goharbor/harbor-offline-installer:v2.9.0
@@ -77,8 +90,10 @@ services:
     depends_on:
       - eureka-server
       - harbor
+      - rabbitmq
     environment:
       - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_RABBITMQ_HOST=rabbitmq
 
   learning-progress-service:
     build:
@@ -93,6 +108,23 @@ services:
       - harbor
     environment:
       - SPRING_PROFILES_ACTIVE=docker
+
+  data-source-service:
+    build:
+      context: ./data-source-service
+      dockerfile: Dockerfile
+    ports:
+      - "8086:8086"
+    networks:
+      - cmatenet
+    depends_on:
+      - eureka-server
+      - harbor
+      - rabbitmq
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_RABBITMQ_HOST=rabbitmq
+      - DATA_SOURCE_MYSQL_ENABLED=true
 
 networks:
   cmatenet:
