@@ -1,0 +1,121 @@
+/* 机器人验证页面样式 */
+
+body {
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    flex: 1;
+}
+
+.card {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.card-header {
+    font-weight: bold;
+}
+
+/* 计算题验证样式 */
+#calcQuestion {
+    background-color: #e9ecef;
+    padding: 15px;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* 拼图验证样式 */
+.puzzle-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.puzzle-board {
+    width: 300px;
+    height: 300px;
+    border: 2px solid #dee2e6;
+    border-radius: 5px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 2px;
+    background-color: #dee2e6;
+}
+
+.puzzle-piece {
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.puzzle-piece:hover {
+    background-color: #e9ecef;
+    transform: scale(1.05);
+}
+
+.puzzle-piece.empty {
+    background-color: #dee2e6;
+    cursor: default;
+}
+
+.puzzle-piece.empty:hover {
+    background-color: #dee2e6;
+    transform: none;
+}
+
+.puzzle-pieces {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.puzzle-pieces .puzzle-piece {
+    width: 80px;
+    height: 80px;
+    font-size: 18px;
+}
+
+/* 验证结果样式 */
+#verificationResult {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 响应式设计 */
+@media (max-width: 576px) {
+    .card {
+        margin: 0 10px;
+    }
+    
+    .puzzle-board {
+        width: 240px;
+        height: 240px;
+    }
+    
+    .puzzle-pieces .puzzle-piece {
+        width: 60px;
+        height: 60px;
+        font-size: 14px;
+    }
+}

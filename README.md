@@ -571,3 +571,65 @@ cd sql
 - **端口冲突**：确保3306端口未被其他服务占用
 - **初始化时间**：首次启动时，初始化脚本执行可能需要一些时间
 - **数据持久化**：MySQL数据存储在Docker卷中，容器重启后数据不会丢失
+
+## 机器人验证页面
+
+项目提供了一个公共的机器人验证页面，用于判断用户是否是脚本机器人，可用于签到等需要防机器人的功能：
+
+### 1. 验证页面位置
+
+- **页面文件**：`api-gateway/src/main/resources/static/robot-verification.html`
+- **CSS文件**：`api-gateway/src/main/resources/static/css/robot-verification.css`
+- **JavaScript文件**：`api-gateway/src/main/resources/static/js/robot-verification.js`
+
+### 2. 验证方式
+
+- **计算题验证**：随机生成简单的算术题，要求用户输入答案
+- **拼图验证**：随机生成数字拼图，要求用户将拼图碎片拖放到正确位置
+
+### 3. 使用方法
+
+#### 3.1 直接访问验证页面
+
+```
+http://localhost:8080/robot-verification.html
+```
+
+#### 3.2 带回调URL的访问
+
+可以在URL中添加`callback`参数，验证成功后会跳转到指定的回调URL：
+
+```
+http://localhost:8080/robot-verification.html?callback=http://localhost:8080/signin-success.html
+```
+
+### 4. 集成到其他页面
+
+可以使用以下JavaScript代码集成机器人验证功能：
+
+```javascript
+// 检查用户是否已通过验证
+if (!window.isRobotVerified()) {
+    // 获取验证页面URL，带回调参数
+    const verificationUrl = window.getRobotVerificationUrl(window.location.href);
+    // 跳转到验证页面
+    window.location.href = verificationUrl;
+}
+
+// 验证成功后，会自动跳转回原页面
+```
+
+### 5. 验证状态管理
+
+- **验证状态存储**：验证成功后，状态会存储在本地存储中，有效期为1小时
+- **状态检查**：使用`window.isRobotVerified()`函数检查验证状态
+- **手动清除状态**：可以通过清除本地存储中的`robotVerified`和`robotVerifiedAt`键来清除验证状态
+
+### 6. 功能特点
+
+- **响应式设计**：适配不同屏幕尺寸
+- **多种验证方式**：支持计算题和拼图两种验证方式
+- **随机生成**：每次验证都会随机生成不同的题目或拼图
+- **用户友好**：界面美观，操作简单
+- **防机器人**：有效防止脚本机器人自动操作
+- **易于集成**：提供了简单的JavaScript API，便于集成到其他页面
