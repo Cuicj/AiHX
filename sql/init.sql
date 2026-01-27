@@ -366,6 +366,98 @@ CREATE TABLE IF NOT EXISTS checkin_record (
     INDEX idx_checkin_date (checkin_date)
 );
 
+-- 题库表 (用于随机答题功能)
+CREATE TABLE IF NOT EXISTS question_bank (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    question_text TEXT NOT NULL,
+    option_a VARCHAR(255) NOT NULL,
+    option_b VARCHAR(255) NOT NULL,
+    option_c VARCHAR(255) NOT NULL,
+    option_d VARCHAR(255) NOT NULL,
+    correct_answer VARCHAR(10) NOT NULL, -- A, B, C, D
+    difficulty VARCHAR(20) DEFAULT 'MEDIUM', -- EASY, MEDIUM, HARD
+    category VARCHAR(50) NOT NULL, -- 化学与生活, 化学与生物, 化学与环境, 化学与科技等
+    source VARCHAR(100), -- 题目来源，如AI生成、新闻等
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_difficulty (difficulty),
+    INDEX idx_category (category),
+    INDEX idx_source (source)
+);
+
+-- 答题记录表 (用于记录用户答题情况)
+CREATE TABLE IF NOT EXISTS quiz_record (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    quiz_date DATE NOT NULL,
+    questions_answered INT DEFAULT 0,
+    correct_answers INT DEFAULT 0,
+    points_earned INT DEFAULT 0,
+    time_spent INT DEFAULT 0, -- 答题用时（秒）
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_user_date (user_id, quiz_date),
+    INDEX idx_user_id (user_id),
+    INDEX idx_quiz_date (quiz_date),
+    INDEX idx_correct_answers (correct_answers)
+);
+
+-- 答题详情表 (用于记录用户每道题的答题情况)
+CREATE TABLE IF NOT EXISTS quiz_detail (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    quiz_record_id BIGINT NOT NULL,
+    question_id BIGINT NOT NULL,
+    user_answer VARCHAR(10),
+    is_correct BOOLEAN DEFAULT FALSE,
+    time_spent INT DEFAULT 0, -- 每道题的答题用时（秒）
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (quiz_record_id) REFERENCES quiz_record(id) ON DELETE CASCADE,
+    FOREIGN KEY (question_id) REFERENCES question_bank(id) ON DELETE CASCADE,
+    INDEX idx_quiz_record_id (quiz_record_id),
+    INDEX idx_question_id (question_id),
+    INDEX idx_is_correct (is_correct)
+);
+
+-- 插入默认题库数据
+INSERT INTO question_bank (question_text, option_a, option_b, option_c, option_d, correct_answer, difficulty, category, source)
+VALUES
+-- 化学与生活
+('我们常说的"低碳生活"中的"碳"主要指的是什么？', '碳元素', '二氧化碳', '一氧化碳', '碳单质', 'B', 'EASY', '化学与生活', 'AI生成'),
+('为什么用洗洁精可以去除油污？', '洗洁精能溶解油污', '洗洁精能与油污发生化学反应', '洗洁精具有乳化作用', '洗洁精能吸附油污', 'C', 'EASY', '化学与生活', 'AI生成'),
+('下列哪种物质是天然气的主要成分？', '乙烷', '丙烷', '甲烷', '丁烷', 'C', 'EASY', '化学与生活', 'AI生成'),
+('我们常说的"酸雨"主要是由什么气体引起的？', '二氧化碳', '二氧化硫', '一氧化碳', '甲烷', 'B', 'EASY', '化学与生活', 'AI生成'),
+('下列哪种物质可以用作食品干燥剂？', '浓硫酸', '生石灰', '氢氧化钠', '氯化钠', 'B', 'EASY', '化学与生活', 'AI生成'),
+
+-- 化学与生物
+('人体中含量最多的元素是什么？', '碳', '氢', '氧', '氮', 'C', 'EASY', '化学与生物', 'AI生成'),
+('光合作用的主要产物是什么？', '二氧化碳', '氧气', '葡萄糖', '水', 'C', 'EASY', '化学与生物', 'AI生成'),
+('下列哪种物质是DNA的组成成分？', '葡萄糖', '氨基酸', '核苷酸', '脂肪酸', 'C', 'MEDIUM', '化学与生物', 'AI生成'),
+('酶的化学本质是什么？', '蛋白质', '核酸', '脂质', '糖类', 'A', 'MEDIUM', '化学与生物', 'AI生成'),
+('人体血液中运输氧气的蛋白质是什么？', '血红蛋白', '肌红蛋白', '白蛋白', '球蛋白', 'A', 'EASY', '化学与生物', 'AI生成'),
+
+-- 化学与环境
+('下列哪种物质是臭氧层破坏的主要原因？', '二氧化碳', '甲烷', '氟利昂', '二氧化硫', 'C', 'EASY', '化学与环境', 'AI生成'),
+('垃圾分类中，废电池属于哪类垃圾？', '可回收垃圾', '厨余垃圾', '有害垃圾', '其他垃圾', 'C', 'EASY', '化学与环境', 'AI生成'),
+('下列哪种气体是温室气体？', '氧气', '氮气', '二氧化碳', '氢气', 'C', 'EASY', '化学与环境', 'AI生成'),
+('白色污染主要是指什么？', '塑料袋', '白纸', '白色涂料', '白色垃圾', 'A', 'EASY', '化学与环境', 'AI生成'),
+('下列哪种物质可以用于净化水质？', '活性炭', '氯化钠', '硫酸铜', '碳酸钙', 'A', 'EASY', '化学与环境', 'AI生成'),
+
+-- 化学与科技
+('锂电池的主要成分是什么？', '锂单质', '锂离子化合物', '锂合金', '锂盐', 'B', 'MEDIUM', '化学与科技', 'AI生成'),
+('半导体材料的主要成分是什么？', '硅', '碳', '锗', '砷', 'A', 'MEDIUM', '化学与科技', 'AI生成'),
+('下列哪种物质是光纤的主要成分？', '二氧化硅', '氧化铝', '氧化镁', '氧化钙', 'A', 'MEDIUM', '化学与科技', 'AI生成'),
+('纳米材料的尺寸范围是多少？', '1-10纳米', '1-100纳米', '10-100纳米', '100-1000纳米', 'B', 'MEDIUM', '化学与科技', 'AI生成'),
+('下列哪种物质是太阳能电池的主要材料？', '硅', '碳', '锗', '砷', 'A', 'MEDIUM', '化学与科技', 'AI生成'),
+
+-- 最新科技与新闻
+('2024年诺贝尔化学奖授予了谁？', '研究量子点的科学家', '研究CRISPR基因编辑的科学家', '研究锂离子电池的科学家', '研究催化剂的科学家', 'A', 'HARD', '化学与科技', '新闻'),
+('最新研究发现，哪种化学物质可以有效分解塑料？', '一种酶', '一种细菌', '一种真菌', '一种病毒', 'A', 'HARD', '化学与环境', '新闻'),
+('科学家最近合成了第118号元素，它的名称是什么？', '锎', '锿', '镄', '鿏', 'D', 'HARD', '化学与科技', '新闻'),
+('最新研究表明，哪种化学物质对治疗阿尔茨海默病有潜在作用？', '姜黄素', '白藜芦醇', '花青素', '槲皮素', 'A', 'HARD', '化学与生物', '新闻'),
+('最近发现的"超级材料" graphene 的主要成分是什么？', '碳', '硅', '锗', '砷', 'A', 'MEDIUM', '化学与科技', '新闻');
+
 -- 查看各表数据量
 SELECT 'element' AS table_name, COUNT(*) AS row_count FROM element UNION
 SELECT 'user' AS table_name, COUNT(*) AS row_count FROM user UNION
@@ -381,4 +473,7 @@ SELECT 'inventory' AS table_name, COUNT(*) AS row_count FROM inventory UNION
 SELECT 'exchange_record' AS table_name, COUNT(*) AS row_count FROM exchange_record UNION
 SELECT 'blockchain_transaction' AS table_name, COUNT(*) AS row_count FROM blockchain_transaction UNION
 SELECT 'blockchain_network' AS table_name, COUNT(*) AS row_count FROM blockchain_network UNION
-SELECT 'checkin_record' AS table_name, COUNT(*) AS row_count FROM checkin_record;
+SELECT 'checkin_record' AS table_name, COUNT(*) AS row_count FROM checkin_record UNION
+SELECT 'question_bank' AS table_name, COUNT(*) AS row_count FROM question_bank UNION
+SELECT 'quiz_record' AS table_name, COUNT(*) AS row_count FROM quiz_record UNION
+SELECT 'quiz_detail' AS table_name, COUNT(*) AS row_count FROM quiz_detail;

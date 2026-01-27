@@ -144,6 +144,17 @@
 | `/users/{id}/checkin-records` | GET | 获取用户签到记录 |
 | `/users/{id}/checkin-stats` | GET | 获取用户签到统计（需要month和year） |
 
+### Quiz Service
+
+| 接口 | 方法 | 描述 |
+|------|------|------|
+| `/quiz/daily-questions` | GET | 获取每日随机题目（需要userId） |
+| `/quiz/submit` | POST | 提交答题结果（需要userId和answers） |
+| `/quiz/today-status` | GET | 获取今日答题状态（需要userId） |
+| `/quiz/records` | GET | 获取用户答题记录（需要userId） |
+| `/quiz/stats` | GET | 获取用户答题统计（需要userId） |
+| `/quiz/details/{quizRecordId}` | GET | 获取答题详情 |
+
 ### API Gateway
 
 | 路径 | 服务 | 描述 |
@@ -303,6 +314,49 @@
 4. **获取用户签到统计**
    ```bash
    curl "http://localhost:8080/api/user/users/1/checkin-stats?month=1&year=2026"
+   ```
+
+### 答题测试
+
+1. **获取每日随机题目**
+   ```bash
+   curl "http://localhost:8080/api/quiz/quiz/daily-questions?userId=1"
+   ```
+
+2. **提交答题结果**
+   ```bash
+   curl -X POST "http://localhost:8080/api/quiz/quiz/submit?userId=1" \
+     -H "Content-Type: application/json" \
+     -d '{
+       "answers": {
+         "1": "B",
+         "2": "C",
+         "3": "A",
+         "4": "D",
+         "5": "A"
+       },
+       "timeSpent": 60
+     }'
+   ```
+
+3. **获取今日答题状态**
+   ```bash
+   curl "http://localhost:8080/api/quiz/quiz/today-status?userId=1"
+   ```
+
+4. **获取用户答题记录**
+   ```bash
+   curl "http://localhost:8080/api/quiz/quiz/records?userId=1&page=1&size=10"
+   ```
+
+5. **获取用户答题统计**
+   ```bash
+   curl "http://localhost:8080/api/quiz/quiz/stats?userId=1"
+   ```
+
+6. **获取答题详情**
+   ```bash
+   curl "http://localhost:8080/api/quiz/quiz/details/1"
    ```
 
 ## 配置说明
@@ -476,6 +530,7 @@ logging:
 | 1.0.0 | 2026-01-27 | 初始版本，实现积分兑换和库存管理功能 |
 | 1.1.0 | 2026-01-27 | 添加区块链服务，支持多区块链网络交互和OKX API集成 |
 | 1.2.0 | 2026-01-27 | 添加签到功能，支持设备ID签到限制，每个设备每天只能签到一次 |
+| 1.3.0 | 2026-01-27 | 添加随机答题功能，每天5题，包含化学知识与生活、生物等相关内容，支持AI与新闻题库 |
 
 ### 代码仓库
 

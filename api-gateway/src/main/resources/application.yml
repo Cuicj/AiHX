@@ -150,6 +150,24 @@ spring:
                 blacklist:
                   - 10.0.0.1
 
+        - id: quiz-service
+          uri: lb://chemistry-service
+          predicates:
+            - Path=/api/quiz/**
+          filters:
+            - StripPrefix=2
+            - name: RateLimit
+              args:
+                limit: 10
+                refreshInterval: 1
+            - name: Ip
+              args:
+                whitelist:
+                  - 127.0.0.1
+                  - 192.168.1.0/24
+                blacklist:
+                  - 10.0.0.1
+
 eureka:
   client:
     serviceUrl:
