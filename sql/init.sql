@@ -254,10 +254,114 @@ SELECT 'ai_model' AS table_name, COUNT(*) AS row_count FROM ai_model UNION
 SELECT 'ai_training_data' AS table_name, COUNT(*) AS row_count FROM ai_training_data UNION
 SELECT 'task' AS table_name, COUNT(*) AS row_count FROM task;
 
+-- 库存表 (inventory-service)
+CREATE TABLE IF NOT EXISTS inventory (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    item_id BIGINT NOT NULL UNIQUE,
+    item_name VARCHAR(100) NOT NULL,
+    quantity INT NOT NULL DEFAULT 0,
+    min_stock INT DEFAULT 10,
+    status VARCHAR(20) DEFAULT 'ACTIVE',
+    last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_item_id (item_id),
+    INDEX idx_status (status),
+    INDEX idx_quantity (quantity)
+);
+
+-- 积分兑换表 (exchange-service)
+CREATE TABLE IF NOT EXISTS exchange_record (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    item_id BIGINT NOT NULL,
+    points INT NOT NULL,
+    quantity INT DEFAULT 1,
+    status VARCHAR(20) DEFAULT 'PENDING',
+    transaction_id VARCHAR(100) UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE,
+    INDEX idx_user_id (user_id),
+    INDEX idx_status (status),
+    INDEX idx_transaction_id (transaction_id)
+);
+
+-- 区块链交易表 (blockchain-service)
+CREATE TABLE IF NOT EXISTS blockchain_transaction (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    tx_hash VARCHAR(100) UNIQUE,
+    from_address VARCHAR(100) NOT NULL,
+    to_address VARCHAR(100) NOT NULL,
+    network VARCHAR(50) NOT NULL,
+    chain_type VARCHAR(50) NOT NULL,
+    amount DECIMAL(30,18) NOT NULL,
+    gas_price DECIMAL(30,18),
+    gas_used BIGINT,
+    status VARCHAR(20) DEFAULT 'PENDING',
+    transaction_type VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_tx_hash (tx_hash),
+    INDEX idx_network (network),
+    INDEX idx_status (status),
+    INDEX idx_from_address (from_address),
+    INDEX idx_to_address (to_address)
+);
+
+-- 区块链网络表 (blockchain-service)
+CREATE TABLE IF NOT EXISTS blockchain_network (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    network_name VARCHAR(50) NOT NULL UNIQUE,
+    chain_type VARCHAR(50) NOT NULL,
+    rpc_url VARCHAR(255) NOT NULL,
+    chain_id INT NOT NULL,
+    is_active BOOLEAN DEFAULT TRUE,
+    gas_price DECIMAL(30,18),
+    block_time INT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_network_name (network_name),
+    INDEX idx_chain_type (chain_type),
+    INDEX idx_is_active (is_active)
+);
+
+-- 插入默认库存数据
+INSERT INTO inventory (item_id, item_name, quantity, min_stock, status)
+VALUES
+(1, '化学实验套装', 100, 10, 'ACTIVE'),
+(2, '元素周期表海报', 200, 20, 'ACTIVE'),
+(3, '分子模型套件', 50, 5, 'ACTIVE'),
+(4, '化学教科书', 150, 15, 'ACTIVE'),
+(5, '实验安全护具', 80, 8, 'ACTIVE');
+
+-- 插入默认区块链网络数据
+INSERT INTO blockchain_network (network_name, chain_type, rpc_url, chain_id, is_active, gas_price, block_time)
+VALUES
+('ethereum', 'mainnet', 'https://mainnet.infura.io/v3/YOUR_INFURA_KEY', 1, TRUE, 30, 15),
+('ethereum', 'testnet', 'https://sepolia.infura.io/v3/YOUR_INFURA_KEY', 11155111, TRUE, 10, 15),
+('bsc', 'mainnet', 'https://bsc-dataseed.binance.org/', 56, TRUE, 5, 3),
+('bsc', 'testnet', 'https://data-seed-prebsc-1-s1.binance.org:8545/', 97, TRUE, 1, 3),
+('polygon', 'mainnet', 'https://polygon-rpc.com', 137, TRUE, 30, 2),
+('polygon', 'testnet', 'https://rpc-mumbai.maticvigil.com', 80001, TRUE, 10, 2),
+('okc', 'mainnet', 'https://exchainrpc.okex.org', 66, TRUE, 1, 2),
+('okc', 'testnet', 'https://exchaintestrpc.okex.org', 65, TRUE, 0.1, 2);
+
 -- 查看所有表
 SHOW TABLES;
 
 -- 查看各表数据量
 SELECT 'element' AS table_name, COUNT(*) AS row_count FROM element UNION
 SELECT 'user' AS table_name, COUNT(*) AS row_count FROM user UNION
-SELECT 'learning_progress' AS table_name, COUNT(*) AS row_count FROM learning_progress;
+SELECT 'resource_category' AS table_name, COUNT(*) AS row_count FROM resource_category UNION
+SELECT 'resource_item' AS table_name, COUNT(*) AS row_count FROM resource_item UNION
+SELECT 'points_exchange_record' AS table_name, COUNT(*) AS row_count FROM points_exchange_record UNION
+SELECT 'learning_progress' AS table_name, COUNT(*) AS row_count FROM learning_progress UNION
+SELECT 'message' AS table_name, COUNT(*) AS row_count FROM message UNION
+SELECT 'ai_model' AS table_name, COUNT(*) AS row_count FROM ai_model UNION
+SELECT 'ai_training_data' AS table_name, COUNT(*) AS row_count FROM ai_training_data UNION
+SELECT 'task' AS table_name, COUNT(*) AS row_count FROM task UNION
+SELECT 'inventory' AS table_name, COUNT(*) AS row_count FROM inventory UNION
+SELECT 'exchange_record' AS table_name, COUNT(*) AS row_count FROM exchange_record UNION
+SELECT 'blockchain_transaction' AS table_name, COUNT(*) AS row_count FROM blockchain_transaction UNION
+SELECT 'blockchain_network' AS table_name, COUNT(*) AS row_count FROM blockchain_network;

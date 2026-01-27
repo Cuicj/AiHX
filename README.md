@@ -1,8 +1,8 @@
-# 化学学习平台 - 积分兑换系统
+# 化学学习平台 - 积分兑换与区块链系统
 
 ## 项目简介
 
-本项目是一个基于微服务架构的化学学习平台，包含积分兑换和库存管理功能。系统采用Spring Boot和Spring Cloud技术栈，实现了分布式事务管理和消息队列削峰功能。
+本项目是一个基于微服务架构的化学学习平台，包含积分兑换、库存管理和区块链交互功能。系统采用Spring Boot和Spring Cloud技术栈，实现了分布式事务管理、消息队列削峰功能和多区块链网络交互。
 
 ## 架构设计
 
@@ -20,14 +20,14 @@
 ┌─────────┼───────────┐
 │         │           │
 ▼         ▼           ▼
-┌─────────────────────────────────────────────────────────┐
-│ ┌────────────┐  ┌────────────┐  ┌───────────────┐       │
-│ │user-service│  │exchange-  │  │inventory-     │       │
-│ │用户服务    │  │service    │  │service        │       │
-│ │- 用户管理  │  │- 积分兑换  │  │- 库存管理     │       │
-│ │- 积分管理  │  │- 事务协调  │  │- 库存同步     │       │
-│ └────────────┘  └────────────┘  └───────────────┘       │
-└─────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────┐
+│ ┌────────────┐  ┌────────────┐  ┌───────────────┐  ┌─────────┐ │
+│ │user-service│  │exchange-  │  │inventory-     │  │blockchain│ │
+│ │用户服务    │  │service    │  │service        │  │-service │ │
+│ │- 用户管理  │  │- 积分兑换  │  │- 库存管理     │  │- 区块链  │ │
+│ │- 积分管理  │  │- 事务协调  │  │- 库存同步     │  │- 交易管理│ │
+│ └────────────┘  └────────────┘  └───────────────┘  └─────────┘ │
+└─────────────────────────────────────────────────────────────┘
                             │
                     ┌───────▼───────┐
                     │   RabbitMQ    │
@@ -41,9 +41,10 @@
 2. **User Service**: 用户管理和积分管理服务
 3. **Exchange Service**: 积分兑换服务，处理积分兑换逻辑
 4. **Inventory Service**: 库存管理服务，处理库存更新和检查
-5. **API Gateway**: API网关，统一管理服务路由
-6. **RabbitMQ**: 消息队列，用于削峰和异步通信
-7. **Seata**: 分布式事务管理，确保跨服务事务一致性
+5. **Blockchain Service**: 区块链服务，处理区块链交互和交易
+6. **API Gateway**: API网关，统一管理服务路由
+7. **RabbitMQ**: 消息队列，用于削峰和异步通信
+8. **Seata**: 分布式事务管理，确保跨服务事务一致性
 
 ## 技术栈
 
@@ -52,6 +53,8 @@
 - **Spring Cloud Gateway**: API网关
 - **Seata 1.4.2**: 分布式事务管理
 - **RabbitMQ**: 消息队列，用于削峰
+- **Web3j**: 以太坊客户端，用于区块链交互
+- **OkHttp3**: HTTP客户端，用于OKX API交互
 - **H2 Database**: 嵌入式数据库，用于开发测试
 - **Spring Data JPA**: 数据访问层
 
@@ -70,15 +73,24 @@
 - **库存同步**: 同步库存数据，确保数据一致性
 - **批量更新**: 批量处理库存更新请求
 
-### 3. 分布式事务管理
+### 3. 区块链交互模块
+
+- **网络管理**: 支持以太坊、BSC、Polygon、OKC等多个区块链网络
+- **Gas费用优化**: 实时获取各网络Gas费用，选择最优网络
+- **交易管理**: 发送交易，查询交易状态
+- **代币操作**: 部署代币合约，铸造代币
+- **NFT功能**: NFT兑换，NFT铸造和管理
+- **OKX API集成**: 与OKX API交互，支持OKX Chain操作
+
+### 4. 分布式事务管理
 
 - **全局事务**: 使用Seata实现跨服务的分布式事务
 - **事务协调**: 确保积分扣除和库存更新的原子性
 - **事务回滚**: 在发生错误时自动回滚事务
 
-### 4. 消息队列削峰
+### 5. 消息队列削峰
 
-- **异步处理**: 将库存更新请求放入消息队列，异步处理
+- **异步处理**: 将库存更新和区块链交易请求放入消息队列，异步处理
 - **死信队列**: 处理失败的消息，确保消息可靠性
 - **消息重试**: 自动重试失败的消息处理
 
@@ -103,6 +115,21 @@
 | `/inventory/sync` | POST | 同步库存 |
 | `/inventory/batch-update` | POST | 批量更新库存 |
 
+### Blockchain Service
+
+| 接口 | 方法 | 描述 |
+|------|------|------|
+| `/blockchain/best-network` | GET | 获取最佳网络 |
+| `/blockchain/gas-price/{network}/{chainType}` | GET | 获取Gas费用 |
+| `/blockchain/transaction/send` | POST | 发送交易 |
+| `/blockchain/token/deploy` | POST | 部署代币 |
+| `/blockchain/token/mint` | POST | 铸造代币 |
+| `/blockchain/nft/exchange` | POST | 兑换NFT |
+| `/blockchain/transaction/status/{txHash}/{network}` | GET | 检查交易状态 |
+| `/blockchain/network/status/{network}/{chainType}` | GET | 获取网络状态 |
+| `/blockchain/okx/api` | POST | 与OKX API交互 |
+| `/blockchain/networks` | GET | 获取所有支持的网络 |
+
 ### User Service
 
 | 接口 | 方法 | 描述 |
@@ -120,6 +147,7 @@
 | `/api/user/**` | user-service | 用户服务接口 |
 | `/api/exchange/**` | exchange-service | 兑换服务接口 |
 | `/api/inventory/**` | inventory-service | 库存服务接口 |
+| `/api/blockchain/**` | blockchain-service | 区块链服务接口 |
 | `/api/resources/**` | user-service | 资源管理接口 |
 
 ## 部署说明
@@ -130,6 +158,7 @@
 - Maven 3.6+
 - RabbitMQ 3.8+
 - Seata 1.4.2+ (可选，用于分布式事务)
+- 区块链节点连接（可选，用于区块链交互）
 
 ### 服务启动顺序
 
@@ -157,7 +186,13 @@
    mvn spring-boot:run
    ```
 
-5. **启动 API Gateway**
+5. **启动 Blockchain Service**
+   ```bash
+   cd blockchain-service
+   mvn spring-boot:run
+   ```
+
+6. **启动 API Gateway**
    ```bash
    cd api-gateway
    mvn spring-boot:run
@@ -169,6 +204,7 @@
 - User Service: http://localhost:8082
 - Inventory Service: http://localhost:8084
 - Exchange Service: http://localhost:8083
+- Blockchain Service: http://localhost:8085
 - API Gateway: http://localhost:8080
 
 ## 测试说明
@@ -220,6 +256,25 @@
    curl -X POST http://localhost:8080/api/inventory/sync
    ```
 
+### 区块链测试
+
+1. **获取最佳网络**
+   ```bash
+   curl http://localhost:8080/api/blockchain/best-network
+   ```
+
+2. **获取Gas费用**
+   ```bash
+   curl http://localhost:8080/api/blockchain/gas-price/ethereum/mainnet
+   ```
+
+3. **发送交易**
+   ```bash
+   curl -X POST http://localhost:8080/api/blockchain/transaction/send \
+     -H "Content-Type: application/json" \
+     -d '{"from": "0x1234567890123456789012345678901234567890", "to": "0x0987654321098765432109876543210987654321", "amount": 1, "network": "ethereum", "chainType": "testnet"}'
+   ```
+
 ## 配置说明
 
 ### RabbitMQ 配置
@@ -256,6 +311,31 @@ seata:
     type: file
 ```
 
+### 区块链配置
+
+在 blockchain-service 的 `application.yml` 文件中配置区块链节点连接信息：
+
+```yaml
+blockchain:
+  networks:
+    ethereum:
+      mainnet: "https://mainnet.infura.io/v3/YOUR_INFURA_KEY"
+      testnet: "https://sepolia.infura.io/v3/YOUR_INFURA_KEY"
+    bsc:
+      mainnet: "https://bsc-dataseed.binance.org/"
+      testnet: "https://data-seed-prebsc-1-s1.binance.org:8545/"
+    polygon:
+      mainnet: "https://polygon-rpc.com"
+      testnet: "https://rpc-mumbai.maticvigil.com"
+    okc:
+      mainnet: "https://exchainrpc.okex.org"
+      testnet: "https://exchaintestrpc.okex.org"
+  okx:
+    apiKey: "YOUR_OKX_API_KEY"
+    secretKey: "YOUR_OKX_SECRET_KEY"
+    passphrase: "YOUR_OKX_PASSPHRASE"
+```
+
 ## 监控与维护
 
 ### 服务监控
@@ -265,6 +345,7 @@ seata:
   - User Service: http://localhost:8082/h2-console
   - Inventory Service: http://localhost:8084/h2-console
   - Exchange Service: http://localhost:8083/h2-console
+  - Blockchain Service: http://localhost:8085/h2-console
 
 ### 日志管理
 
@@ -293,6 +374,10 @@ logging:
    - 检查 Eureka Server 是否启动
    - 检查服务网络连接是否正常
 
+4. **区块链连接失败**
+   - 检查区块链节点是否可访问
+   - 检查 API 密钥是否正确
+
 ### 故障恢复
 
 1. **消息队列故障**
@@ -306,6 +391,10 @@ logging:
 3. **服务节点故障**
    - 重启故障节点
    - 其他节点会自动接管服务
+
+4. **区块链网络故障**
+   - 切换到备用网络
+   - 等待网络恢复后重试交易
 
 ## 性能优化
 
@@ -325,6 +414,10 @@ logging:
    - 合理设置线程池大小
    - 优化服务间调用，减少网络延迟
 
+5. **区块链优化**
+   - 基于Gas费用选择最优网络
+   - 批量处理交易，减少网络请求
+
 ## 安全措施
 
 1. **接口安全**
@@ -339,6 +432,11 @@ logging:
    - 使用 HTTPS 协议
    - 配置防火墙规则
 
+4. **区块链安全**
+   - 安全管理私钥
+   - 验证交易签名
+   - 防止重放攻击
+
 ## 版本管理
 
 ### 版本历史
@@ -346,6 +444,7 @@ logging:
 | 版本 | 日期 | 描述 |
 |------|------|------|
 | 1.0.0 | 2026-01-27 | 初始版本，实现积分兑换和库存管理功能 |
+| 1.1.0 | 2026-01-27 | 添加区块链服务，支持多区块链网络交互和OKX API集成 |
 
 ### 代码仓库
 
@@ -378,6 +477,8 @@ logging:
    - 添加更多类型的积分兑换物品
    - 实现积分商城功能
    - 添加用户等级系统
+   - 支持更多区块链网络
+   - 实现跨链交易
 
 2. **技术升级**
    - 升级到 Spring Boot 3.0+
@@ -388,6 +489,7 @@ logging:
    - 引入缓存中间件
    - 优化数据库性能
    - 实现服务网格
+   - 优化区块链交易处理速度
 
 4. **运维改进**
    - 实现自动化部署
