@@ -139,8 +139,8 @@
 | `/users` | POST | 创建用户 |
 | `/users/{id}` | PUT | 更新用户信息 |
 | `/users/{id}/points` | GET | 获取用户积分 |
-| `/users/checkin` | POST | 用户签到（需要userId和deviceId） |
-| `/users/checkin/status` | POST | 签到状态查询（需要userId和deviceId） |
+| `/users/checkin` | POST | 用户签到（需要userId、deviceId和ipAddress） |
+| `/users/checkin/status` | POST | 签到状态查询（需要userId、deviceId和ipAddress） |
 | `/users/{id}/checkin-records` | GET | 获取用户签到记录 |
 | `/users/{id}/checkin-stats` | GET | 获取用户签到统计（需要month和year） |
 
@@ -148,9 +148,9 @@
 
 | 接口 | 方法 | 描述 |
 |------|------|------|
-| `/quiz/daily-questions` | GET | 获取每日随机题目（需要userId） |
-| `/quiz/submit` | POST | 提交答题结果（需要userId和answers） |
-| `/quiz/today-status` | GET | 获取今日答题状态（需要userId） |
+| `/quiz/daily-questions` | GET | 获取每日随机题目（需要userId和deviceId） |
+| `/quiz/submit` | POST | 提交答题结果（需要userId、deviceId和answers） |
+| `/quiz/today-status` | GET | 获取今日答题状态（需要userId和deviceId） |
 | `/quiz/records` | GET | 获取用户答题记录（需要userId） |
 | `/quiz/stats` | GET | 获取用户答题统计（需要userId） |
 | `/quiz/details/{quizRecordId}` | GET | 获取答题详情 |
@@ -300,14 +300,14 @@
    ```bash
    curl -X POST http://localhost:8080/api/user/users/checkin \
      -H "Content-Type: application/json" \
-     -d '{"userId": 1, "deviceId": "device_123456"}'
+     -d '{"userId": 1, "deviceId": "device_123456", "ipAddress": "192.168.1.100"}'
    ```
 
 2. **签到状态查询**
    ```bash
    curl -X POST http://localhost:8080/api/user/users/checkin/status \
      -H "Content-Type: application/json" \
-     -d '{"userId": 1, "deviceId": "device_123456"}'
+     -d '{"userId": 1, "deviceId": "device_123456", "ipAddress": "192.168.1.100"}'
    ```
 
 3. **获取用户签到记录**
@@ -324,12 +324,12 @@
 
 1. **获取每日随机题目**
    ```bash
-   curl "http://localhost:8080/api/quiz/quiz/daily-questions?userId=1"
+   curl "http://localhost:8080/api/quiz/quiz/daily-questions?userId=1&deviceId=device_123456"
    ```
 
 2. **提交答题结果**
    ```bash
-   curl -X POST "http://localhost:8080/api/quiz/quiz/submit?userId=1" \
+   curl -X POST "http://localhost:8080/api/quiz/quiz/submit?userId=1&deviceId=device_123456" \
      -H "Content-Type: application/json" \
      -d '{
        "answers": {
@@ -345,7 +345,7 @@
 
 3. **获取今日答题状态**
    ```bash
-   curl "http://localhost:8080/api/quiz/quiz/today-status?userId=1"
+   curl "http://localhost:8080/api/quiz/quiz/today-status?userId=1&deviceId=device_123456"
    ```
 
 4. **获取用户答题记录**
@@ -557,6 +557,7 @@ logging:
 | 1.3.0 | 2026-01-27 | 添加随机答题功能，每天5题，包含化学知识与生活、生物等相关内容，支持AI与新闻题库 |
 | 1.3.1 | 2026-01-27 | 更新答题功能，每道题的答题时间限制为40秒 |
 | 1.3.2 | 2026-01-27 | 更新答题功能，每道题的答题时间限制为45秒，添加答题总结页面、错题收藏和错题集功能 |
+| 1.3.3 | 2026-01-27 | 增强签到和答题功能：1. 相同IP地址一天只能签到一次 2. 每个设备ID只能做一次答题 3. 一天中每个人的题目不同 |
 
 ### 代码仓库
 
