@@ -161,6 +161,23 @@ services:
       - SPRING_RABBITMQ_HOST=rabbitmq
       - DATA_SOURCE_MYSQL_ENABLED=true
 
+  task-management-service:
+    build:
+      context: ./task-management-service
+      dockerfile: Dockerfile
+    ports:
+      - "8088:8088"
+    networks:
+      - cmatenet
+    depends_on:
+      - eureka-server
+      - harbor
+      - rabbitmq
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_RABBITMQ_HOST=rabbitmq
+      - DATA_SOURCE_MYSQL_ENABLED=true
+
 networks:
   cmatenet:
     driver: bridge

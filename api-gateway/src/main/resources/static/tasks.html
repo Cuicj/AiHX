@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>任务管理 - 化学学习平台</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .task-card {
+            transition: all 0.3s ease;
+        }
+        .task-card:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+        .task-status {
+            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 12px;
+        }
+        .status-pending {
+            background-color: #ffc107;
+            color: #212529;
+        }
+        .status-in-progress {
+            background-color: #17a2b8;
+            color: white;
+        }
+        .status-completed {
+            background-color: #28a745;
+            color: white;
+        }
+        .status-cancelled {
+            background-color: #dc3545;
+            color: white;
+        }
+        .task-priority {
+            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 12px;
+        }
+        .priority-high {
+            background-color: #dc3545;
+            color: white;
+        }
+        .priority-medium {
+            background-color: #ffc107;
+            color: #212529;
+        }
+        .priority-low {
+            background-color: #28a745;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=chemistry%20learning%20platform%20logo%2C%20modern%20design%2C%20blue%20color%20scheme&image_size=square" alt="Logo" width="30" height="30" class="d-inline-block align-text-top">
+                化学学习平台
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">首页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="periodic-table.html">元素周期表</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="element-categories.html">元素分类</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="element-discovery.html">元素发现史</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="tasks.html">任务管理</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="ai-assistant.html">AI助手</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html">登录</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="register.html">注册</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主内容区 -->
+    <div class="container mt-5">
+        <h1 class="text-center mb-5">任务管理</h1>
+
+        <!-- 任务筛选 -->
+        <div class="mb-4">
+            <div class="row">
+                <div class="col-md-3">
+                    <select class="form-select" id="statusFilter">
+                        <option value="">所有状态</option>
+                        <option value="PENDING">待处理</option>
+                        <option value="IN_PROGRESS">进行中</option>
+                        <option value="COMPLETED">已完成</option>
+                        <option value="CANCELLED">已取消</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <select class="form-select" id="priorityFilter">
+                        <option value="">所有优先级</option>
+                        <option value="HIGH">高</option>
+                        <option value="MEDIUM">中</option>
+                        <option value="LOW">低</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" class="form-control" id="searchInput" placeholder="搜索任务标题">
+                </div>
+            </div>
+        </div>
+
+        <!-- 任务列表 -->
+        <div class="row" id="taskList">
+            <!-- 任务卡片将通过JavaScript动态生成 -->
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="bg-light text-center text-lg-start mt-5">
+        <div class="container p-4">
+            <div class="row">
+                <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
+                    <h5 class="text-uppercase">化学学习平台</h5>
+                    <p>探索化学世界的奥秘，从元素周期表开始</p>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                    <h5 class="text-uppercase">快速链接</h5>
+                    <ul class="list-unstyled mb-0">
+                        <li><a href="index.html" class="text-dark">首页</a></li>
+                        <li><a href="periodic-table.html" class="text-dark">元素周期表</a></li>
+                        <li><a href="ai-assistant.html" class="text-dark">AI助手</a></li>
+                        <li><a href="tasks.html" class="text-dark">任务管理</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                    <h5 class="text-uppercase">联系我们</h5>
+                    <ul class="list-unstyled mb-0">
+                        <li><a href="#" class="text-dark">关于我们</a></li>
+                        <li><a href="#" class="text-dark">隐私政策</a></li>
+                        <li><a href="#" class="text-dark">使用条款</a></li>
+                        <li><a href="#" class="text-dark">常见问题</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="text-center p-3 bg-light">
+            © 2026 化学学习平台 | 版权所有
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.min.js"></script>
+    <script>
+        // 任务数据
+        let tasks = [];
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchTasks();
+            
+            // 筛选事件监听
+            document.getElementById('statusFilter').addEventListener('change', filterTasks);
+            document.getElementById('priorityFilter').addEventListener('change', filterTasks);
+            document.getElementById('searchInput').addEventListener('input', filterTasks);
+        });
+
+        // 获取任务列表
+        function fetchTasks() {
+            fetch('/api/tasks')
+                .then(response => response.json())
+                .then(data => {
+                    tasks = data;
+                    renderTasks(tasks);
+                })
+                .catch(error => {
+                    console.error('获取任务失败:', error);
+                    alert('获取任务失败，请重试');
+                });
+        }
+
+        // 渲染任务列表
+        function renderTasks(taskList) {
+            const taskListElement = document.getElementById('taskList');
+            taskListElement.innerHTML = '';
+
+            if (taskList.length === 0) {
+                taskListElement.innerHTML = '<div class="col-12 text-center py-5"><p>暂无任务</p></div>';
+                return;
+            }
+
+            taskList.forEach(task => {
+                const taskCard = document.createElement('div');
+                taskCard.className = 'col-md-4 mb-4';
+                taskCard.innerHTML = `
+                    <div class="card task-card h-100">
+                        <div class="card-header">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="card-title">${task.title}</h5>
+                                <span class="task-priority priority-${task.priority.toLowerCase()}">${getPriorityText(task.priority)}</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">${task.description || '无描述'}</p>
+                            <div class="mb-2">
+                                <span class="text-muted">负责人:</span> ${getUserName(task.assigneeId)}
+                            </div>
+                            <div class="mb-2">
+                                <span class="text-muted">创建人:</span> ${getUserName(task.creatorId)}
+                            </div>
+                            <div class="mb-2">
+                                <span class="text-muted">截止日期:</span> ${formatDate(task.dueDate)}
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="task-status status-${task.status.toLowerCase().replace('-', '')}">${getStatusText(task.status)}</span>
+                                <span class="text-muted">${formatDate(task.createdAt)}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                taskListElement.appendChild(taskCard);
+            });
+        }
+
+        // 筛选任务
+        function filterTasks() {
+            const statusFilter = document.getElementById('statusFilter').value;
+            const priorityFilter = document.getElementById('priorityFilter').value;
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+
+            const filteredTasks = tasks.filter(task => {
+                const matchesStatus = !statusFilter || task.status === statusFilter;
+                const matchesPriority = !priorityFilter || task.priority === priorityFilter;
+                const matchesSearch = !searchInput || task.title.toLowerCase().includes(searchInput);
+                return matchesStatus && matchesPriority && matchesSearch;
+            });
+
+            renderTasks(filteredTasks);
+        }
+
+        // 辅助函数：获取用户名
+        function getUserName(userId) {
+            if (userId === 1) return '管理员';
+            if (userId === 2) return '用户';
+            return `用户${userId}`;
+        }
+
+        // 辅助函数：获取状态文本
+        function getStatusText(status) {
+            const statusMap = {
+                'PENDING': '待处理',
+                'IN_PROGRESS': '进行中',
+                'COMPLETED': '已完成',
+                'CANCELLED': '已取消'
+            };
+            return statusMap[status] || status;
+        }
+
+        // 辅助函数：获取优先级文本
+        function getPriorityText(priority) {
+            const priorityMap = {
+                'HIGH': '高',
+                'MEDIUM': '中',
+                'LOW': '低'
+            };
+            return priorityMap[priority] || priority;
+        }
+
+        // 辅助函数：格式化日期
+        function formatDate(dateString) {
+            if (!dateString) return '无';
+            const date = new Date(dateString);
+            return date.toLocaleString('zh-CN');
+        }
+    </script>
+</body>
+</html>

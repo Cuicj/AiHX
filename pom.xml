@@ -43,11 +43,12 @@
     <modules>
         <module>eureka-server</module>
         <module>api-gateway</module>
-        <module>chemistry-service</module>
         <module>user-service</module>
+        <module>chemistry-service</module>
         <module>learning-progress-service</module>
         <module>data-source-service</module>
         <module>ai-service</module>
+        <module>task-management-service</module>
     </modules>
 
     <build>

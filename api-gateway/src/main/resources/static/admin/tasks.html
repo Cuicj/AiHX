@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>任务管理 - 后台管理系统</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .task-card {
+            transition: all 0.3s ease;
+        }
+        .task-card:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+        .task-status {
+            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 12px;
+        }
+        .status-pending {
+            background-color: #ffc107;
+            color: #212529;
+        }
+        .status-in-progress {
+            background-color: #17a2b8;
+            color: white;
+        }
+        .status-completed {
+            background-color: #28a745;
+            color: white;
+        }
+        .status-cancelled {
+            background-color: #dc3545;
+            color: white;
+        }
+        .task-priority {
+            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 12px;
+        }
+        .priority-high {
+            background-color: #dc3545;
+            color: white;
+        }
+        .priority-medium {
+            background-color: #ffc107;
+            color: #212529;
+        }
+        .priority-low {
+            background-color: #28a745;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- 侧边栏 -->
+            <div class="col-md-3 col-lg-2 bg-light sidebar">
+                <div class="position-sticky pt-3">
+                    <h4 class="text-center mb-4">后台管理</h4>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">
+                                <i class="bi bi-speedometer2"></i> 仪表盘
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="tasks.html">
+                                <i class="bi bi-list-task"></i> 任务管理
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="users.html">
+                                <i class="bi bi-people"></i> 用户管理
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="elements.html">
+                                <i class="bi bi-chemistry"></i> 元素管理
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../index.html">
+                                <i class="bi bi-arrow-left"></i> 返回首页
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 主内容区 -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">任务管理</h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createTaskModal">
+                            <i class="bi bi-plus-circle"></i> 创建任务
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 任务筛选 -->
+                <div class="mb-4">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <select class="form-select" id="statusFilter">
+                                <option value="">所有状态</option>
+                                <option value="PENDING">待处理</option>
+                                <option value="IN_PROGRESS">进行中</option>
+                                <option value="COMPLETED">已完成</option>
+                                <option value="CANCELLED">已取消</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select" id="priorityFilter">
+                                <option value="">所有优先级</option>
+                                <option value="HIGH">高</option>
+                                <option value="MEDIUM">中</option>
+                                <option value="LOW">低</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select" id="assigneeFilter">
+                                <option value="">所有负责人</option>
+                                <option value="1">管理员</option>
+                                <option value="2">用户</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" id="searchInput" placeholder="搜索任务标题">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 任务列表 -->
+                <div class="row" id="taskList">
+                    <!-- 任务卡片将通过JavaScript动态生成 -->
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- 创建任务模态框 -->
+    <div class="modal fade" id="createTaskModal" tabindex="-1" aria-labelledby="createTaskModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createTaskModalLabel">创建任务</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="createTaskForm">
+                        <div class="mb-3">
+                            <label for="taskTitle" class="form-label">任务标题</label>
+                            <input type="text" class="form-control" id="taskTitle" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="taskDescription" class="form-label">任务描述</label>
+                            <textarea class="form-control" id="taskDescription" rows="3"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="taskPriority" class="form-label">优先级</label>
+                            <select class="form-select" id="taskPriority" required>
+                                <option value="HIGH">高</option>
+                                <option value="MEDIUM">中</option>
+                                <option value="LOW">低</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="taskAssignee" class="form-label">负责人</label>
+                            <select class="form-select" id="taskAssignee" required>
+                                <option value="1">管理员</option>
+                                <option value="2">用户</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="taskDueDate" class="form-label">截止日期</label>
+                            <input type="datetime-local" class="form-control" id="taskDueDate" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-success" onclick="createTask()">创建</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 编辑任务模态框 -->
+    <div class="modal fade" id="editTaskModal" tabindex="-1" aria-labelledby="editTaskModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editTaskModalLabel">编辑任务</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editTaskForm">
+                        <input type="hidden" id="editTaskId">
+                        <div class="mb-3">
+                            <label for="editTaskTitle" class="form-label">任务标题</label>
+                            <input type="text" class="form-control" id="editTaskTitle" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editTaskDescription" class="form-label">任务描述</label>
+                            <textarea class="form-control" id="editTaskDescription" rows="3"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editTaskStatus" class="form-label">状态</label>
+                            <select class="form-select" id="editTaskStatus" required>
+                                <option value="PENDING">待处理</option>
+                                <option value="IN_PROGRESS">进行中</option>
+                                <option value="COMPLETED">已完成</option>
+                                <option value="CANCELLED">已取消</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editTaskPriority" class="form-label">优先级</label>
+                            <select class="form-select" id="editTaskPriority" required>
+                                <option value="HIGH">高</option>
+                                <option value="MEDIUM">中</option>
+                                <option value="LOW">低</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editTaskAssignee" class="form-label">负责人</label>
+                            <select class="form-select" id="editTaskAssignee" required>
+                                <option value="1">管理员</option>
+                                <option value="2">用户</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editTaskDueDate" class="form-label">截止日期</label>
+                            <input type="datetime-local" class="form-control" id="editTaskDueDate" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="updateTask()">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.min.js"></script>
+    <script>
+        // 任务数据
+        let tasks = [];
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchTasks();
+            
+            // 筛选事件监听
+            document.getElementById('statusFilter').addEventListener('change', filterTasks);
+            document.getElementById('priorityFilter').addEventListener('change', filterTasks);
+            document.getElementById('assigneeFilter').addEventListener('change', filterTasks);
+            document.getElementById('searchInput').addEventListener('input', filterTasks);
+        });
+
+        // 获取任务列表
+        function fetchTasks() {
+            fetch('/api/tasks')
+                .then(response => response.json())
+                .then(data => {
+                    tasks = data;
+                    renderTasks(tasks);
+                })
+                .catch(error => {
+                    console.error('获取任务失败:', error);
+                    alert('获取任务失败，请重试');
+                });
+        }
+
+        // 渲染任务列表
+        function renderTasks(taskList) {
+            const taskListElement = document.getElementById('taskList');
+            taskListElement.innerHTML = '';
+
+            if (taskList.length === 0) {
+                taskListElement.innerHTML = '<div class="col-12 text-center py-5"><p>暂无任务</p></div>';
+                return;
+            }
+
+            taskList.forEach(task => {
+                const taskCard = document.createElement('div');
+                taskCard.className = 'col-md-4 mb-4';
+                taskCard.innerHTML = `
+                    <div class="card task-card h-100">
+                        <div class="card-header">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="card-title">${task.title}</h5>
+                                <span class="task-priority priority-${task.priority.toLowerCase()}">${getPriorityText(task.priority)}</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">${task.description || '无描述'}</p>
+                            <div class="mb-2">
+                                <span class="text-muted">负责人:</span> ${getUserName(task.assigneeId)}
+                            </div>
+                            <div class="mb-2">
+                                <span class="text-muted">创建人:</span> ${getUserName(task.creatorId)}
+                            </div>
+                            <div class="mb-2">
+                                <span class="text-muted">截止日期:</span> ${formatDate(task.dueDate)}
+                            </div>
+                            <div class="mb-2">
+                                <span class="text-muted">创建时间:</span> ${formatDate(task.createdAt)}
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="task-status status-${task.status.toLowerCase().replace('-', '')}">${getStatusText(task.status)}</span>
+                                <div>
+                                    <button class="btn btn-sm btn-primary me-1" onclick="editTask(${task.id})" data-bs-toggle="modal" data-bs-target="#editTaskModal">
+                                        <i class="bi bi-pencil"></i> 编辑
+                                    </button>
+                                    <button class="btn btn-sm btn-danger" onclick="deleteTask(${task.id})">
+                                        <i class="bi bi-trash"></i> 删除
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                taskListElement.appendChild(taskCard);
+            });
+        }
+
+        // 筛选任务
+        function filterTasks() {
+            const statusFilter = document.getElementById('statusFilter').value;
+            const priorityFilter = document.getElementById('priorityFilter').value;
+            const assigneeFilter = document.getElementById('assigneeFilter').value;
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+
+            const filteredTasks = tasks.filter(task => {
+                const matchesStatus = !statusFilter || task.status === statusFilter;
+                const matchesPriority = !priorityFilter || task.priority === priorityFilter;
+                const matchesAssignee = !assigneeFilter || task.assigneeId == assigneeFilter;
+                const matchesSearch = !searchInput || task.title.toLowerCase().includes(searchInput);
+                return matchesStatus && matchesPriority && matchesAssignee && matchesSearch;
+            });
+
+            renderTasks(filteredTasks);
+        }
+
+        // 创建任务
+        function createTask() {
+            const title = document.getElementById('taskTitle').value;
+            const description = document.getElementById('taskDescription').value;
+            const priority = document.getElementById('taskPriority').value;
+            const assigneeId = parseInt(document.getElementById('taskAssignee').value);
+            const dueDate = document.getElementById('taskDueDate').value;
+            const creatorId = 1; // 假设当前用户是管理员
+
+            const taskData = {
+                title,
+                description,
+                priority,
+                assigneeId,
+                creatorId,
+                dueDate: dueDate ? new Date(dueDate).toISOString() : null
+            };
+
+            fetch('/api/tasks', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(taskData)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    alert('任务创建成功');
+                    fetchTasks();
+                    document.getElementById('createTaskForm').reset();
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('createTaskModal'));
+                    modal.hide();
+                })
+                .catch(error => {
+                    console.error('创建任务失败:', error);
+                    alert('创建任务失败，请重试');
+                });
+        }
+
+        // 编辑任务
+        function editTask(taskId) {
+            const task = tasks.find(t => t.id === taskId);
+            if (!task) return;
+
+            document.getElementById('editTaskId').value = task.id;
+            document.getElementById('editTaskTitle').value = task.title;
+            document.getElementById('editTaskDescription').value = task.description || '';
+            document.getElementById('editTaskStatus').value = task.status;
+            document.getElementById('editTaskPriority').value = task.priority;
+            document.getElementById('editTaskAssignee').value = task.assigneeId;
+            
+            // 格式化日期时间
+            if (task.dueDate) {
+                const dueDate = new Date(task.dueDate);
+                const formattedDate = dueDate.toISOString().slice(0, 16);
+                document.getElementById('editTaskDueDate').value = formattedDate;
+            }
+        }
+
+        // 更新任务
+        function updateTask() {
+            const taskId = document.getElementById('editTaskId').value;
+            const title = document.getElementById('editTaskTitle').value;
+            const description = document.getElementById('editTaskDescription').value;
+            const status = document.getElementById('editTaskStatus').value;
+            const priority = document.getElementById('editTaskPriority').value;
+            const assigneeId = parseInt(document.getElementById('editTaskAssignee').value);
+            const dueDate = document.getElementById('editTaskDueDate').value;
+
+            const taskData = {
+                id: parseInt(taskId),
+                title,
+                description,
+                status,
+                priority,
+                assigneeId,
+                dueDate: dueDate ? new Date(dueDate).toISOString() : null
+            };
+
+            fetch(`/api/tasks/${taskId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(taskData)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    alert('任务更新成功');
+                    fetchTasks();
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('editTaskModal'));
+                    modal.hide();
+                })
+                .catch(error => {
+                    console.error('更新任务失败:', error);
+                    alert('更新任务失败，请重试');
+                });
+        }
+
+        // 删除任务
+        function deleteTask(taskId) {
+            if (!confirm('确定要删除这个任务吗？')) return;
+
+            fetch(`/api/tasks/${taskId}`, {
+                method: 'DELETE'
+            })
+                .then(response => {
+                    if (response.ok) {
+                        alert('任务删除成功');
+                        fetchTasks();
+                    } else {
+                        throw new Error('删除失败');
+                    }
+                })
+                .catch(error => {
+                    console.error('删除任务失败:', error);
+                    alert('删除任务失败，请重试');
+                });
+        }
+
+        // 辅助函数：获取用户名
+        function getUserName(userId) {
+            if (userId === 1) return '管理员';
+            if (userId === 2) return '用户';
+            return `用户${userId}`;
+        }
+
+        // 辅助函数：获取状态文本
+        function getStatusText(status) {
+            const statusMap = {
+                'PENDING': '待处理',
+                'IN_PROGRESS': '进行中',
+                'COMPLETED': '已完成',
+                'CANCELLED': '已取消'
+            };
+            return statusMap[status] || status;
+        }
+
+        // 辅助函数：获取优先级文本
+        function getPriorityText(priority) {
+            const priorityMap = {
+                'HIGH': '高',
+                'MEDIUM': '中',
+                'LOW': '低'
+            };
+            return priorityMap[priority] || priority;
+        }
+
+        // 辅助函数：格式化日期
+        function formatDate(dateString) {
+            if (!dateString) return '无';
+            const date = new Date(dateString);
+            return date.toLocaleString('zh-CN');
+        }
+    </script>
+</body>
+</html>
