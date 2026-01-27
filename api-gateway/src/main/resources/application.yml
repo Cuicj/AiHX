@@ -47,6 +47,23 @@ spring:
                   - User-Agent
                 requiredParams:
                   - timestamp
+        - id: user-service-resources
+          uri: lb://user-service
+          predicates:
+            - Path=/api/resources/**
+          filters:
+            - StripPrefix=2
+            - name: RateLimit
+              args:
+                limit: 5
+                refreshInterval: 1
+            - name: Ip
+              args:
+                whitelist:
+                  - 127.0.0.1
+                  - 192.168.1.0/24
+                blacklist:
+                  - 10.0.0.1
         - id: learning-progress-service
           uri: lb://learning-progress-service
           predicates:
@@ -68,6 +85,40 @@ spring:
           uri: lb://ai-service
           predicates:
             - Path=/api/ai/**
+          filters:
+            - StripPrefix=2
+            - name: RateLimit
+              args:
+                limit: 5
+                refreshInterval: 1
+            - name: Ip
+              args:
+                whitelist:
+                  - 127.0.0.1
+                  - 192.168.1.0/24
+                blacklist:
+                  - 10.0.0.1
+        - id: exchange-service
+          uri: lb://exchange-service
+          predicates:
+            - Path=/api/exchange/**
+          filters:
+            - StripPrefix=2
+            - name: RateLimit
+              args:
+                limit: 5
+                refreshInterval: 1
+            - name: Ip
+              args:
+                whitelist:
+                  - 127.0.0.1
+                  - 192.168.1.0/24
+                blacklist:
+                  - 10.0.0.1
+        - id: inventory-service
+          uri: lb://inventory-service
+          predicates:
+            - Path=/api/inventory/**
           filters:
             - StripPrefix=2
             - name: RateLimit

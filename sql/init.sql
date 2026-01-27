@@ -48,6 +48,53 @@ CREATE TABLE IF NOT EXISTS user (
     INDEX idx_role (role)
 );
 
+-- 资源分类表 (积分兑换)
+CREATE TABLE IF NOT EXISTS resource_category (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE,
+    description TEXT,
+    status VARCHAR(20) DEFAULT 'ACTIVE', -- ACTIVE: 上架, INACTIVE: 下架
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_name (name),
+    INDEX idx_status (status)
+);
+
+-- 资源物品表 (积分兑换)
+CREATE TABLE IF NOT EXISTS resource_item (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    category_id BIGINT NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    points INT NOT NULL,
+    stock INT NOT NULL DEFAULT 0,
+    status VARCHAR(20) DEFAULT 'ACTIVE', -- ACTIVE: 上架, INACTIVE: 下架
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (category_id) REFERENCES resource_category(id) ON DELETE CASCADE,
+    INDEX idx_category_id (category_id),
+    INDEX idx_name (name),
+    INDEX idx_points (points),
+    INDEX idx_stock (stock),
+    INDEX idx_status (status)
+);
+
+-- 积分兑换记录表
+CREATE TABLE IF NOT EXISTS points_exchange_record (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    resource_item_id BIGINT NOT NULL,
+    exchange_points INT NOT NULL,
+    exchange_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status VARCHAR(20) DEFAULT 'SUCCESS', -- SUCCESS: 成功, FAILED: 失败
+    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE,
+    FOREIGN KEY (resource_item_id) REFERENCES resource_item(id) ON DELETE CASCADE,
+    INDEX idx_user_id (user_id),
+    INDEX idx_resource_item_id (resource_item_id),
+    INDEX idx_exchange_time (exchange_time),
+    INDEX idx_status (status)
+);
+
 -- 学习进度表 (learning-progress-service)
 CREATE TABLE IF NOT EXISTS learning_progress (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,

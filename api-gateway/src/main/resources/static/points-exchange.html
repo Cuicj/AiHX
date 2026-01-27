@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>积分兑换 - 化学学习平台</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .points-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .points-number {
+            font-size: 3rem;
+            font-weight: bold;
+        }
+        .points-label {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        .category-card {
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .category-card:hover {
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transform: translateY(-5px);
+        }
+        .category-card.active {
+            border: 2px solid #667eea;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.2);
+        }
+        .item-card {
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        .item-card:hover {
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transform: translateY(-5px);
+        }
+        .item-stock {
+            font-weight: bold;
+        }
+        .stock-sufficient {
+            color: #28a745;
+        }
+        .stock-low {
+            color: #ffc107;
+        }
+        .stock-out {
+            color: #dc3545;
+        }
+        .item-points {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+        .exchange-btn {
+            transition: all 0.3s ease;
+        }
+        .exchange-btn:hover {
+            transform: scale(1.05);
+        }
+        .exchange-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .tab-content {
+            min-height: 400px;
+        }
+        .history-card {
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        .history-card:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=chemistry%20learning%20platform%20logo%2C%20modern%20design%2C%20blue%20color%20scheme&image_size=square" alt="Logo" width="30" height="30" class="d-inline-block align-text-top">
+                化学学习平台
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">首页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="periodic-table.html">元素周期表</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="element-categories.html">元素分类</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="element-discovery.html">元素发现史</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="tasks.html">任务管理</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="ai-assistant.html">AI助手</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="profile.html">用户中心</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="points-exchange.html">积分兑换</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html">登录</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="register.html">注册</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主内容区 -->
+    <div class="container mt-5">
+        <h1 class="text-center mb-5">积分兑换中心</h1>
+
+        <!-- 积分卡片 -->
+        <div class="row mb-5">
+            <div class="col-md-12">
+                <div class="points-card">
+                    <div class="text-center">
+                        <div class="points-number" id="userPoints">0</div>
+                        <div class="points-label">我的积分</div>
+                        <div class="mt-2">
+                            <small class="opacity-80">积分可用于兑换学习资源和精美礼品</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 标签页 -->
+        <div class="mb-4">
+            <ul class="nav nav-tabs" id="exchangeTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="items-tab" data-bs-toggle="tab" data-bs-target="#items" type="button" role="tab" aria-controls="items" aria-selected="true">可兑换物品</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="history-tab" data-bs-toggle="tab" data-bs-target="#history" type="button" role="tab" aria-controls="history" aria-selected="false">兑换记录</button>
+                </li>
+            </ul>
+            <div class="tab-content" id="exchangeTabsContent">
+                <!-- 可兑换物品标签页 -->
+                <div class="tab-pane fade show active" id="items" role="tabpanel" aria-labelledby="items-tab">
+                    <!-- 资源分类 -->
+                    <div class="row mb-4" id="categoriesContainer">
+                        <!-- 分类卡片将通过JS动态生成 -->
+                    </div>
+
+                    <!-- 物品列表 -->
+                    <div class="row mb-4" id="itemsContainer">
+                        <!-- 物品卡片将通过JS动态生成 -->
+                    </div>
+                </div>
+
+                <!-- 兑换记录标签页 -->
+                <div class="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab">
+                    <div class="row" id="historyContainer">
+                        <!-- 兑换记录将通过JS动态生成 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 兑换确认模态框 -->
+    <div class="modal fade" id="exchangeModal" tabindex="-1" aria-labelledby="exchangeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exchangeModalLabel">确认兑换</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <h6>物品信息</h6>
+                        <p id="itemName">--</p>
+                        <p id="itemDescription">--</p>
+                    </div>
+                    <div class="mb-3">
+                        <h6>兑换信息</h6>
+                        <p>所需积分: <span id="itemPoints" class="font-weight-bold text-primary">0</span></p>
+                        <p>当前积分: <span id="currentPoints" class="font-weight-bold">0</span></p>
+                        <p>剩余积分: <span id="remainingPoints" class="font-weight-bold">0</span></p>
+                    </div>
+                    <div class="alert alert-warning" role="alert">
+                        确认兑换后，积分将立即扣除，物品库存将相应减少。
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="confirmExchangeBtn">确认兑换</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="bg-light text-center text-lg-start mt-5">
+        <div class="container p-4">
+            <div class="row">
+                <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
+                    <h5 class="text-uppercase">化学学习平台</h5>
+                    <p>探索化学世界的奥秘，从元素周期表开始</p>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                    <h5 class="text-uppercase">快速链接</h5>
+                    <ul class="list-unstyled mb-0">
+                        <li><a href="index.html" class="text-dark">首页</a></li>
+                        <li><a href="periodic-table.html" class="text-dark">元素周期表</a></li>
+                        <li><a href="ai-assistant.html" class="text-dark">AI助手</a></li>
+                        <li><a href="tasks.html" class="text-dark">任务管理</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                    <h5 class="text-uppercase">联系我们</h5>
+                    <ul class="list-unstyled mb-0">
+                        <li><a href="#" class="text-dark">关于我们</a></li>
+                        <li><a href="#" class="text-dark">隐私政策</a></li>
+                        <li><a href="#" class="text-dark">使用条款</a></li>
+                        <li><a href="#" class="text-dark">常见问题</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="text-center p-3 bg-light">
+            © 2026 化学学习平台 | 版权所有
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 当前用户ID（实际应该从登录状态中获取）
+        let currentUserId = 2; // 假设当前用户ID为2
+        let currentPoints = 0;
+        let selectedCategoryId = null;
+        let selectedItemId = null;
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserPoints();
+            loadCategories();
+            loadExchangeHistory();
+        });
+
+        // 加载用户积分
+        function loadUserPoints() {
+            fetch(`/api/user/users/${currentUserId}/points`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        currentPoints = data.points;
+                        document.getElementById('userPoints').textContent = data.points;
+                        document.getElementById('currentPoints').textContent = data.points;
+                    }
+                })
+                .catch(error => {
+                    console.error('加载用户积分失败:', error);
+                });
+        }
+
+        // 加载资源分类
+        function loadCategories() {
+            fetch('/api/resources/categories/active')
+                .then(response => response.json())
+                .then(categories => {
+                    const container = document.getElementById('categoriesContainer');
+                    container.innerHTML = '';
+
+                    categories.forEach(category => {
+                        const col = document.createElement('div');
+                        col.className = 'col-md-3 mb-4';
+                        col.innerHTML = `
+                            <div class="category-card card p-4 ${selectedCategoryId === category.id ? 'active' : ''}" onclick="selectCategory(${category.id}, '${category.name}')">
+                                <div class="card-body">
+                                    <h5 class="card-title">${category.name}</h5>
+                                    <p class="card-text text-muted">${category.description || '暂无描述'}</p>
+                                </div>
+                            </div>
+                        `;
+                        container.appendChild(col);
+                    });
+
+                    // 默认选择第一个分类
+                    if (categories.length > 0 && selectedCategoryId === null) {
+                        selectCategory(categories[0].id, categories[0].name);
+                    }
+                })
+                .catch(error => {
+                    console.error('加载资源分类失败:', error);
+                });
+        }
+
+        // 选择分类
+        function selectCategory(categoryId, categoryName) {
+            selectedCategoryId = categoryId;
+            
+            // 更新分类卡片样式
+            document.querySelectorAll('.category-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+
+            // 加载该分类下的物品
+            loadItems(categoryId);
+        }
+
+        // 加载资源物品
+        function loadItems(categoryId) {
+            fetch(`/api/resources/categories/${categoryId}/items/active`)
+                .then(response => response.json())
+                .then(items => {
+                    const container = document.getElementById('itemsContainer');
+                    container.innerHTML = '';
+
+                    if (items.length === 0) {
+                        container.innerHTML = `
+                            <div class="col-md-12 text-center py-5">
+                                <div class="alert alert-info">
+                                    <h5>暂无物品</h5>
+                                    <p>该分类下暂无可兑换的物品</p>
+                                </div>
+                            </div>
+                        `;
+                        return;
+                    }
+
+                    items.forEach(item => {
+                        const col = document.createElement('div');
+                        col.className = 'col-md-4 mb-4';
+                        
+                        // 计算库存状态
+                        let stockClass = 'stock-sufficient';
+                        let stockText = `库存: ${item.stock}`;
+                        if (item.stock === 0) {
+                            stockClass = 'stock-out';
+                            stockText = '库存: 已售罄';
+                        } else if (item.stock < 5) {
+                            stockClass = 'stock-low';
+                            stockText = `库存: ${item.stock} (仅剩少量)`;
+                        }
+
+                        // 检查是否可兑换
+                        const canExchange = item.stock > 0 && currentPoints >= item.points;
+
+                        col.innerHTML = `
+                            <div class="item-card card">
+                                <div class="card-body">
+                                    <h5 class="card-title">${item.name}</h5>
+                                    <p class="card-text">${item.description || '暂无描述'}</p>
+                                    <div class="mt-3">
+                                        <div class="item-stock ${stockClass}">${stockText}</div>
+                                        <div class="item-points mt-2">${item.points} 积分</div>
+                                    </div>
+                                    <div class="mt-4">
+                                        <button class="btn btn-primary w-100 exchange-btn" 
+                                                onclick="showExchangeModal(${item.id}, '${item.name}', '${item.description || ''}', ${item.points})"
+                                                ${!canExchange ? 'disabled' : ''}>
+                                            ${!canExchange ? '无法兑换' : '立即兑换'}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        container.appendChild(col);
+                    });
+                })
+                .catch(error => {
+                    console.error('加载资源物品失败:', error);
+                });
+        }
+
+        // 显示兑换确认模态框
+        function showExchangeModal(itemId, itemName, itemDescription, itemPoints) {
+            selectedItemId = itemId;
+            
+            document.getElementById('itemName').textContent = itemName;
+            document.getElementById('itemDescription').textContent = itemDescription || '暂无描述';
+            document.getElementById('itemPoints').textContent = itemPoints;
+            document.getElementById('remainingPoints').textContent = currentPoints - itemPoints;
+            
+            const modal = new bootstrap.Modal(document.getElementById('exchangeModal'));
+            modal.show();
+        }
+
+        // 确认兑换
+        document.getElementById('confirmExchangeBtn').addEventListener('click', function() {
+            if (!selectedItemId) return;
+
+            fetch('/api/resources/exchange', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userId: currentUserId,
+                    itemId: selectedItemId
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const modal = bootstrap.Modal.getInstance(document.getElementById('exchangeModal'));
+                modal.hide();
+
+                if (data.success) {
+                    alert('积分兑换成功！');
+                    // 重新加载数据
+                    loadUserPoints();
+                    loadItems(selectedCategoryId);
+                    loadExchangeHistory();
+                } else {
+                    alert('兑换失败: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('兑换失败:', error);
+                alert('兑换失败，请重试');
+            });
+        });
+
+        // 加载兑换历史
+        function loadExchangeHistory() {
+            fetch(`/api/resources/exchange/records/user/${currentUserId}`)
+                .then(response => response.json())
+                .then(records => {
+                    const container = document.getElementById('historyContainer');
+                    container.innerHTML = '';
+
+                    if (records.length === 0) {
+                        container.innerHTML = `
+                            <div class="col-md-12 text-center py-5">
+                                <div class="alert alert-info">
+                                    <h5>暂无兑换记录</h5>
+                                    <p>您还没有进行过积分兑换</p>
+                                </div>
+                            </div>
+                        `;
+                        return;
+                    }
+
+                    records.forEach(record => {
+                        const col = document.createElement('div');
+                        col.className = 'col-md-12 mb-3';
+                        
+                        // 格式化日期
+                        const exchangeTime = new Date(record.exchangeTime).toLocaleString('zh-CN');
+
+                        col.innerHTML = `
+                            <div class="history-card card p-3">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <h6>兑换物品</h6>
+                                        <p class="mb-1">#${record.resourceItemId} - 物品名称</p>
+                                        <p class="text-muted small">兑换时间: ${exchangeTime}</p>
+                                    </div>
+                                    <div class="col-md-4 text-right">
+                                        <h6>积分消耗</h6>
+                                        <p class="text-danger font-weight-bold">-${record.exchangePoints} 积分</p>
+                                        <span class="badge bg-success">${record.status}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        container.appendChild(col);
+                    });
+                })
+                .catch(error => {
+                    console.error('加载兑换历史失败:', error);
+                });
+        }
+    </script>
+</body>
+</html>

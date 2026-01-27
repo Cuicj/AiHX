@@ -1,11 +1,11 @@
 server:
-  port: 8082
+  port: 8084
 
 spring:
   application:
-    name: user-service
+    name: inventory-service
   datasource:
-    url: jdbc:h2:mem:userdb
+    url: jdbc:h2:mem:inventorydb
     driverClassName: org.h2.Driver
     username: sa
     password: password
@@ -18,31 +18,47 @@ spring:
     console:
       enabled: true
       path: /h2-console
-  security:
-    user:
-      name: admin
-      password: password
   rabbitmq:
     host: localhost
     port: 5672
     username: guest
     password: guest
     virtual-host: /
+    template:
+      retry:
+        enabled: true
+    listener:
+      simple:
+        auto-startup: false
+        retry:
+          enabled: true
 
+# Seata 配置
+seata:
+  enabled: true
+  application-id: inventory-service
+  tx-service-group: my_test_tx_group
+  service:
+    vgroup-mapping:
+      my_test_tx_group: default
+    grouplist:
+      default: 127.0.0.1:8091
+  config:
+    type: file
+  registry:
+    type: file
+
+# Eureka 配置
 eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
-    # 启用健康检查
     healthcheck:
       enabled: true
   instance:
     prefer-ip-address: true
-    # 服务续约间隔
     lease-renewal-interval-in-seconds: 30
-    # 服务过期时间
     lease-expiration-duration-in-seconds: 90
-    # 实例ID
     instance-id: ${spring.cloud.client.hostname}:${spring.application.name}:${server.port}
 
 # 暴露所有端点
