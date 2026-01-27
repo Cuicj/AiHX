@@ -138,7 +138,11 @@
 | `/users/{id}` | GET | 获取用户详情 |
 | `/users` | POST | 创建用户 |
 | `/users/{id}` | PUT | 更新用户信息 |
-| `/users/{id}/points` | PUT | 更新用户积分 |
+| `/users/{id}/points` | GET | 获取用户积分 |
+| `/users/checkin` | POST | 用户签到（需要userId和deviceId） |
+| `/users/checkin/status` | POST | 签到状态查询（需要userId和deviceId） |
+| `/users/{id}/checkin-records` | GET | 获取用户签到记录 |
+| `/users/{id}/checkin-stats` | GET | 获取用户签到统计（需要month和year） |
 
 ### API Gateway
 
@@ -273,6 +277,32 @@
    curl -X POST http://localhost:8080/api/blockchain/transaction/send \
      -H "Content-Type: application/json" \
      -d '{"from": "0x1234567890123456789012345678901234567890", "to": "0x0987654321098765432109876543210987654321", "amount": 1, "network": "ethereum", "chainType": "testnet"}'
+   ```
+
+### 签到测试
+
+1. **用户签到**
+   ```bash
+   curl -X POST http://localhost:8080/api/user/users/checkin \
+     -H "Content-Type: application/json" \
+     -d '{"userId": 1, "deviceId": "device_123456"}'
+   ```
+
+2. **签到状态查询**
+   ```bash
+   curl -X POST http://localhost:8080/api/user/users/checkin/status \
+     -H "Content-Type: application/json" \
+     -d '{"userId": 1, "deviceId": "device_123456"}'
+   ```
+
+3. **获取用户签到记录**
+   ```bash
+   curl http://localhost:8080/api/user/users/1/checkin-records
+   ```
+
+4. **获取用户签到统计**
+   ```bash
+   curl "http://localhost:8080/api/user/users/1/checkin-stats?month=1&year=2026"
    ```
 
 ## 配置说明
@@ -445,6 +475,7 @@ logging:
 |------|------|------|
 | 1.0.0 | 2026-01-27 | 初始版本，实现积分兑换和库存管理功能 |
 | 1.1.0 | 2026-01-27 | 添加区块链服务，支持多区块链网络交互和OKX API集成 |
+| 1.2.0 | 2026-01-27 | 添加签到功能，支持设备ID签到限制，每个设备每天只能签到一次 |
 
 ### 代码仓库
 
