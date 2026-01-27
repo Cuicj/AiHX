@@ -350,6 +350,22 @@ VALUES
 -- 查看所有表
 SHOW TABLES;
 
+-- 签到记录表 (user-service)
+CREATE TABLE IF NOT EXISTS checkin_record (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    device_id VARCHAR(100) NOT NULL,
+    points INT DEFAULT 10,
+    checkin_date DATE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_user_device_date (user_id, device_id, checkin_date),
+    INDEX idx_user_id (user_id),
+    INDEX idx_device_id (device_id),
+    INDEX idx_checkin_date (checkin_date)
+);
+
 -- 查看各表数据量
 SELECT 'element' AS table_name, COUNT(*) AS row_count FROM element UNION
 SELECT 'user' AS table_name, COUNT(*) AS row_count FROM user UNION
@@ -364,4 +380,5 @@ SELECT 'task' AS table_name, COUNT(*) AS row_count FROM task UNION
 SELECT 'inventory' AS table_name, COUNT(*) AS row_count FROM inventory UNION
 SELECT 'exchange_record' AS table_name, COUNT(*) AS row_count FROM exchange_record UNION
 SELECT 'blockchain_transaction' AS table_name, COUNT(*) AS row_count FROM blockchain_transaction UNION
-SELECT 'blockchain_network' AS table_name, COUNT(*) AS row_count FROM blockchain_network;
+SELECT 'blockchain_network' AS table_name, COUNT(*) AS row_count FROM blockchain_network UNION
+SELECT 'checkin_record' AS table_name, COUNT(*) AS row_count FROM checkin_record;
