@@ -420,6 +420,22 @@ CREATE TABLE IF NOT EXISTS quiz_detail (
     INDEX idx_is_correct (is_correct)
 );
 
+-- 错题集表 (用于存储用户收藏的错题)
+CREATE TABLE IF NOT EXISTS mistake_collection (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    question_id BIGINT NOT NULL,
+    collection_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE,
+    FOREIGN KEY (question_id) REFERENCES question_bank(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_user_question (user_id, question_id),
+    INDEX idx_user_id (user_id),
+    INDEX idx_question_id (question_id),
+    INDEX idx_collection_date (collection_date)
+);
+
 -- 插入默认题库数据
 INSERT INTO question_bank (question_text, option_a, option_b, option_c, option_d, correct_answer, difficulty, category, source)
 VALUES

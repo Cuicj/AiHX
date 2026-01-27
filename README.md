@@ -154,6 +154,10 @@
 | `/quiz/records` | GET | 获取用户答题记录（需要userId） |
 | `/quiz/stats` | GET | 获取用户答题统计（需要userId） |
 | `/quiz/details/{quizRecordId}` | GET | 获取答题详情 |
+| `/quiz/summary/{quizRecordId}` | GET | 获取答题总结（包含错题详情和平均答题时间） |
+| `/quiz/collect-mistake` | POST | 收藏错题（需要userId和questionId） |
+| `/quiz/remove-mistake` | POST | 取消收藏错题（需要userId和questionId） |
+| `/quiz/mistakes` | GET | 获取用户错题集（需要userId） |
 
 ### API Gateway
 
@@ -359,6 +363,26 @@
    curl "http://localhost:8080/api/quiz/quiz/details/1"
    ```
 
+7. **获取答题总结**
+   ```bash
+   curl "http://localhost:8080/api/quiz/quiz/summary/1"
+   ```
+
+8. **收藏错题**
+   ```bash
+   curl -X POST "http://localhost:8080/api/quiz/quiz/collect-mistake?userId=1&questionId=1"
+   ```
+
+9. **取消收藏错题**
+   ```bash
+   curl -X POST "http://localhost:8080/api/quiz/quiz/remove-mistake?userId=1&questionId=1"
+   ```
+
+10. **获取用户错题集**
+    ```bash
+    curl "http://localhost:8080/api/quiz/quiz/mistakes?userId=1&page=1&size=10"
+    ```
+
 ## 配置说明
 
 ### RabbitMQ 配置
@@ -532,6 +556,7 @@ logging:
 | 1.2.0 | 2026-01-27 | 添加签到功能，支持设备ID签到限制，每个设备每天只能签到一次 |
 | 1.3.0 | 2026-01-27 | 添加随机答题功能，每天5题，包含化学知识与生活、生物等相关内容，支持AI与新闻题库 |
 | 1.3.1 | 2026-01-27 | 更新答题功能，每道题的答题时间限制为40秒 |
+| 1.3.2 | 2026-01-27 | 更新答题功能，每道题的答题时间限制为45秒，添加答题总结页面、错题收藏和错题集功能 |
 
 ### 代码仓库
 
