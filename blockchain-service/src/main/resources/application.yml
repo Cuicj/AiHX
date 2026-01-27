@@ -1,0 +1,113 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: blockchain-service
+  datasource:
+    url: jdbc:h2:mem:blockchaindb
+    driverClassName: org.h2.Driver
+    username: sa
+    password: password
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+
+# 区块链配置
+blockchain:
+  # 以太坊网络配置
+  ethereum:
+    mainnet:
+      url: https://mainnet.infura.io/v3/YOUR_INFURA_KEY
+      chainId: 1
+    sepolia:
+      url: https://sepolia.infura.io/v3/YOUR_INFURA_KEY
+      chainId: 11155111
+    goerli:
+      url: https://goerli.infura.io/v3/YOUR_INFURA_KEY
+      chainId: 5
+  # BSC网络配置
+  bsc:
+    mainnet:
+      url: https://bsc-dataseed.binance.org/
+      chainId: 56
+    testnet:
+      url: https://data-seed-prebsc-1-s1.binance.org:8545/
+      chainId: 97
+  # Polygon网络配置
+  polygon:
+    mainnet:
+      url: https://polygon-rpc.com
+      chainId: 137
+    mumbai:
+      url: https://rpc-mumbai.maticvigil.com
+      chainId: 80001
+  # OKX Chain配置
+  okc:
+    mainnet:
+      url: https://exchainrpc.okex.org
+      chainId: 66
+    testnet:
+      url: https://exchaintestrpc.okex.org
+      chainId: 65
+  # 网络优先级配置
+  network-priority:
+    - ethereum
+    - bsc
+    - polygon
+    - okc
+  # Gas费用配置
+  gas:
+    maxPriceGwei: 50
+    maxPriorityFeeGwei: 2
+    defaultGasLimit: 21000
+  # 交易配置
+  transaction:
+    timeout: 300000  # 5分钟超时
+    retryCount: 3
+    retryInterval: 1000
+
+# OKX API配置
+okx:
+  api:
+    key: YOUR_OKX_API_KEY
+    secret: YOUR_OKX_API_SECRET
+    passphrase: YOUR_OKX_API_PASSPHRASE
+    baseUrl: https://www.okx.com/api/v5
+
+# Eureka 配置
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    healthcheck:
+      enabled: true
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 30
+    lease-expiration-duration-in-seconds: 90
+    instance-id: ${spring.cloud.client.hostname}:${spring.application.name}:${server.port}
+
+# 暴露所有端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    shutdown:
+      enabled: true
+    health:
+      show-details: always

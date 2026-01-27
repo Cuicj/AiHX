@@ -132,6 +132,23 @@ spring:
                   - 192.168.1.0/24
                 blacklist:
                   - 10.0.0.1
+        - id: blockchain-service
+          uri: lb://blockchain-service
+          predicates:
+            - Path=/api/blockchain/**
+          filters:
+            - StripPrefix=2
+            - name: RateLimit
+              args:
+                limit: 5
+                refreshInterval: 1
+            - name: Ip
+              args:
+                whitelist:
+                  - 127.0.0.1
+                  - 192.168.1.0/24
+                blacklist:
+                  - 10.0.0.1
 
 eureka:
   client:
