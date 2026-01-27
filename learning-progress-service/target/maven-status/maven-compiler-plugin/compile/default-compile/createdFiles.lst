@@ -1,6 +1,0 @@
-com\cmatedata\learningprogressservice\repository\LearningProgressRepository.class
-com\cmatedata\learningprogressservice\service\LearningProgressService.class
-com\cmatedata\learningprogressservice\entity\LearningProgress.class
-com\cmatedata\learningprogressservice\LearningProgressServiceApplication.class
-com\cmatedata\learningprogressservice\controller\LearningProgressController.class
-com\cmatedata\learningprogressservice\config\DataInitializer.class

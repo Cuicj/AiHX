@@ -1,9 +1,0 @@
-com\cmatedata\apigateway\filter\IpGatewayFilterFactory.class
-com\cmatedata\apigateway\config\SecurityConfig.class
-com\cmatedata\apigateway\filter\RateLimitGatewayFilterFactory$Config.class
-com\cmatedata\apigateway\filter\RequestValidationGatewayFilterFactory.class
-com\cmatedata\apigateway\filter\RequestValidationGatewayFilterFactory$Config.class
-com\cmatedata\apigateway\ApiGatewayApplication.class
-com\cmatedata\apigateway\config\RedisConfig.class
-com\cmatedata\apigateway\filter\IpGatewayFilterFactory$Config.class
-com\cmatedata\apigateway\filter\RateLimitGatewayFilterFactory.class
