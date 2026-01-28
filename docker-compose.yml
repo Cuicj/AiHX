@@ -100,26 +100,13 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=docker
 
-  chemistry-service:
+  # 新创建的服务
+  user-auth-service:
     build:
-      context: ./chemistry-service
+      context: ./user-auth-service
       dockerfile: Dockerfile
     ports:
       - "8081:8081"
-    networks:
-      - cmatenet
-    depends_on:
-      - eureka-server
-      - harbor
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-
-  user-service:
-    build:
-      context: ./user-service
-      dockerfile: Dockerfile
-    ports:
-      - "8082:8082"
     networks:
       - cmatenet
     depends_on:
@@ -130,12 +117,12 @@ services:
       - SPRING_PROFILES_ACTIVE=docker
       - SPRING_RABBITMQ_HOST=rabbitmq
 
-  learning-progress-service:
+  resource-service:
     build:
-      context: ./learning-progress-service
+      context: ./resource-service
       dockerfile: Dockerfile
     ports:
-      - "8085:8085"
+      - "8082:8082"
     networks:
       - cmatenet
     depends_on:
@@ -144,9 +131,55 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=docker
 
-  data-source-service:
+  chemistry-content-service:
     build:
-      context: ./data-source-service
+      context: ./chemistry-content-service
+      dockerfile: Dockerfile
+    ports:
+      - "8083:8083"
+    networks:
+      - cmatenet
+    depends_on:
+      - eureka-server
+      - harbor
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
+  quiz-service:
+    build:
+      context: ./quiz-service
+      dockerfile: Dockerfile
+    ports:
+      - "8084:8084"
+    networks:
+      - cmatenet
+    depends_on:
+      - eureka-server
+      - harbor
+      - rabbitmq
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_RABBITMQ_HOST=rabbitmq
+
+  reward-service:
+    build:
+      context: ./reward-service
+      dockerfile: Dockerfile
+    ports:
+      - "8085:8085"
+    networks:
+      - cmatenet
+    depends_on:
+      - eureka-server
+      - harbor
+      - rabbitmq
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_RABBITMQ_HOST=rabbitmq
+
+  learning-service:
+    build:
+      context: ./learning-service
       dockerfile: Dockerfile
     ports:
       - "8086:8086"
@@ -159,24 +192,6 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - SPRING_RABBITMQ_HOST=rabbitmq
-      - DATA_SOURCE_MYSQL_ENABLED=true
-
-  task-management-service:
-    build:
-      context: ./task-management-service
-      dockerfile: Dockerfile
-    ports:
-      - "8088:8088"
-    networks:
-      - cmatenet
-    depends_on:
-      - eureka-server
-      - harbor
-      - rabbitmq
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-      - SPRING_RABBITMQ_HOST=rabbitmq
-      - DATA_SOURCE_MYSQL_ENABLED=true
 
 networks:
   cmatenet:

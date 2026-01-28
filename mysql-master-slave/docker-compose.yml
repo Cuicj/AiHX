@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  # MySQL Master
+  mysql-master:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./master/data:/var/lib/mysql
+      - ./master/conf:/etc/mysql/conf.d
+      - ./master/init:/docker-entrypoint-initdb.d
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=chemistry_learning
+      - MYSQL_USER=repl
+      - MYSQL_PASSWORD=repl_password
+    networks:
+      - mysql-network
+    command: --server-id=1 --log-bin=mysql-bin --binlog-format=ROW --gtid-mode=ON --enforce-gtid-consistency=ON
+
+  # MySQL Slave 1
+  mysql-slave-1:
+    image: mysql:8.0
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./slave1/data:/var/lib/mysql
+      - ./slave1/conf:/etc/mysql/conf.d
+      - ./slave1/init:/docker-entrypoint-initdb.d
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=chemistry_learning
+      - MYSQL_USER=repl
+      - MYSQL_PASSWORD=repl_password
+    networks:
+      - mysql-network
+    depends_on:
+      - mysql-master
+    command: --server-id=2 --log-bin=mysql-bin --binlog-format=ROW --gtid-mode=ON --enforce-gtid-consistency=ON --read-only=ON
+
+  # MySQL Slave 2
+  mysql-slave-2:
+    image: mysql:8.0
+    ports:
+      - "3308:3306"
+    volumes:
+      - ./slave2/data:/var/lib/mysql
+      - ./slave2/conf:/etc/mysql/conf.d
+      - ./slave2/init:/docker-entrypoint-initdb.d
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=chemistry_learning
+      - MYSQL_USER=repl
+      - MYSQL_PASSWORD=repl_password
+    networks:
+      - mysql-network
+    depends_on:
+      - mysql-master
+    command: --server-id=3 --log-bin=mysql-bin --binlog-format=ROW --gtid-mode=ON --enforce-gtid-consistency=ON --read-only=ON
+
+networks:
+  mysql-network:
+    driver: bridge

@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: resource-service
+  namespace: cmatedata
+  labels:
+    app: resource-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: resource-service
+  template:
+    metadata:
+      labels:
+        app: resource-service
+    spec:
+      containers:
+      - name: resource-service
+        image: cmatedata/resource-service:latest
+        ports:
+        - containerPort: 8082
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: kubernetes
+        - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+          value: http://eureka-server:8761/eureka/
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:mysql://mysql-master:3306/resource_db?useSSL=false&serverTimezone=Asia/Shanghai
+        - name: SPRING_DATASOURCE_USERNAME
+          value: root
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: password
+        - name: SPRING_REDIS_HOST
+          value: redis
+        - name: SPRING_REDIS_PORT
+          value: "6379"
+        resources:
+          limits:
+            memory: "1Gi"
+            cpu: "1"
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: resource-service
+  namespace: cmatedata
+spec:
+  selector:
+    app: resource-service
+  ports:
+  - port: 8082
+    targetPort: 8082
+  type: ClusterIP

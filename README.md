@@ -2,7 +2,7 @@
 
 ## 项目简介
 
-本项目是一个基于微服务架构的化学学习平台，包含积分兑换、库存管理和区块链交互功能。系统采用Spring Boot和Spring Cloud技术栈，实现了分布式事务管理、消息队列削峰功能和多区块链网络交互。
+本项目是一个基于微服务架构的化学学习平台，包含积分兑换、库存管理、化学内容管理和区块链交互功能。系统采用Spring Boot和Spring Cloud技术栈，实现了分布式事务管理、消息队列异步通信、数据库读写分离和多区块链网络交互。
 
 ## 架构设计
 
@@ -20,43 +20,64 @@
 ┌─────────┼───────────┐
 │         │           │
 ▼         ▼           ▼
-┌─────────────────────────────────────────────────────────────┐
-│ ┌────────────┐  ┌────────────┐  ┌───────────────┐  ┌─────────┐ │
-│ │user-service│  │exchange-  │  │inventory-     │  │blockchain│ │
-│ │用户服务    │  │service    │  │service        │  │-service │ │
-│ │- 用户管理  │  │- 积分兑换  │  │- 库存管理     │  │- 区块链  │ │
-│ │- 积分管理  │  │- 事务协调  │  │- 库存同步     │  │- 交易管理│ │
-│ └────────────┘  └────────────┘  └───────────────┘  └─────────┘ │
-└─────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ ┌───────────────┐  ┌────────────┐  ┌──────────────────┐  ┌────────────────┐ │
+│ │user-auth-     │  │resource-   │  │chemistry-content-│  │quiz-           │ │
+│ │service        │  │service     │  │service          │  │service         │ │
+│ │- 用户认证      │  │- 资源管理   │  │- 化学内容管理    │  │- 答题管理       │ │
+│ │- 签到管理      │  │- 物品管理   │  │- 元素管理        │  │- 错题收藏       │ │
+│ └───────────────┘  └────────────┘  └──────────────────┘  └────────────────┘ │
+│                                                                             │
+│ ┌────────────┐  ┌────────────┐                                               │
+│ │reward-     │  │learning-   │                                               │
+│ │service     │  │service     │                                               │
+│ │- 积分兑换   │  │- 学习进度管理 │                                             │
+│ │- 库存管理   │  │- 任务管理    │                                             │
+│ └────────────┘  └────────────┘                                               │
+└─────────────────────────────────────────────────────────────────────────────┘
                             │
                     ┌───────▼───────┐
                     │   RabbitMQ    │
                     │   消息队列    │
+                    └───────────────┘
+                            │
+                    ┌───────▼───────┐
+                    │ MySQL Cluster │
+                    │ 主从复制      │
                     └───────────────┘
 ```
 
 ### 核心组件
 
 1. **Eureka Server**: 服务注册与发现中心
-2. **User Service**: 用户管理和积分管理服务
-3. **Exchange Service**: 积分兑换服务，处理积分兑换逻辑
-4. **Inventory Service**: 库存管理服务，处理库存更新和检查
-5. **Blockchain Service**: 区块链服务，处理区块链交互和交易
-6. **API Gateway**: API网关，统一管理服务路由
-7. **RabbitMQ**: 消息队列，用于削峰和异步通信
-8. **Seata**: 分布式事务管理，确保跨服务事务一致性
+2. **User Auth Service**: 用户认证和签到管理服务
+3. **Resource Service**: 资源管理和物品管理服务
+4. **Chemistry Content Service**: 化学内容管理和元素管理服务
+5. **Quiz Service**: 答题管理和错题收藏服务
+6. **Reward Service**: 积分兑换和库存管理服务（合并了原exchange-service和inventory-service）
+7. **Learning Service**: 学习进度管理和任务管理服务（合并了原learning-progress-service和task-management-service）
+8. **API Gateway**: API网关，统一管理服务路由和限流
+9. **RabbitMQ**: 消息队列，用于异步通信和削峰
+10. **MySQL Cluster**: 数据库集群，实现主从复制和读写分离
+11. **Seata**: 分布式事务管理，确保跨服务事务一致性
 
 ## 技术栈
 
-- **Spring Boot 2.5.4**: 服务基础框架
+- **Spring Boot 3.2.2**: 服务基础框架
+- **Spring Cloud 2023.0.0**: 微服务框架
 - **Spring Cloud Netflix Eureka**: 服务注册与发现
 - **Spring Cloud Gateway**: API网关
-- **Seata 1.4.2**: 分布式事务管理
-- **RabbitMQ**: 消息队列，用于削峰
+- **Spring Cloud OpenFeign**: 服务间通信
+- **Spring Cloud CircuitBreaker**: 服务熔断和降级
+- **Seata 1.7.1**: 分布式事务管理
+- **RabbitMQ**: 消息队列，用于异步通信和削峰
+- **MySQL 8.0**: 主从复制数据库
+- **Spring Data JPA**: 数据访问层
+- **Spring Security**: 安全框架
+- **AOP**: 面向切面编程，用于数据库读写分离
 - **Web3j**: 以太坊客户端，用于区块链交互
 - **OkHttp3**: HTTP客户端，用于OKX API交互
-- **H2 Database**: 嵌入式数据库，用于开发测试
-- **Spring Data JPA**: 数据访问层
+- **Spring Boot Actuator**: 服务监控
 
 ## 功能模块
 
@@ -163,11 +184,12 @@
 
 | 路径 | 服务 | 描述 |
 |------|------|------|
-| `/api/user/**` | user-service | 用户服务接口 |
-| `/api/exchange/**` | exchange-service | 兑换服务接口 |
-| `/api/inventory/**` | inventory-service | 库存服务接口 |
-| `/api/blockchain/**` | blockchain-service | 区块链服务接口 |
-| `/api/resources/**` | user-service | 资源管理接口 |
+| `/api/user/**` | user-auth-service | 用户认证服务接口 |
+| `/api/resources/**` | resource-service | 资源管理服务接口 |
+| `/api/chemistry/**` | chemistry-content-service | 化学内容服务接口 |
+| `/api/quiz/**` | quiz-service | 答题服务接口 |
+| `/api/reward/**` | reward-service | 奖励服务接口（积分兑换和库存管理） |
+| `/api/learning/**` | learning-service | 学习服务接口（学习进度和任务管理） |
 
 ## 部署说明
 
@@ -181,50 +203,79 @@
 
 ### 服务启动顺序
 
-1. **启动 Eureka Server**
+1. **启动 MySQL 主从复制集群**
+   ```bash
+   cd mysql-master-slave
+   docker-compose up -d
+   ```
+
+2. **启动 RabbitMQ**
+   ```bash
+   docker run -d --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.8-management
+   ```
+
+3. **启动 Eureka Server**
    ```bash
    cd eureka-server
    mvn spring-boot:run
    ```
 
-2. **启动 User Service**
+4. **启动 User Auth Service**
    ```bash
-   cd user-service
+   cd user-auth-service
    mvn spring-boot:run
    ```
 
-3. **启动 Inventory Service**
+5. **启动 Resource Service**
    ```bash
-   cd inventory-service
+   cd resource-service
    mvn spring-boot:run
    ```
 
-4. **启动 Exchange Service**
+6. **启动 Chemistry Content Service**
    ```bash
-   cd exchange-service
+   cd chemistry-content-service
    mvn spring-boot:run
    ```
 
-5. **启动 Blockchain Service**
+7. **启动 Quiz Service**
    ```bash
-   cd blockchain-service
+   cd quiz-service
    mvn spring-boot:run
    ```
 
-6. **启动 API Gateway**
+8. **启动 Reward Service**
    ```bash
-   cd api-gateway
+   cd reward-service
    mvn spring-boot:run
    ```
+
+9. **启动 Learning Service**
+   ```bash
+   cd learning-service
+   mvn spring-boot:run
+   ```
+
+10. **启动 API Gateway**
+    ```bash
+    cd api-gateway
+    mvn spring-boot:run
+    ```
 
 ### 服务地址
 
 - Eureka Server: http://localhost:8761
-- User Service: http://localhost:8082
-- Inventory Service: http://localhost:8084
-- Exchange Service: http://localhost:8083
-- Blockchain Service: http://localhost:8085
+- User Auth Service: http://localhost:8081
+- Resource Service: http://localhost:8082
+- Chemistry Content Service: http://localhost:8083
+- Quiz Service: http://localhost:8084
+- Reward Service: http://localhost:8085
+- Learning Service: http://localhost:8086
 - API Gateway: http://localhost:8080
+- MySQL Master: localhost:3306
+- MySQL Slave 1: localhost:3307
+- MySQL Slave 2: localhost:3308
+- RabbitMQ Management: http://localhost:15672
 
 ## 测试说明
 
@@ -237,61 +288,83 @@
 
 2. **检查物品库存**
    ```bash
-   curl http://localhost:8080/api/inventory/check/1
+   curl http://localhost:8080/api/resources/items/1
    ```
 
 3. **处理积分兑换**
    ```bash
-   curl -X POST http://localhost:8080/api/exchange/process \
+   curl -X POST http://localhost:8080/api/reward/process-exchange \
      -H "Content-Type: application/json" \
      -d '{"userId": 1, "itemId": 1}'
    ```
 
-4. **异步处理积分兑换（削峰）**
+4. **检查兑换记录**
    ```bash
-   curl -X POST http://localhost:8080/api/exchange/async-process \
+   curl http://localhost:8080/api/reward/exchange-records?userId=1
+   ```
+
+### 资源管理测试
+
+1. **获取资源分类**
+   ```bash
+   curl http://localhost:8080/api/resources/categories
+   ```
+
+2. **获取资源物品**
+   ```bash
+   curl http://localhost:8080/api/resources/items
+   ```
+
+3. **创建资源物品**
+   ```bash
+   curl -X POST http://localhost:8080/api/resources/items \
      -H "Content-Type: application/json" \
-     -d '{"userId": 1, "itemId": 1}'
+     -d '{"name": "化学实验器材", "description": "基础化学实验器材套装", "categoryId": 1, "points": 200, "stock": 50}'
    ```
 
-### 库存管理测试
+### 化学内容测试
 
-1. **更新库存**
+1. **获取化学元素列表**
    ```bash
-   curl -X POST http://localhost:8080/api/inventory/update \
+   curl http://localhost:8080/api/chemistry/elements
+   ```
+
+2. **获取化学元素详情**
+   ```bash
+   curl http://localhost:8080/api/chemistry/elements/1
+   ```
+
+3. **搜索化学元素**
+   ```bash
+   curl http://localhost:8080/api/chemistry/elements/search?query=氢
+   ```
+
+### 答题测试
+
+1. **获取每日随机题目**
+   ```bash
+   curl "http://localhost:8080/api/quiz/daily-questions?userId=1&deviceId=device_123456"
+   ```
+
+2. **提交答题结果**
+   ```bash
+   curl -X POST "http://localhost:8080/api/quiz/submit?userId=1&deviceId=device_123456" \
      -H "Content-Type: application/json" \
-     -d '{"itemId": 1, "quantity": -1}'
+     -d '{
+       "answers": {
+         "1": "B",
+         "2": "C",
+         "3": "A",
+         "4": "D",
+         "5": "A"
+       },
+       "timeSpent": 60
+     }'
    ```
 
-2. **异步更新库存（削峰）**
+3. **获取用户错题集**
    ```bash
-   curl -X POST http://localhost:8080/api/inventory/async-update \
-     -H "Content-Type: application/json" \
-     -d '{"itemId": 1, "quantity": -1}'
-   ```
-
-3. **同步库存**
-   ```bash
-   curl -X POST http://localhost:8080/api/inventory/sync
-   ```
-
-### 区块链测试
-
-1. **获取最佳网络**
-   ```bash
-   curl http://localhost:8080/api/blockchain/best-network
-   ```
-
-2. **获取Gas费用**
-   ```bash
-   curl http://localhost:8080/api/blockchain/gas-price/ethereum/mainnet
-   ```
-
-3. **发送交易**
-   ```bash
-   curl -X POST http://localhost:8080/api/blockchain/transaction/send \
-     -H "Content-Type: application/json" \
-     -d '{"from": "0x1234567890123456789012345678901234567890", "to": "0x0987654321098765432109876543210987654321", "amount": 1, "network": "ethereum", "chainType": "testnet"}'
+   curl "http://localhost:8080/api/quiz/mistakes?userId=1&page=1&size=10"
    ```
 
 ### 签到测试
@@ -504,40 +577,47 @@ logging:
    - 切换到备用网络
    - 等待网络恢复后重试交易
 
-## 性能优化
+## 系统优化
 
-1. **消息队列削峰**
-   - 使用异步处理模式，减轻服务直接压力
-   - 合理设置队列大小和消费者数量
+### 1. 监控和可观测性
+- **Spring Boot Actuator**: 提供服务健康状态、性能指标和运行信息
+- **Micrometer**: 指标收集框架，支持多种监控系统
+- **Prometheus**: 开源监控系统，用于存储和查询指标数据
+- **Grafana**: 数据可视化平台，提供实时监控面板
 
-2. **缓存优化**
-   - 对热点数据进行缓存
-   - 使用 Redis 作为分布式缓存
+### 2. 服务容错和可靠性
+- **Resilience4j**: 轻量级容错库，提供熔断器、限流、重试等功能
+- **Circuit Breaker**: 服务熔断机制，防止故障扩散
+- **Fallback**: 服务降级策略，确保系统在服务不可用时仍能正常运行
 
-3. **数据库优化**
-   - 使用索引优化查询性能
-   - 合理设计数据库表结构
+### 3. 缓存优化
+- **Redis Cache**: 分布式缓存，提高系统响应速度
+- **Spring Cache**: 缓存抽象，简化缓存操作
+- **缓存策略**: 合理设置缓存过期时间，确保数据一致性
 
-4. **服务优化**
-   - 合理设置线程池大小
-   - 优化服务间调用，减少网络延迟
+### 4. 安全措施
+- **API Key认证**: 基于API密钥的访问控制
+- **HTTPS加密**: 安全的HTTP传输，保护数据安全
+- **Spring Security**: 提供全面的安全解决方案
 
-5. **区块链优化**
-   - 基于Gas费用选择最优网络
-   - 批量处理交易，减少网络请求
+### 5. 容器化部署
+- **Docker**: 容器化运行环境
+- **Kubernetes**: 容器编排平台，提供自动化部署、扩展和管理
+- **Helm**: Kubernetes包管理器，简化应用部署
 
 ## 安全措施
 
 1. **接口安全**
    - 使用 API Gateway 进行请求过滤
    - 实现接口访问限流
+   - API Key认证，防止未授权访问
 
 2. **数据安全**
    - 对敏感数据进行加密存储
    - 实现数据访问权限控制
 
 3. **网络安全**
-   - 使用 HTTPS 协议
+   - 使用 HTTPS 协议，确保数据传输安全
    - 配置防火墙规则
 
 4. **区块链安全**
@@ -558,6 +638,7 @@ logging:
 | 1.3.1 | 2026-01-27 | 更新答题功能，每道题的答题时间限制为40秒 |
 | 1.3.2 | 2026-01-27 | 更新答题功能，每道题的答题时间限制为45秒，添加答题总结页面、错题收藏和错题集功能 |
 | 1.3.3 | 2026-01-27 | 增强签到和答题功能：1. 相同IP地址一天只能签到一次 2. 每个设备ID只能做一次答题 3. 一天中每个人的题目不同 |
+| 2.0.0 | 2026-01-28 | 系统优化版本：添加监控和可观测性（Prometheus+Grafana）、服务容错（Resilience4j）、缓存优化（Redis）、安全措施（API Key+HTTPS）、容器化部署（Kubernetes） |
 
 ### 代码仓库
 

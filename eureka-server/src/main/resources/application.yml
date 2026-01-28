@@ -24,14 +24,17 @@ eureka:
     # 响应缓存更新时间
     response-cache-update-interval-ms: 30000
 
-# 暴露所有端点
+# 监控配置
 management:
   endpoints:
     web:
       exposure:
-        include: "*"
+        include: health,info,metrics,prometheus,shutdown
   endpoint:
     shutdown:
       enabled: true
     health:
       show-details: always
+  metrics:
+    tags:
+      application: ${spring.application.name}

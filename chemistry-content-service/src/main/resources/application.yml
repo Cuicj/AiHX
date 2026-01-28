@@ -1,0 +1,58 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: chemistry-content-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/chemistry_learning?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
+
+# Eureka配置
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    # 启用健康检查
+    healthcheck:
+      enabled: true
+  instance:
+    prefer-ip-address: true
+    # 服务续约间隔
+    lease-renewal-interval-in-seconds: 30
+    # 服务过期时间
+    lease-expiration-duration-in-seconds: 90
+    # 实例ID
+    instance-id: ${spring.cloud.client.hostname}:${spring.application.name}:${server.port}
+
+# 监控配置
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    tags:
+      application: ${spring.application.name}

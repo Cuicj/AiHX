@@ -1,0 +1,177 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-init
+  namespace: cmatedata
+data:
+  init.sql: |
+    -- 创建用户认证数据库
+    CREATE DATABASE IF NOT EXISTS user_auth_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+    USE user_auth_db;
+    
+    -- 用户表
+    CREATE TABLE IF NOT EXISTS users (
+        id BIGINT AUTO_INCREMENT PRIMARY KEY,
+        username VARCHAR(50) NOT NULL UNIQUE,
+        password VARCHAR(100) NOT NULL,
+        email VARCHAR(100) NOT NULL UNIQUE,
+        phone VARCHAR(20) NOT NULL UNIQUE,
+        points INT DEFAULT 0,
+        role VARCHAR(20) DEFAULT 'USER',
+        enabled BOOLEAN DEFAULT TRUE,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    
+    -- 签到记录表
+    CREATE TABLE IF NOT EXISTS checkin_records (
+        id BIGINT AUTO_INCREMENT PRIMARY KEY,
+        user_id BIGINT NOT NULL,
+        device_id VARCHAR(100) NOT NULL,
+        ip_address VARCHAR(50) NOT NULL,
+        points INT NOT NULL,
+        checkin_date DATE NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users(id)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    
+    -- 创建资源数据库
+    CREATE DATABASE IF NOT EXISTS resource_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+    USE resource_db;
+    
+    -- 资源分类表
+    CREATE TABLE IF NOT EXISTS resource_categories (
+        id BIGINT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(100) NOT NULL,
+        description TEXT,
+        status VARCHAR(20) DEFAULT 'ACTIVE',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    
+    -- 资源物品表
+    CREATE TABLE IF NOT EXISTS resource_items (
+        id BIGINT AUTO_INCREMENT PRIMARY KEY,
+        category_id BIGINT NOT NULL,
+        name VARCHAR(100) NOT NULL,
+        description TEXT,
+        points INT NOT NULL,
+        stock INT NOT NULL,
+        status VARCHAR(20) DEFAULT 'ACTIVE',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        FOREIGN KEY (category_id) REFERENCES resource_categories(id)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    
+    -- 创建化学内容数据库
+    CREATE DATABASE IF NOT EXISTS chemistry_content_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+    USE chemistry_content_db;
+    
+    -- 化学元素表
+    CREATE TABLE IF NOT EXISTS elements (
+        id BIGINT AUTO_INCREMENT PRIMARY KEY,
+        atomic_number INT NOT NULL UNIQUE,
+        symbol VARCHAR(10) NOT NULL UNIQUE,
+        name VARCHAR(50) NOT NULL UNIQUE,
+        atomic_mass DOUBLE NOT NULL,
+        category VARCHAR(50),
+        description TEXT,
+        electron_configuration TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    
+    -- 创建答题数据库
+    CREATE DATABASE IF NOT EXISTS quiz_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+    USE quiz_db;
+    
+    -- 题库表
+    CREATE TABLE IF NOT EXISTS question_banks (
+        id BIGINT AUTO_INCREMENT PRIMARY KEY,
+        question TEXT NOT NULL,
+        options JSON NOT NULL,
+        correct_answer VARCHAR(10) NOT NULL,
+        difficulty VARCHAR(20) DEFAULT 'MEDIUM',
+        subject VARCHAR(50) DEFAULT 'CHEMISTRY',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    
+    -- 答题记录表
+    CREATE TABLE IF NOT EXISTS quiz_records (
+        id BIGINT AUTO_INCREMENT PRIMARY KEY,
+        user_id BIGINT NOT NULL,
+        total_questions INT NOT NULL,
+        correct_answers INT NOT NULL,
+        score INT NOT NULL,
+        time_spent INT NOT NULL,
+        quiz_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    
+    -- 答题详情表
+    CREATE TABLE IF NOT EXISTS quiz_details (
+        id BIGINT AUTO_INCREMENT PRIMARY KEY,
+        quiz_record_id BIGINT NOT NULL,
+        question_id BIGINT NOT NULL,
+        user_answer VARCHAR(10) NOT NULL,
+        is_correct BOOLEAN NOT NULL,
+        FOREIGN KEY (quiz_record_id) REFERENCES quiz_records(id)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    
+    -- 用户错题表
+    CREATE TABLE IF NOT EXISTS user_mistakes (
+        id BIGINT AUTO_INCREMENT PRIMARY KEY,
+        user_id BIGINT NOT NULL,
+        question_id BIGINT NOT NULL,
+        collect_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (question_id) REFERENCES question_banks(id)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    
+    -- 创建奖励数据库
+    CREATE DATABASE IF NOT EXISTS reward_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+    USE reward_db;
+    
+    -- 兑换记录表
+    CREATE TABLE IF NOT EXISTS exchange_records (
+        id BIGINT AUTO_INCREMENT PRIMARY KEY,
+        user_id BIGINT NOT NULL,
+        item_id BIGINT NOT NULL,
+        item_name VARCHAR(100) NOT NULL,
+        points INT NOT NULL,
+        exchange_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    
+    -- 创建学习数据库
+    CREATE DATABASE IF NOT EXISTS learning_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+    USE learning_db;
+    
+    -- 学习进度表
+    CREATE TABLE IF NOT EXISTS learning_progress (
+        id BIGINT AUTO_INCREMENT PRIMARY KEY,
+        user_id BIGINT NOT NULL,
+        subject VARCHAR(50) NOT NULL,
+        chapter VARCHAR(100) NOT NULL,
+        progress_percentage INT DEFAULT 0,
+        last_studied_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    
+    -- 任务表
+    CREATE TABLE IF NOT EXISTS tasks (
+        id BIGINT AUTO_INCREMENT PRIMARY KEY,
+        title VARCHAR(100) NOT NULL,
+        description TEXT,
+        points INT NOT NULL,
+        status VARCHAR(20) DEFAULT 'ACTIVE',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    
+    -- 用户任务表
+    CREATE TABLE IF NOT EXISTS user_tasks (
+        id BIGINT AUTO_INCREMENT PRIMARY KEY,
+        user_id BIGINT NOT NULL,
+        task_id BIGINT NOT NULL,
+        status VARCHAR(20) DEFAULT 'PENDING',
+        completed_at TIMESTAMP NULL,
+        FOREIGN KEY (task_id) REFERENCES tasks(id)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

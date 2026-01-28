@@ -1,5 +1,12 @@
 server:
-  port: 8080
+  port: 8443
+  ssl:
+    enabled: true
+    key-store: classpath:keystore.jks
+    key-store-password: password
+    key-password: password
+    key-alias: apigateway
+    key-store-type: JKS
 
 spring:
   application:
@@ -7,25 +14,9 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: chemistry-service
-          uri: lb://chemistry-service
-          predicates:
-            - Path=/api/chemistry/**
-          filters:
-            - StripPrefix=2
-            - name: RateLimit
-              args:
-                limit: 10
-                refreshInterval: 1
-            - name: Ip
-              args:
-                whitelist:
-                  - 127.0.0.1
-                  - 192.168.1.0/24
-                blacklist:
-                  - 10.0.0.1
-        - id: user-service
-          uri: lb://user-service
+        # 用户认证服务路由
+        - id: user-auth-service
+          uri: lb://user-auth-service
           predicates:
             - Path=/api/user/**
           filters:
@@ -47,8 +38,17 @@ spring:
                   - User-Agent
                 requiredParams:
                   - timestamp
-        - id: user-service-resources
-          uri: lb://user-service
+            - name: CircuitBreaker
+              args:
+                name: userAuthServiceCircuitBreaker
+                fallbackUri: forward:/fallback/user
+            - name: ApiKey
+              args:
+                required: true
+
+        # 资源服务路由
+        - id: resource-service
+          uri: lb://resource-service
           predicates:
             - Path=/api/resources/**
           filters:
@@ -64,94 +64,43 @@ spring:
                   - 192.168.1.0/24
                 blacklist:
                   - 10.0.0.1
-        - id: learning-progress-service
-          uri: lb://learning-progress-service
-          predicates:
-            - Path=/api/progress/**
-          filters:
-            - StripPrefix=2
-            - name: RateLimit
+            - name: CircuitBreaker
               args:
-                limit: 8
-                refreshInterval: 1
-            - name: Ip
+                name: resourceServiceCircuitBreaker
+                fallbackUri: forward:/fallback/resource
+            - name: ApiKey
               args:
-                whitelist:
-                  - 127.0.0.1
-                  - 192.168.1.0/24
-                blacklist:
-                  - 10.0.0.1
-        - id: ai-service
-          uri: lb://ai-service
-          predicates:
-            - Path=/api/ai/**
-          filters:
-            - StripPrefix=2
-            - name: RateLimit
-              args:
-                limit: 5
-                refreshInterval: 1
-            - name: Ip
-              args:
-                whitelist:
-                  - 127.0.0.1
-                  - 192.168.1.0/24
-                blacklist:
-                  - 10.0.0.1
-        - id: exchange-service
-          uri: lb://exchange-service
-          predicates:
-            - Path=/api/exchange/**
-          filters:
-            - StripPrefix=2
-            - name: RateLimit
-              args:
-                limit: 5
-                refreshInterval: 1
-            - name: Ip
-              args:
-                whitelist:
-                  - 127.0.0.1
-                  - 192.168.1.0/24
-                blacklist:
-                  - 10.0.0.1
-        - id: inventory-service
-          uri: lb://inventory-service
-          predicates:
-            - Path=/api/inventory/**
-          filters:
-            - StripPrefix=2
-            - name: RateLimit
-              args:
-                limit: 5
-                refreshInterval: 1
-            - name: Ip
-              args:
-                whitelist:
-                  - 127.0.0.1
-                  - 192.168.1.0/24
-                blacklist:
-                  - 10.0.0.1
-        - id: blockchain-service
-          uri: lb://blockchain-service
-          predicates:
-            - Path=/api/blockchain/**
-          filters:
-            - StripPrefix=2
-            - name: RateLimit
-              args:
-                limit: 5
-                refreshInterval: 1
-            - name: Ip
-              args:
-                whitelist:
-                  - 127.0.0.1
-                  - 192.168.1.0/24
-                blacklist:
-                  - 10.0.0.1
+                required: true
 
+        # 化学内容服务路由
+        - id: chemistry-content-service
+          uri: lb://chemistry-content-service
+          predicates:
+            - Path=/api/chemistry/**
+          filters:
+            - StripPrefix=2
+            - name: RateLimit
+              args:
+                limit: 10
+                refreshInterval: 1
+            - name: Ip
+              args:
+                whitelist:
+                  - 127.0.0.1
+                  - 192.168.1.0/24
+                blacklist:
+                  - 10.0.0.1
+            - name: CircuitBreaker
+              args:
+                name: chemistryContentServiceCircuitBreaker
+                fallbackUri: forward:/fallback/chemistry
+            - name: ApiKey
+              args:
+                required: true
+
+        # 答题服务路由
         - id: quiz-service
-          uri: lb://chemistry-service
+          uri: lb://quiz-service
           predicates:
             - Path=/api/quiz/**
           filters:
@@ -167,6 +116,65 @@ spring:
                   - 192.168.1.0/24
                 blacklist:
                   - 10.0.0.1
+            - name: CircuitBreaker
+              args:
+                name: quizServiceCircuitBreaker
+                fallbackUri: forward:/fallback/quiz
+            - name: ApiKey
+              args:
+                required: true
+
+        # 奖励服务路由
+        - id: reward-service
+          uri: lb://reward-service
+          predicates:
+            - Path=/api/reward/**
+          filters:
+            - StripPrefix=2
+            - name: RateLimit
+              args:
+                limit: 5
+                refreshInterval: 1
+            - name: Ip
+              args:
+                whitelist:
+                  - 127.0.0.1
+                  - 192.168.1.0/24
+                blacklist:
+                  - 10.0.0.1
+            - name: CircuitBreaker
+              args:
+                name: rewardServiceCircuitBreaker
+                fallbackUri: forward:/fallback/reward
+            - name: ApiKey
+              args:
+                required: true
+
+        # 学习服务路由
+        - id: learning-service
+          uri: lb://learning-service
+          predicates:
+            - Path=/api/learning/**
+          filters:
+            - StripPrefix=2
+            - name: RateLimit
+              args:
+                limit: 8
+                refreshInterval: 1
+            - name: Ip
+              args:
+                whitelist:
+                  - 127.0.0.1
+                  - 192.168.1.0/24
+                blacklist:
+                  - 10.0.0.1
+            - name: CircuitBreaker
+              args:
+                name: learningServiceCircuitBreaker
+                fallbackUri: forward:/fallback/learning
+            - name: ApiKey
+              args:
+                required: true
 
 eureka:
   client:
@@ -184,14 +192,74 @@ eureka:
     # 实例ID
     instance-id: ${spring.cloud.client.hostname}:${spring.application.name}:${server.port}
 
-# 暴露所有端点
+# 监控配置
 management:
   endpoints:
     web:
       exposure:
-        include: "*"
+        include: health,info,metrics,prometheus
   endpoint:
-    shutdown:
-      enabled: true
     health:
       show-details: always
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+# Resilience4j 配置
+resilience4j:
+  circuitbreaker:
+    instances:
+      userAuthServiceCircuitBreaker:
+        registerHealthIndicator: true
+        slidingWindowSize: 100
+        minimumNumberOfCalls: 10
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 60s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+      resourceServiceCircuitBreaker:
+        registerHealthIndicator: true
+        slidingWindowSize: 100
+        minimumNumberOfCalls: 10
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 60s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+      chemistryContentServiceCircuitBreaker:
+        registerHealthIndicator: true
+        slidingWindowSize: 100
+        minimumNumberOfCalls: 10
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 60s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+      quizServiceCircuitBreaker:
+        registerHealthIndicator: true
+        slidingWindowSize: 100
+        minimumNumberOfCalls: 10
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 60s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+      rewardServiceCircuitBreaker:
+        registerHealthIndicator: true
+        slidingWindowSize: 100
+        minimumNumberOfCalls: 10
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 60s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+      learningServiceCircuitBreaker:
+        registerHealthIndicator: true
+        slidingWindowSize: 100
+        minimumNumberOfCalls: 10
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 60s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
