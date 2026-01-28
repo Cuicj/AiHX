@@ -3,295 +3,374 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>任务管理 - 化学学习平台</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+    <title>定时任务管理</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/antd@5.12.8/dist/reset.css">
     <style>
-        .task-card {
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background-color: #1890ff;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 600;
+        }
+        .header p {
+            margin: 10px 0 0 0;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .card h2 {
+            margin: 0 0 20px 0;
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            border-bottom: 1px solid #f0f0f0;
+            padding-bottom: 10px;
+        }
+        .task-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .task-item {
+            border: 1px solid #e8e8e8;
+            border-radius: 6px;
+            padding: 16px;
             transition: all 0.3s ease;
         }
-        .task-card:hover {
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transform: translateY(-2px);
+        .task-item:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-color: #1890ff;
+        }
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .task-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
         }
         .task-status {
-            font-weight: bold;
-            padding: 2px 8px;
+            padding: 4px 12px;
             border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
         }
-        .status-pending {
-            background-color: #ffc107;
-            color: #212529;
+        .status-running {
+            background-color: #f6ffed;
+            color: #52c41a;
+            border: 1px solid #b7eb8f;
         }
-        .status-in-progress {
-            background-color: #17a2b8;
-            color: white;
+        .status-stopped {
+            background-color: #fff1f0;
+            color: #ff4d4f;
+            border: 1px solid #ffccc7;
         }
-        .status-completed {
-            background-color: #28a745;
-            color: white;
+        .task-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            font-size: 14px;
+            color: #666;
         }
-        .status-cancelled {
-            background-color: #dc3545;
-            color: white;
+        .info-item {
+            display: flex;
+            flex-direction: column;
         }
-        .task-priority {
-            font-weight: bold;
+        .info-label {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 4px;
+        }
+        .info-value {
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+        }
+        .task-description {
+            margin-top: 12px;
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+        }
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .history-item {
+            border: 1px solid #e8e8e8;
+            border-radius: 6px;
+            padding: 12px;
+            transition: all 0.3s ease;
+        }
+        .history-item:hover {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .history-task-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+        .history-status {
             padding: 2px 8px;
-            border-radius: 12px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 500;
         }
-        .priority-high {
-            background-color: #dc3545;
+        .history-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 8px;
+            font-size: 12px;
+            color: #666;
+        }
+        .history-message {
+            margin-top: 8px;
+            font-size: 12px;
+            color: #666;
+            line-height: 1.4;
+        }
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            color: #1890ff;
+            font-size: 16px;
+        }
+        .error {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            color: #ff4d4f;
+            font-size: 16px;
+        }
+        .refresh-btn {
+            background-color: #1890ff;
             color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 16px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
         }
-        .priority-medium {
-            background-color: #ffc107;
-            color: #212529;
+        .refresh-btn:hover {
+            background-color: #40a9ff;
         }
-        .priority-low {
-            background-color: #28a745;
-            color: white;
+        .refresh-btn:active {
+            background-color: #096dd9;
+        }
+        .status-success {
+            background-color: #f6ffed;
+            color: #52c41a;
+            border: 1px solid #b7eb8f;
+        }
+        .status-failure {
+            background-color: #fff1f0;
+            color: #ff4d4f;
+            border: 1px solid #ffccc7;
         }
     </style>
 </head>
 <body>
-    <!-- 导航栏 -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="index.html">
-                <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=chemistry%20learning%20platform%20logo%2C%20modern%20design%2C%20blue%20color%20scheme&image_size=square" alt="Logo" width="30" height="30" class="d-inline-block align-text-top">
-                化学学习平台
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html">首页</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="periodic-table.html">元素周期表</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="element-categories.html">元素分类</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="element-discovery.html">元素发现史</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="tasks.html">任务管理</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="ai-assistant.html">AI助手</a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="login.html">登录</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="register.html">注册</a>
-                    </li>
-                </ul>
-            </div>
+    <div class="container">
+        <div class="header">
+            <h1>定时任务管理</h1>
+            <p>实时监控和管理系统中的定时任务</p>
         </div>
-    </nav>
 
-    <!-- 主内容区 -->
-    <div class="container mt-5">
-        <h1 class="text-center mb-5">任务管理</h1>
-
-        <!-- 任务筛选 -->
-        <div class="mb-4">
-            <div class="row">
-                <div class="col-md-3">
-                    <select class="form-select" id="statusFilter">
-                        <option value="">所有状态</option>
-                        <option value="PENDING">待处理</option>
-                        <option value="IN_PROGRESS">进行中</option>
-                        <option value="COMPLETED">已完成</option>
-                        <option value="CANCELLED">已取消</option>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <select class="form-select" id="priorityFilter">
-                        <option value="">所有优先级</option>
-                        <option value="HIGH">高</option>
-                        <option value="MEDIUM">中</option>
-                        <option value="LOW">低</option>
-                    </select>
-                </div>
-                <div class="col-md-6">
-                    <input type="text" class="form-control" id="searchInput" placeholder="搜索任务标题">
-                </div>
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2>定时任务列表</h2>
+                <button class="refresh-btn" onclick="loadTasks()">刷新任务</button>
+            </div>
+            <div id="task-list" class="task-list">
+                <div class="loading">加载任务中...</div>
             </div>
         </div>
 
-        <!-- 任务列表 -->
-        <div class="row" id="taskList">
-            <!-- 任务卡片将通过JavaScript动态生成 -->
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2>任务执行历史</h2>
+                <button class="refresh-btn" onclick="loadTaskHistory()">刷新历史</button>
+            </div>
+            <div id="history-list" class="history-list">
+                <div class="loading">加载历史记录中...</div>
+            </div>
         </div>
     </div>
 
-    <!-- 页脚 -->
-    <footer class="bg-light text-center text-lg-start mt-5">
-        <div class="container p-4">
-            <div class="row">
-                <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
-                    <h5 class="text-uppercase">化学学习平台</h5>
-                    <p>探索化学世界的奥秘，从元素周期表开始</p>
-                </div>
-                <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-                    <h5 class="text-uppercase">快速链接</h5>
-                    <ul class="list-unstyled mb-0">
-                        <li><a href="index.html" class="text-dark">首页</a></li>
-                        <li><a href="periodic-table.html" class="text-dark">元素周期表</a></li>
-                        <li><a href="ai-assistant.html" class="text-dark">AI助手</a></li>
-                        <li><a href="tasks.html" class="text-dark">任务管理</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-                    <h5 class="text-uppercase">联系我们</h5>
-                    <ul class="list-unstyled mb-0">
-                        <li><a href="#" class="text-dark">关于我们</a></li>
-                        <li><a href="#" class="text-dark">隐私政策</a></li>
-                        <li><a href="#" class="text-dark">使用条款</a></li>
-                        <li><a href="#" class="text-dark">常见问题</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="text-center p-3 bg-light">
-            © 2026 化学学习平台 | 版权所有
-        </div>
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.min.js"></script>
     <script>
-        // 任务数据
-        let tasks = [];
+        // API密钥，实际使用时应该从安全存储中获取
+        const API_KEY = 'your-api-key';
 
-        // 初始化
-        document.addEventListener('DOMContentLoaded', function() {
-            fetchTasks();
-            
-            // 筛选事件监听
-            document.getElementById('statusFilter').addEventListener('change', filterTasks);
-            document.getElementById('priorityFilter').addEventListener('change', filterTasks);
-            document.getElementById('searchInput').addEventListener('input', filterTasks);
-        });
+        // 加载定时任务列表
+        function loadTasks() {
+            const taskListElement = document.getElementById('task-list');
+            taskListElement.innerHTML = '<div class="loading">加载任务中...</div>';
 
-        // 获取任务列表
-        function fetchTasks() {
-            fetch('/api/tasks')
-                .then(response => response.json())
-                .then(data => {
-                    tasks = data;
-                    renderTasks(tasks);
-                })
-                .catch(error => {
-                    console.error('获取任务失败:', error);
-                    alert('获取任务失败，请重试');
-                });
+            fetch('/api/tasks/scheduled', {
+                headers: {
+                    'X-API-Key': API_KEY
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('网络响应错误');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.tasks && data.tasks.length > 0) {
+                    taskListElement.innerHTML = '';
+                    data.tasks.forEach(task => {
+                        const taskItem = createTaskItem(task);
+                        taskListElement.appendChild(taskItem);
+                    });
+                } else {
+                    taskListElement.innerHTML = '<div class="error">暂无定时任务</div>';
+                }
+            })
+            .catch(error => {
+                console.error('加载任务失败:', error);
+                taskListElement.innerHTML = '<div class="error">加载任务失败，请稍后重试</div>';
+            });
         }
 
-        // 渲染任务列表
-        function renderTasks(taskList) {
-            const taskListElement = document.getElementById('taskList');
-            taskListElement.innerHTML = '';
+        // 创建任务项元素
+        function createTaskItem(task) {
+            const taskItem = document.createElement('div');
+            taskItem.className = 'task-item';
 
-            if (taskList.length === 0) {
-                taskListElement.innerHTML = '<div class="col-12 text-center py-5"><p>暂无任务</p></div>';
-                return;
-            }
-
-            taskList.forEach(task => {
-                const taskCard = document.createElement('div');
-                taskCard.className = 'col-md-4 mb-4';
-                taskCard.innerHTML = `
-                    <div class="card task-card h-100">
-                        <div class="card-header">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h5 class="card-title">${task.title}</h5>
-                                <span class="task-priority priority-${task.priority.toLowerCase()}">${getPriorityText(task.priority)}</span>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <p class="card-text">${task.description || '无描述'}</p>
-                            <div class="mb-2">
-                                <span class="text-muted">负责人:</span> ${getUserName(task.assigneeId)}
-                            </div>
-                            <div class="mb-2">
-                                <span class="text-muted">创建人:</span> ${getUserName(task.creatorId)}
-                            </div>
-                            <div class="mb-2">
-                                <span class="text-muted">截止日期:</span> ${formatDate(task.dueDate)}
-                            </div>
-                        </div>
-                        <div class="card-footer">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="task-status status-${task.status.toLowerCase().replace('-', '')}">${getStatusText(task.status)}</span>
-                                <span class="text-muted">${formatDate(task.createdAt)}</span>
-                            </div>
-                        </div>
+            taskItem.innerHTML = `
+                <div class="task-header">
+                    <div class="task-name">${task.taskName}</div>
+                    <div class="task-status status-${task.status}">${task.status === 'running' ? '运行中' : '已停止'}</div>
+                </div>
+                <div class="task-info">
+                    <div class="info-item">
+                        <div class="info-label">任务ID</div>
+                        <div class="info-value">${task.taskId}</div>
                     </div>
-                `;
-                taskListElement.appendChild(taskCard);
+                    <div class="info-item">
+                        <div class="info-label">Cron表达式</div>
+                        <div class="info-value">${task.cronExpression}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">上次执行</div>
+                        <div class="info-value">${task.lastExecuted}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">下次执行</div>
+                        <div class="info-value">${task.nextExecution}</div>
+                    </div>
+                </div>
+                <div class="task-description">${task.description}</div>
+            `;
+
+            return taskItem;
+        }
+
+        // 加载任务执行历史
+        function loadTaskHistory() {
+            const historyListElement = document.getElementById('history-list');
+            historyListElement.innerHTML = '<div class="loading">加载历史记录中...</div>';
+
+            fetch('/api/tasks/history', {
+                headers: {
+                    'X-API-Key': API_KEY
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('网络响应错误');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.history && data.history.length > 0) {
+                    historyListElement.innerHTML = '';
+                    data.history.forEach(history => {
+                        const historyItem = createHistoryItem(history);
+                        historyListElement.appendChild(historyItem);
+                    });
+                } else {
+                    historyListElement.innerHTML = '<div class="error">暂无执行历史</div>';
+                }
+            })
+            .catch(error => {
+                console.error('加载历史记录失败:', error);
+                historyListElement.innerHTML = '<div class="error">加载历史记录失败，请稍后重试</div>';
             });
         }
 
-        // 筛选任务
-        function filterTasks() {
-            const statusFilter = document.getElementById('statusFilter').value;
-            const priorityFilter = document.getElementById('priorityFilter').value;
-            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+        // 创建历史记录项元素
+        function createHistoryItem(history) {
+            const historyItem = document.createElement('div');
+            historyItem.className = 'history-item';
 
-            const filteredTasks = tasks.filter(task => {
-                const matchesStatus = !statusFilter || task.status === statusFilter;
-                const matchesPriority = !priorityFilter || task.priority === priorityFilter;
-                const matchesSearch = !searchInput || task.title.toLowerCase().includes(searchInput);
-                return matchesStatus && matchesPriority && matchesSearch;
-            });
+            historyItem.innerHTML = `
+                <div class="history-header">
+                    <div class="history-task-name">${history.taskName}</div>
+                    <div class="history-status status-${history.status}">${history.status === 'success' ? '成功' : '失败'}</div>
+                </div>
+                <div class="history-info">
+                    <div class="info-item">
+                        <div class="info-label">执行时间</div>
+                        <div class="info-value">${history.executedTime}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">执行时长</div>
+                        <div class="info-value">${history.duration}</div>
+                    </div>
+                </div>
+                <div class="history-message">${history.message}</div>
+            `;
 
-            renderTasks(filteredTasks);
+            return historyItem;
         }
 
-        // 辅助函数：获取用户名
-        function getUserName(userId) {
-            if (userId === 1) return '管理员';
-            if (userId === 2) return '用户';
-            return `用户${userId}`;
-        }
-
-        // 辅助函数：获取状态文本
-        function getStatusText(status) {
-            const statusMap = {
-                'PENDING': '待处理',
-                'IN_PROGRESS': '进行中',
-                'COMPLETED': '已完成',
-                'CANCELLED': '已取消'
-            };
-            return statusMap[status] || status;
-        }
-
-        // 辅助函数：获取优先级文本
-        function getPriorityText(priority) {
-            const priorityMap = {
-                'HIGH': '高',
-                'MEDIUM': '中',
-                'LOW': '低'
-            };
-            return priorityMap[priority] || priority;
-        }
-
-        // 辅助函数：格式化日期
-        function formatDate(dateString) {
-            if (!dateString) return '无';
-            const date = new Date(dateString);
-            return date.toLocaleString('zh-CN');
-        }
+        // 页面加载时初始化数据
+        window.onload = function() {
+            loadTasks();
+            loadTaskHistory();
+        };
     </script>
 </body>
 </html>

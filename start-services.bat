@@ -46,6 +46,12 @@ timeout 5 > nul
 :: 启动Learning Service
 echo Starting Learning Service...
 start cmd /k "cd f:\TEST\CMateData\learning-service && mvn spring-boot:run"
+:: 等待Learning Service启动
+timeout 5 > nul
+
+:: 启动Task Management Service
+echo Starting Task Management Service...
+start cmd /k "cd f:\TEST\CMateData\task-management-service && mvn spring-boot:run"
 
 echo All services have been started!
 echo You can access the services at:
@@ -57,4 +63,6 @@ echo Chemistry Content Service: http://localhost:8083
 echo Quiz Service: http://localhost:8084
 echo Reward Service: http://localhost:8085
 echo Learning Service: http://localhost:8086
+echo Task Management Service: http://localhost:8087
+echo 定时任务管理页面: https://localhost:8443/tasks.html
 pause

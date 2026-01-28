@@ -175,6 +175,31 @@ spring:
             - name: ApiKey
               args:
                 required: true
+        # 任务管理服务路由
+        - id: task-management-service
+          uri: lb://task-management-service
+          predicates:
+            - Path=/api/tasks/**
+          filters:
+            - StripPrefix=2
+            - name: RateLimit
+              args:
+                limit: 5
+                refreshInterval: 1
+            - name: Ip
+              args:
+                whitelist:
+                  - 127.0.0.1
+                  - 192.168.1.0/24
+                blacklist:
+                  - 10.0.0.1
+            - name: CircuitBreaker
+              args:
+                name: taskManagementServiceCircuitBreaker
+                fallbackUri: forward:/fallback/task-management
+            - name: ApiKey
+              args:
+                required: true
 
 eureka:
   client:
@@ -255,6 +280,15 @@ resilience4j:
         failureRateThreshold: 50
         eventConsumerBufferSize: 10
       learningServiceCircuitBreaker:
+        registerHealthIndicator: true
+        slidingWindowSize: 100
+        minimumNumberOfCalls: 10
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 60s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+      taskManagementServiceCircuitBreaker:
         registerHealthIndicator: true
         slidingWindowSize: 100
         minimumNumberOfCalls: 10
