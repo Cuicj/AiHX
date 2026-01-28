@@ -281,6 +281,268 @@
             line-height: 1.4;
         }
         
+        /* 赛博朋克风格缓冲页面样式 */
+        .splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out;
+            overflow: hidden;
+        }
+        
+        /* 化学背景效果 */
+        .splash-screen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(121, 255, 219, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 121, 219, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(121, 219, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 60% 60%, rgba(219, 121, 255, 0.1) 0%, transparent 50%);
+            animation: bgPulse 8s ease-in-out infinite;
+        }
+        
+        /* 化学反应粒子效果 */
+        .chemical-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(121, 255, 219, 0.8);
+            border-radius: 50%;
+            animation: particleFloat 6s ease-in-out infinite;
+        }
+        
+        .particle:nth-child(2n) {
+            background: rgba(255, 121, 219, 0.8);
+            animation-delay: 2s;
+        }
+        
+        .particle:nth-child(3n) {
+            background: rgba(121, 219, 255, 0.8);
+            animation-delay: 4s;
+        }
+        
+        /* 化学分子结构 */
+        .molecule {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border: 1px solid rgba(121, 255, 219, 0.3);
+            border-radius: 50%;
+            animation: moleculeRotate 20s linear infinite;
+        }
+        
+        .molecule::before,
+        .molecule::after {
+            content: '';
+            position: absolute;
+            background: rgba(121, 255, 219, 0.5);
+            border-radius: 50%;
+        }
+        
+        .molecule::before {
+            width: 10px;
+            height: 10px;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .molecule::after {
+            width: 10px;
+            height: 10px;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        /* 元素符号 */
+        .element-symbol {
+            position: absolute;
+            font-family: 'Orbitron', monospace;
+            font-weight: 700;
+            animation: elementFloat 8s ease-in-out infinite;
+            text-shadow: 0 0 10px currentColor;
+        }
+        
+        /* 反应方程式 */
+        .reaction-equation {
+            position: absolute;
+            animation: equationPulse 4s ease-in-out infinite;
+            text-shadow: 0 0 5px currentColor;
+        }
+        
+        @keyframes elementFloat {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(5deg);
+            }
+        }
+        
+        @keyframes equationPulse {
+            0%, 100% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.8;
+                transform: scale(1.1);
+            }
+        }
+        
+        .splash-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .splash-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+        
+        .splash-logo {
+            font-size: 64px;
+            font-weight: 900;
+            color: #79ffdb;
+            text-shadow: 
+                0 0 5px #79ffdb,
+                0 0 10px #79ffdb,
+                0 0 20px #79ffdb,
+                0 0 40px #302b63;
+            margin-bottom: 20px;
+            animation: fadeIn 1s ease-in-out, logoGlow 3s ease-in-out infinite alternate;
+            font-family: 'Orbitron', monospace;
+            letter-spacing: 2px;
+        }
+        
+        .splash-version {
+            font-size: 18px;
+            color: rgba(121, 255, 219, 0.8);
+            margin-bottom: 40px;
+            animation: fadeIn 1s ease-in-out 0.3s both;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .splash-loading {
+            width: 60px;
+            height: 60px;
+            border: 3px solid rgba(121, 255, 219, 0.3);
+            border-top-color: #79ffdb;
+            border-radius: 50%;
+            animation: spin 1s linear infinite, loadingGlow 2s ease-in-out infinite alternate;
+            margin: 0 auto 30px;
+        }
+        
+        .splash-status {
+            font-size: 14px;
+            color: rgba(121, 255, 219, 0.6);
+            font-family: 'Courier New', monospace;
+            animation: statusPulse 2s ease-in-out infinite;
+        }
+        
+        /* 动画效果 */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        @keyframes bgPulse {
+            0%, 100% {
+                opacity: 0.5;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+        
+        @keyframes particleFloat {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            50% {
+                transform: translateY(-100px) translateX(50px);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes moleculeRotate {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        @keyframes logoGlow {
+            from {
+                text-shadow: 
+                    0 0 5px #79ffdb,
+                    0 0 10px #79ffdb,
+                    0 0 20px #79ffdb,
+                    0 0 40px #302b63;
+            }
+            to {
+                text-shadow: 
+                    0 0 10px #79ffdb,
+                    0 0 20px #79ffdb,
+                    0 0 40px #79ffdb,
+                    0 0 80px #302b63;
+            }
+        }
+        
+        @keyframes loadingGlow {
+            from {
+                box-shadow: 0 0 5px rgba(121, 255, 219, 0.5);
+            }
+            to {
+                box-shadow: 0 0 20px rgba(121, 255, 219, 0.8);
+            }
+        }
+        
+        @keyframes statusPulse {
+            0%, 100% {
+                opacity: 0.6;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+        
         @keyframes slideIn {
             from {
                 transform: translateX(100%);
@@ -305,6 +567,69 @@
     </style>
 </head>
 <body>
+    <!-- 赛博朋克风格缓冲页面模板 -->
+    <!-- 模板1：分子结构主题 -->
+    <div class="splash-screen" id="splash-screen-1" style="display: none;">
+        <!-- 化学背景粒子 -->
+        <div class="chemical-particles" id="chemical-particles-1"></div>
+        
+        <!-- 化学分子结构 -->
+        <div class="molecule" style="top: 10%; left: 10%;"></div>
+        <div class="molecule" style="top: 20%; right: 15%; animation-delay: 5s;"></div>
+        <div class="molecule" style="bottom: 15%; left: 20%; animation-delay: 10s;"></div>
+        <div class="molecule" style="bottom: 25%; right: 10%; animation-delay: 15s;"></div>
+        
+        <!-- 主要内容 -->
+        <div class="splash-content">
+            <div class="splash-logo">NFT商城</div>
+            <div class="splash-version">版本 1.0.0</div>
+            <div class="splash-loading"></div>
+            <div class="splash-status" id="splash-status-1">正在分析分子结构...</div>
+        </div>
+    </div>
+    
+    <!-- 模板2：元素周期表主题 -->
+    <div class="splash-screen" id="splash-screen-2" style="display: none;">
+        <!-- 元素背景粒子 -->
+        <div class="chemical-particles" id="chemical-particles-2"></div>
+        
+        <!-- 元素符号 -->
+        <div class="element-symbol" style="top: 15%; left: 15%; font-size: 48px; color: rgba(121, 255, 219, 0.3);">H</div>
+        <div class="element-symbol" style="top: 25%; right: 20%; font-size: 64px; color: rgba(255, 121, 219, 0.3);">O</div>
+        <div class="element-symbol" style="bottom: 20%; left: 25%; font-size: 56px; color: rgba(121, 219, 255, 0.3);">C</div>
+        <div class="element-symbol" style="bottom: 30%; right: 15%; font-size: 40px; color: rgba(219, 121, 255, 0.3);">N</div>
+        
+        <!-- 主要内容 -->
+        <div class="splash-content">
+            <div class="splash-logo">NFT商城</div>
+            <div class="splash-version">版本 1.0.0</div>
+            <div class="splash-loading"></div>
+            <div class="splash-status" id="splash-status-2">正在构建元素周期表...</div>
+        </div>
+    </div>
+    
+    <!-- 模板3：化学反应主题 -->
+    <div class="splash-screen" id="splash-screen-3" style="display: none;">
+        <!-- 反应背景粒子 -->
+        <div class="chemical-particles" id="chemical-particles-3"></div>
+        
+        <!-- 反应方程式 -->
+        <div class="reaction-equation" style="top: 20%; left: 10%; font-size: 24px; color: rgba(121, 255, 219, 0.5); font-family: 'Courier New', monospace;">
+            2H₂ + O₂ → 2H₂O
+        </div>
+        <div class="reaction-equation" style="bottom: 25%; right: 15%; font-size: 20px; color: rgba(255, 121, 219, 0.5); font-family: 'Courier New', monospace;">
+            CH₄ + 2O₂ → CO₂ + 2H₂O
+        </div>
+        
+        <!-- 主要内容 -->
+        <div class="splash-content">
+            <div class="splash-logo">NFT商城</div>
+            <div class="splash-version">版本 1.0.0</div>
+            <div class="splash-loading"></div>
+            <div class="splash-status" id="splash-status-3">正在模拟化学反应...</div>
+        </div>
+    </div>
+    
     <div class="container">
         <div class="header">
             <h1>NFT商城</h1>
@@ -316,6 +641,7 @@
                 <input type="text" id="search-input" class="search-input" placeholder="搜索NFT名称、描述或系列...">
                 <button class="btn btn-primary" onclick="searchNfts()">搜索</button>
             </div>
+            <button class="btn btn-secondary" onclick="clearCache()">清除缓存</button>
             <button class="btn btn-secondary" onclick="viewOrderHistory()">订单历史</button>
             <button class="btn btn-primary" onclick="viewMyNfts()">我的NFT</button>
         </div>
@@ -339,36 +665,205 @@
     <script>
         // API密钥，实际使用时应该从安全存储中获取
         const API_KEY = 'your-api-key';
-        const USER_ID = 1; // 模拟用户ID
+        let USER_ID = null; // 初始化为null，需要获取
+        const VERSION = '1.0.0'; // 版本号
+        let currentSplashScreenId = null; // 当前使用的缓冲页面ID
+
+        // 各模板的状态消息
+        const statusMessages = {
+            1: [
+                '正在分析分子结构...',
+                '构建分子模型...',
+                '计算键能数据...',
+                '优化分子构型...',
+                '分子结构分析完成！'
+            ],
+            2: [
+                '正在构建元素周期表...',
+                '分类化学元素...',
+                '计算元素属性...',
+                '生成元素索引...',
+                '元素周期表构建完成！'
+            ],
+            3: [
+                '正在模拟化学反应...',
+                '计算反应焓变...',
+                '分析反应速率...',
+                '预测反应产物...',
+                '化学反应模拟完成！'
+            ]
+        };
 
         // 页面加载时初始化数据
         window.onload = function() {
-            loadAllNfts();
+            // 随机显示一个缓冲页面
+            showRandomSplashScreen();
+            
+            // 模拟获取用户ID的过程
+            simulateGetUserId();
         };
+
+        // 模拟获取用户ID
+        function simulateGetUserId() {
+            // 这里应该是从实际的认证服务获取用户ID
+            // 模拟网络请求延迟
+            setTimeout(() => {
+                // 模拟获取到用户ID
+                USER_ID = 1;
+                console.log('获取到用户ID:', USER_ID);
+                
+                // 获取到用户ID后加载数据
+                loadAllNfts();
+            }, 3000); // 模拟3秒后获取到用户ID
+        }
+
+        // 随机显示一个缓冲页面
+        function showRandomSplashScreen() {
+            // 随机选择一个模板 (1-3)
+            currentSplashScreenId = Math.floor(Math.random() * 3) + 1;
+            console.log('选择缓冲页面模板:', currentSplashScreenId);
+            
+            // 隐藏所有模板
+            for (let i = 1; i <= 3; i++) {
+                const screen = document.getElementById(`splash-screen-${i}`);
+                if (screen) {
+                    screen.style.display = 'none';
+                }
+            }
+            
+            // 显示选中的模板
+            const selectedScreen = document.getElementById(`splash-screen-${currentSplashScreenId}`);
+            if (selectedScreen) {
+                selectedScreen.style.display = 'flex';
+                selectedScreen.classList.remove('hidden');
+                
+                // 更新版本号
+                const versionElement = selectedScreen.querySelector('.splash-version');
+                if (versionElement) {
+                    versionElement.textContent = `版本 ${VERSION}`;
+                }
+                
+                // 创建化学粒子
+                createChemicalParticles(currentSplashScreenId);
+                
+                // 更新状态消息
+                updateStatusMessage(currentSplashScreenId);
+            }
+        }
+
+        // 创建化学粒子
+        function createChemicalParticles(screenId) {
+            const container = document.getElementById(`chemical-particles-${screenId}`);
+            if (!container) return;
+
+            // 清空容器
+            container.innerHTML = '';
+
+            // 创建20个粒子
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                // 随机位置
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                
+                // 随机大小
+                const size = Math.random() * 3 + 1;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                
+                // 随机动画延迟
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                
+                container.appendChild(particle);
+            }
+        }
+
+        // 更新状态消息
+        function updateStatusMessage(screenId) {
+            const statusElement = document.getElementById(`splash-status-${screenId}`);
+            if (!statusElement) return;
+
+            const messages = statusMessages[screenId] || statusMessages[1];
+            let index = 0;
+            
+            const intervalId = setInterval(() => {
+                statusElement.textContent = messages[index];
+                index = (index + 1) % messages.length;
+            }, 2000);
+        }
+
+        // 隐藏缓冲页面
+        function hideSplashScreen() {
+            // 隐藏当前使用的缓冲页面
+            if (currentSplashScreenId) {
+                const splashScreen = document.getElementById(`splash-screen-${currentSplashScreenId}`);
+                if (splashScreen) {
+                    splashScreen.classList.add('hidden');
+                    // 300ms后完全移除，等待动画完成
+                    setTimeout(() => {
+                        splashScreen.style.display = 'none';
+                    }, 300);
+                }
+            }
+        }
+
+        // 清除缓存
+        function clearCache() {
+            if (confirm('确定要清除缓存并刷新页面吗？')) {
+                // 清除所有本地存储数据
+                localStorage.clear();
+                // 刷新页面
+                location.reload();
+            }
+        }
 
         // 加载所有可购买的NFT
         function loadAllNfts() {
             const container = document.getElementById('all-nfts');
             container.innerHTML = '<div class="loading">加载中...</div>';
 
-            fetch('/api/nft/available', {
-                headers: {
-                    'X-API-Key': API_KEY
-                }
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('网络响应错误');
-                }
-                return response.json();
-            })
-            .then(data => {
-                renderNftGrid(container, data);
-            })
-            .catch(error => {
-                console.error('加载NFT失败:', error);
-                container.innerHTML = '<div class="error">加载失败，请稍后重试</div>';
-            });
+            // 检查本地缓存
+            const cachedNfts = localStorage.getItem('cached_nfts');
+            const cacheTime = localStorage.getItem('cached_nfts_time');
+            const now = Date.now();
+            const cacheExpiry = 5 * 60 * 1000; // 5分钟缓存
+
+            if (cachedNfts && cacheTime && (now - parseInt(cacheTime)) < cacheExpiry) {
+                // 使用缓存数据
+                console.log('使用缓存数据');
+                renderNftGrid(container, JSON.parse(cachedNfts));
+                // 隐藏缓冲页面
+                hideSplashScreen();
+            } else {
+                // 从服务器获取数据
+                fetch('/api/nft/available', {
+                    headers: {
+                        'X-API-Key': API_KEY
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('网络响应错误');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // 缓存数据
+                    localStorage.setItem('cached_nfts', JSON.stringify(data));
+                    localStorage.setItem('cached_nfts_time', now.toString());
+                    renderNftGrid(container, data);
+                    // 隐藏缓冲页面
+                    hideSplashScreen();
+                })
+                .catch(error => {
+                    console.error('加载NFT失败:', error);
+                    container.innerHTML = '<div class="error">加载失败，请稍后重试</div>';
+                    // 隐藏缓冲页面
+                    hideSplashScreen();
+                });
+            }
         }
 
         // 渲染NFT网格
@@ -415,11 +910,24 @@
             window.location.href = `/nft-detail.html?id=${nftId}`;
         }
 
+        // 生成或获取设备ID
+        function getDeviceId() {
+            let deviceId = localStorage.getItem('device_id');
+            if (!deviceId) {
+                deviceId = 'device_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+                localStorage.setItem('device_id', deviceId);
+            }
+            return deviceId;
+        }
+
         // 购买NFT
         function purchaseNft(nftId) {
             if (confirm('确定要购买这个NFT吗？')) {
                 // 显示支付流程
                 alert('跳转到支付页面...');
+                
+                // 获取设备ID
+                const deviceId = getDeviceId();
                 
                 // 模拟支付流程
                 setTimeout(() => {
@@ -427,9 +935,13 @@
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
-                            'X-API-Key': API_KEY
+                            'X-API-Key': API_KEY,
+                            'X-Device-ID': deviceId
                         },
-                        body: JSON.stringify({ buyerId: USER_ID })
+                        body: JSON.stringify({ 
+                            buyerId: USER_ID,
+                            deviceId: deviceId
+                        })
                     })
                     .then(response => {
                         if (!response.ok) {
@@ -440,6 +952,9 @@
                     .then(data => {
                         if (data.success) {
                             alert('购买成功！');
+                            // 清除缓存，确保下次加载最新数据
+                            localStorage.removeItem('cached_nfts');
+                            localStorage.removeItem('cached_nfts_time');
                             loadAllNfts();
                         } else {
                             alert('购买失败：' + data.message);
