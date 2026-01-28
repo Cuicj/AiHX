@@ -20,21 +20,21 @@
 ┌─────────┼───────────┐
 │         │           │
 ▼         ▼           ▼
-┌─────────────────────────────────────────────────────────────────────────────┐
-│ ┌───────────────┐  ┌────────────┐  ┌──────────────────┐  ┌────────────────┐ │
-│ │user-auth-     │  │resource-   │  │chemistry-content-│  │quiz-           │ │
-│ │service        │  │service     │  │service          │  │service         │ │
-│ │- 用户认证      │  │- 资源管理   │  │- 化学内容管理    │  │- 答题管理       │ │
-│ │- 签到管理      │  │- 物品管理   │  │- 元素管理        │  │- 错题收藏       │ │
-│ └───────────────┘  └────────────┘  └──────────────────┘  └────────────────┘ │
-│                                                                             │
-│ ┌────────────┐  ┌────────────┐                                               │
-│ │reward-     │  │learning-   │                                               │
-│ │service     │  │service     │                                               │
-│ │- 积分兑换   │  │- 学习进度管理 │                                             │
-│ │- 库存管理   │  │- 任务管理    │                                             │
-│ └────────────┘  └────────────┘                                               │
-└─────────────────────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────────────────────────┐
+│ ┌───────────────┐  ┌────────────┐  ┌──────────────────┐  ┌────────────────┐  ┌──────────┐ │
+│ │user-auth-     │  │resource-   │  │chemistry-content-│  │quiz-           │  │task-     │ │
+│ │service        │  │service     │  │service          │  │service         │  │management-│ │
+│ │- 用户认证      │  │- 资源管理   │  │- 化学内容管理    │  │- 答题管理       │  │service   │ │
+│ │- 签到管理      │  │- 物品管理   │  │- 元素管理        │  │- 错题收藏       │  │- 定时任务管理│ │
+│ └───────────────┘  └────────────┘  └──────────────────┘  └────────────────┘  └──────────┘ │
+│                                                                                         │
+│ ┌────────────┐  ┌────────────┐  ┌───────────────────┐                                     │
+│ │reward-     │  │learning-   │  │nft-marketplace-   │                                     │
+│ │service     │  │service     │  │service            │                                     │
+│ │- 积分兑换   │  │- 学习进度管理 │  │- NFT商城管理      │                                     │
+│ │- 库存管理   │  │- 任务管理    │  │- NFT创建与上架     │                                     │
+│ └────────────┘  └────────────┘  └───────────────────┘                                     │
+└─────────────────────────────────────────────────────────────────────────────────────────┘
                             │
                     ┌───────▼───────┐
                     │   RabbitMQ    │
@@ -55,11 +55,13 @@
 4. **Chemistry Content Service**: 化学内容管理和元素管理服务
 5. **Quiz Service**: 答题管理和错题收藏服务
 6. **Reward Service**: 积分兑换和库存管理服务（合并了原exchange-service和inventory-service）
-7. **Learning Service**: 学习进度管理和任务管理服务（合并了原learning-progress-service和task-management-service）
-8. **API Gateway**: API网关，统一管理服务路由和限流
-9. **RabbitMQ**: 消息队列，用于异步通信和削峰
-10. **MySQL Cluster**: 数据库集群，实现主从复制和读写分离
-11. **Seata**: 分布式事务管理，确保跨服务事务一致性
+7. **Learning Service**: 学习进度管理服务
+8. **Task Management Service**: 定时任务管理服务，提供任务调度和监控
+9. **NFT Marketplace Service**: NFT商城服务，提供NFT创建、上架、购买和管理功能
+10. **API Gateway**: API网关，统一管理服务路由和限流
+11. **RabbitMQ**: 消息队列，用于异步通信和削峰
+12. **MySQL Cluster**: 数据库集群，实现主从复制和读写分离
+13. **Seata**: 分布式事务管理，确保跨服务事务一致性
 
 ## 技术栈
 
@@ -189,7 +191,134 @@
 | `/api/chemistry/**` | chemistry-content-service | 化学内容服务接口 |
 | `/api/quiz/**` | quiz-service | 答题服务接口 |
 | `/api/reward/**` | reward-service | 奖励服务接口（积分兑换和库存管理） |
-| `/api/learning/**` | learning-service | 学习服务接口（学习进度和任务管理） |
+| `/api/learning/**` | learning-service | 学习服务接口（学习进度管理） |
+| `/api/tasks/**` | task-management-service | 任务管理服务接口（定时任务监控） |
+| `/api/nft/**` | nft-marketplace-service | NFT商城服务接口（NFT管理和交易） |
+
+### NFT Marketplace Service 接口说明
+
+| 接口 | 方法 | 描述 |
+|------|------|------|
+| `/api/nft/available` | GET | 获取可购买的NFT列表 |
+| `/api/nft/{id}` | GET | 获取NFT详情 |
+| `/api/nft/purchase/{nftId}` | POST | 购买NFT |
+| `/api/nft/user/{userId}` | GET | 获取用户拥有的NFT |
+| `/api/nft/create` | POST | 创建NFT |
+| `/api/nft/list` | POST | 上架NFT |
+| `/api/nft/transfer/create` | POST | 创建NFT转赠记录 |
+| `/api/nft/transfer/{transferId}/accept` | POST | 接受NFT转赠 |
+| `/api/nft/transfer/{transferId}/reject` | POST | 拒绝NFT转赠 |
+| `/api/message/send` | POST | 发送消息 |
+| `/api/message/user/{phone}` | GET | 获取用户的消息列表 |
+| `/api/message/{messageId}` | GET | 获取消息详情 |
+| `/api/message/{messageId}/status` | PUT | 更新消息状态 |
+
+#### 订单状态流转
+
+NFT购买流程中的订单状态流转如下：
+
+1. **待支付**：用户确认购买NFT后，订单进入待支付状态，此时用户需要完成支付操作
+2. **支付中**：用户开始支付后，订单进入支付中状态，系统处理支付请求
+3. **已完成**：支付成功后，订单进入已完成状态，NFT所有权转移给用户
+
+**流转图**：
+```
+┌─────────┐     确认购买     ┌─────────┐     开始支付     ┌─────────┐     支付成功     ┌─────────┐
+│ 初始状态 │ ──────────────> │ 待支付   │ ──────────────> │ 支付中   │ ──────────────> │ 已完成   │
+└─────────┘                  └─────────┘                  └─────────┘                  └─────────┘
+```
+
+**状态说明**：
+- **待支付**：用户可以在此状态下取消订单或继续支付
+- **支付中**：系统处理支付请求，用户需要等待支付完成
+- **已完成**：订单完成，NFT已转移到用户账户，用户可以在"我的NFT"页面查看
+
+#### NFT转赠功能
+
+NFT转赠流程中的状态流转如下：
+
+1. **待接收**：用户发起转赠请求后，转赠记录进入待接收状态，此时接收人需要确认是否接受转赠
+2. **已接受**：接收人确认接受转赠后，转赠记录进入已接受状态，NFT所有权转移给接收人
+3. **已拒绝**：接收人拒绝转赠后，转赠记录进入已拒绝状态，NFT所有权保持不变
+4. **已过期**：接收人在24小时内未确认接受转赠，转赠记录进入已过期状态，NFT所有权保持不变
+
+**流转图**：
+```
+┌─────────┐     发起转赠     ┌─────────┐     接受转赠     ┌─────────┐
+│ 初始状态 │ ──────────────> │ 待接收   │ ──────────────> │ 已接受   │
+└─────────┘                  └─────────┘                  └─────────┘
+                                │
+                                │ 拒绝转赠
+                                ▼
+                            ┌─────────┐
+                            │ 已拒绝   │
+                            └─────────┘
+                                │
+                                │ 24小时过期
+                                ▼
+                            ┌─────────┐
+                            │ 已过期   │
+                            └─────────┘
+```
+
+**状态说明**：
+- **待接收**：接收人可以在此状态下接受或拒绝转赠
+- **已接受**：转赠完成，NFT已转移到接收人账户
+- **已拒绝**：转赠被拒绝，NFT所有权保持不变
+- **已过期**：转赠请求已过期，NFT所有权保持不变
+
+#### 实时消息功能
+
+系统支持实时消息推送功能，主要包括：
+
+1. **系统通知**：向所有用户发送的系统级通知
+2. **个人消息**：根据用户手机号发送的个人消息
+3. **转赠消息**：NFT转赠相关的消息通知
+
+**消息类型**：
+- **info**：普通信息
+- **success**：成功信息
+- **warning**：警告信息
+- **error**：错误信息
+
+#### Elasticsearch搜索功能
+
+系统集成了Elasticsearch搜索功能，为NFT和消息提供高效的全文搜索能力。
+
+**搜索功能概述**：
+- **NFT搜索**：支持按名称、描述、系列等字段进行全文搜索
+- **消息搜索**：支持按标题、内容等字段进行全文搜索
+- **多维度过滤**：支持按区块链、价格范围、状态等维度进行过滤
+- **实时索引**：NFT和消息的变更会实时同步到Elasticsearch索引
+
+**支持的搜索类型**：
+- **全文搜索**：基于关键词的模糊匹配
+- **精确搜索**：基于特定字段的精确匹配
+- **范围搜索**：基于数值范围的搜索（如价格范围）
+- **组合搜索**：多个搜索条件的组合
+
+**Elasticsearch API接口**：
+
+| 接口 | 方法 | 描述 |
+|------|------|------|
+| `/api/nft/search/es` | GET | 使用Elasticsearch搜索NFT |
+| `/api/nft/search/es/status` | GET | 使用Elasticsearch根据状态搜索NFT |
+| `/api/nft/search/es/blockchain` | GET | 使用Elasticsearch根据区块链搜索NFT |
+| `/api/nft/search/es/price` | GET | 使用Elasticsearch根据价格范围搜索NFT |
+| `/api/nft/search/es/owner` | GET | 使用Elasticsearch根据所有者搜索NFT |
+| `/api/nft/search/es/creator` | GET | 使用Elasticsearch根据创建者搜索NFT |
+| `/api/message/search/es` | GET | 使用Elasticsearch搜索消息 |
+| `/api/message/search/es/type` | GET | 使用Elasticsearch根据类型搜索消息 |
+| `/api/message/search/es/target` | GET | 使用Elasticsearch根据目标手机号搜索消息 |
+| `/api/message/search/es/broadcast` | GET | 使用Elasticsearch获取所有广播消息 |
+| `/api/message/search/es/sender` | GET | 使用Elasticsearch根据发送人搜索消息 |
+| `/api/message/search/es/status` | GET | 使用Elasticsearch根据状态搜索消息 |
+
+**前端搜索功能**：
+- **搜索框**：位于NFT商城页面顶部，支持输入关键词搜索
+- **过滤按钮**：支持按区块链类型进行快速过滤
+- **搜索结果**：实时显示搜索结果，支持分页和排序
+- **响应式设计**：适配不同屏幕尺寸的设备
 
 ## 部署说明
 
@@ -256,7 +385,19 @@
    mvn spring-boot:run
    ```
 
-10. **启动 API Gateway**
+10. **启动 Task Management Service**
+    ```bash
+    cd task-management-service
+    mvn spring-boot:run
+    ```
+
+11. **启动 NFT Marketplace Service**
+    ```bash
+    cd nft-marketplace-service
+    mvn spring-boot:run
+    ```
+
+12. **启动 API Gateway**
     ```bash
     cd api-gateway
     mvn spring-boot:run
@@ -271,7 +412,9 @@
 - Quiz Service: http://localhost:8084
 - Reward Service: http://localhost:8085
 - Learning Service: http://localhost:8086
-- API Gateway: http://localhost:8080
+- Task Management Service: http://localhost:8087
+- NFT Marketplace Service: http://localhost:8088
+- API Gateway: https://localhost:8443
 - MySQL Master: localhost:3306
 - MySQL Slave 1: localhost:3307
 - MySQL Slave 2: localhost:3308
@@ -639,6 +782,10 @@ logging:
 | 1.3.2 | 2026-01-27 | 更新答题功能，每道题的答题时间限制为45秒，添加答题总结页面、错题收藏和错题集功能 |
 | 1.3.3 | 2026-01-27 | 增强签到和答题功能：1. 相同IP地址一天只能签到一次 2. 每个设备ID只能做一次答题 3. 一天中每个人的题目不同 |
 | 2.0.0 | 2026-01-28 | 系统优化版本：添加监控和可观测性（Prometheus+Grafana）、服务容错（Resilience4j）、缓存优化（Redis）、安全措施（API Key+HTTPS）、容器化部署（Kubernetes） |
+| 2.1.0 | 2026-01-28 | 添加定时任务管理功能和专属页面，实现任务状态和执行历史的可视化展示 |
+| 3.0.0 | 2026-01-28 | 集成NFT商城功能，包括NFT创建、上架、购买和管理，以及完整的前端展示页面 |
+| 3.1.0 | 2026-01-28 | 添加实时弹窗消息功能和NFT转赠功能，包括消息发送、接收、转赠流程管理和24小时过期处理 |
+| 3.2.0 | 2026-01-28 | 集成Elasticsearch搜索功能，为NFT和消息提供高效的全文搜索能力，支持多维度过滤和实时索引 |
 
 ### 代码仓库
 

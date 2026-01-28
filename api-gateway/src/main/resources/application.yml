@@ -200,6 +200,31 @@ spring:
             - name: ApiKey
               args:
                 required: true
+        # NFT商城服务路由
+        - id: nft-marketplace-service
+          uri: lb://nft-marketplace-service
+          predicates:
+            - Path=/api/nft/**
+          filters:
+            - StripPrefix=2
+            - name: RateLimit
+              args:
+                limit: 10
+                refreshInterval: 1
+            - name: Ip
+              args:
+                whitelist:
+                  - 127.0.0.1
+                  - 192.168.1.0/24
+                blacklist:
+                  - 10.0.0.1
+            - name: CircuitBreaker
+              args:
+                name: nftMarketplaceServiceCircuitBreaker
+                fallbackUri: forward:/fallback/nft-marketplace
+            - name: ApiKey
+              args:
+                required: true
 
 eureka:
   client:
@@ -289,6 +314,15 @@ resilience4j:
         failureRateThreshold: 50
         eventConsumerBufferSize: 10
       taskManagementServiceCircuitBreaker:
+        registerHealthIndicator: true
+        slidingWindowSize: 100
+        minimumNumberOfCalls: 10
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 60s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+      nftMarketplaceServiceCircuitBreaker:
         registerHealthIndicator: true
         slidingWindowSize: 100
         minimumNumberOfCalls: 10

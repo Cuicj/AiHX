@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>创建NFT</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/antd@5.12.8/dist/reset.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background-color: white;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+        .btn-primary {
+            background-color: #1890ff;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #40a9ff;
+        }
+        .btn-secondary {
+            background-color: #f0f0f0;
+            color: #333;
+            border: 1px solid #d9d9d9;
+        }
+        .btn-secondary:hover {
+            background-color: #e6f7ff;
+            border-color: #1890ff;
+        }
+        .create-form {
+            background-color: white;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .form-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin: 0 0 24px 0;
+            border-bottom: 1px solid #f0f0f0;
+            padding-bottom: 12px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        .form-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d9d9d9;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #1890ff;
+            box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+        }
+        .form-textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d9d9d9;
+            border-radius: 4px;
+            font-size: 14px;
+            resize: vertical;
+            min-height: 120px;
+            box-sizing: border-box;
+        }
+        .form-textarea:focus {
+            outline: none;
+            border-color: #1890ff;
+            box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+        }
+        .form-select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d9d9d9;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        .form-select:focus {
+            outline: none;
+            border-color: #1890ff;
+            box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 16px;
+            margin-top: 32px;
+            padding-top: 20px;
+            border-top: 1px solid #f0f0f0;
+        }
+        .btn-lg {
+            padding: 12px 24px;
+            font-size: 16px;
+        }
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            color: #1890ff;
+            font-size: 16px;
+        }
+        .error {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            color: #ff4d4f;
+            font-size: 16px;
+        }
+        .success {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            color: #52c41a;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-left">
+                <button class="btn btn-secondary" onclick="window.location.href='/nft-marketplace.html'">返回商城</button>
+                <h1 style="margin: 0; font-size: 18px;">创建NFT</h1>
+            </div>
+        </div>
+
+        <div class="create-form">
+            <h2 class="form-title">NFT信息</h2>
+            <form id="nft-form" onsubmit="return createNft(event)">
+                <div class="form-group">
+                    <label class="form-label">NFT名称 *</label>
+                    <input type="text" class="form-input" placeholder="输入NFT名称" id="nft-name" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">描述 *</label>
+                    <textarea class="form-textarea" placeholder="输入NFT描述" id="nft-description" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">图片URL *</label>
+                    <input type="url" class="form-input" placeholder="输入NFT图片URL" id="nft-image" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">集合名称 *</label>
+                    <input type="text" class="form-input" placeholder="输入集合名称" id="nft-collection" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">区块链 *</label>
+                        <select class="form-select" id="nft-blockchain" required>
+                            <option value="">选择区块链</option>
+                            <option value="ethereum">Ethereum</option>
+                            <option value="bsc">Binance Smart Chain</option>
+                            <option value="polygon">Polygon</option>
+                            <option value="okc">OKX Chain</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">货币 *</label>
+                        <select class="form-select" id="nft-currency" required>
+                            <option value="">选择货币</option>
+                            <option value="ETH">ETH</option>
+                            <option value="BNB">BNB</option>
+                            <option value="MATIC">MATIC</option>
+                            <option value="OKT">OKT</option>
+                            <option value="USD">USD</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">价格 *</label>
+                        <input type="number" class="form-input" placeholder="输入NFT价格" id="nft-price" min="0" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Token ID *</label>
+                        <input type="text" class="form-input" placeholder="输入Token ID" id="nft-token-id" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">合约地址 *</label>
+                    <input type="text" class="form-input" placeholder="输入合约地址" id="nft-contract" required>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="resetForm()">重置</button>
+                    <button type="submit" class="btn btn-lg btn-primary">创建并上架</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // API密钥，实际使用时应该从安全存储中获取
+        const API_KEY = 'your-api-key';
+        const USER_ID = 1; // 模拟用户ID
+
+        // 创建NFT
+        function createNft(event) {
+            event.preventDefault();
+
+            const form = event.target;
+            const nftData = {
+                name: document.getElementById('nft-name').value,
+                description: document.getElementById('nft-description').value,
+                imageUrl: document.getElementById('nft-image').value,
+                collectionName: document.getElementById('nft-collection').value,
+                blockchain: document.getElementById('nft-blockchain').value,
+                currency: document.getElementById('nft-currency').value,
+                price: parseFloat(document.getElementById('nft-price').value),
+                tokenId: document.getElementById('nft-token-id').value,
+                contractAddress: document.getElementById('nft-contract').value,
+                ownerId: USER_ID,
+                creatorId: USER_ID
+            };
+
+            const formContainer = document.querySelector('.create-form');
+            const originalContent = formContainer.innerHTML;
+            formContainer.innerHTML = '<div class="loading">创建中...</div>';
+
+            fetch('/api/nft/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-API-Key': API_KEY
+                },
+                body: JSON.stringify(nftData)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('网络响应错误');
+                }
+                return response.json();
+            })
+            .then(data => {
+                formContainer.innerHTML = '<div class="success">NFT创建成功！</div>';
+                setTimeout(() => {
+                    window.location.href = `/nft-detail.html?id=${data.id}`;
+                }, 1500);
+            })
+            .catch(error => {
+                console.error('创建NFT失败:', error);
+                formContainer.innerHTML = '<div class="error">创建失败，请稍后重试</div>';
+                setTimeout(() => {
+                    formContainer.innerHTML = originalContent;
+                }, 1500);
+            });
+        }
+
+        // 重置表单
+        function resetForm() {
+            document.getElementById('nft-form').reset();
+        }
+    </script>
+</body>
+</html>

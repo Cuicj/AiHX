@@ -53,6 +53,14 @@ timeout 5 > nul
 echo Starting Task Management Service...
 start cmd /k "cd f:\TEST\CMateData\task-management-service && mvn spring-boot:run"
 
+:: 启动NFT Marketplace Service
+echo Starting NFT Marketplace Service...
+start cmd /k "cd f:\TEST\CMateData\nft-marketplace-service && mvn spring-boot:run"
+
+:: 等待所有服务启动
+echo 所有服务启动中，请等待10秒...
+timeout /t 10 /nobreak >nul
+
 echo All services have been started!
 echo You can access the services at:
 echo Eureka Server: http://localhost:8761
@@ -64,5 +72,7 @@ echo Quiz Service: http://localhost:8084
 echo Reward Service: http://localhost:8085
 echo Learning Service: http://localhost:8086
 echo Task Management Service: http://localhost:8087
+echo NFT Marketplace Service: http://localhost:8088
 echo 定时任务管理页面: https://localhost:8443/tasks.html
+echo NFT商城页面: https://localhost:8443/nft-marketplace.html
 pause

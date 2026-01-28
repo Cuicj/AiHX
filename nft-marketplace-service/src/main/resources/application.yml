@@ -1,0 +1,78 @@
+server:
+  port: 8088
+
+spring:
+  application:
+    name: nft-marketplace-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/cmatedata?useSSL=false&serverTimezone=UTC
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+  elasticsearch:
+    uris: http://localhost:9200
+    connection-timeout: 10000
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 10000
+
+# Eureka配置
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    # 启用健康检查
+    healthcheck:
+      enabled: true
+  instance:
+    prefer-ip-address: true
+    # 服务续约间隔
+    lease-renewal-interval-in-seconds: 30
+    # 服务过期时间
+    lease-expiration-duration-in-seconds: 90
+    # 实例ID
+    instance-id: ${spring.cloud.client.hostname}:${spring.application.name}:${server.port}
+
+# 监控配置
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+# 区块链配置
+blockchain:
+  network-priority: ["bsc", "polygon", "ethereum", "okc"]
+  gas:
+    maxPriceGwei: 50
+
+# OKX API配置
+okx:
+  api:
+    key: YOUR_OKX_API_KEY
+    secret: YOUR_OKX_API_SECRET
+    passphrase: YOUR_OKX_API_PASSPHRASE
+    baseUrl: https://www.okx.com/api/v5

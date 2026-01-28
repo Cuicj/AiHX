@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>订单历史</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/antd@5.12.8/dist/reset.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background-color: #1890ff;
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+        }
+        .nav {
+            background-color: white;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+        .btn-primary {
+            background-color: #1890ff;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #40a9ff;
+        }
+        .btn-secondary {
+            background-color: #f0f0f0;
+            color: #333;
+            border: 1px solid #d9d9d9;
+        }
+        .btn-secondary:hover {
+            background-color: #e6f7ff;
+            border-color: #1890ff;
+        }
+        .order-list {
+            background-color: white;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .order-item {
+            border: 1px solid #f0f0f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 16px;
+            transition: all 0.3s ease;
+        }
+        .order-item:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .order-id {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+        .order-status {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .status-pending {
+            background-color: #fff7e6;
+            color: #fa8c16;
+        }
+        .status-processing {
+            background-color: #e6f7ff;
+            color: #1890ff;
+        }
+        .status-completed {
+            background-color: #f6ffed;
+            color: #52c41a;
+        }
+        .order-body {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 16px;
+        }
+        .order-nft-image {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        .order-nft-info {
+            flex: 1;
+        }
+        .order-nft-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin: 0 0 8px 0;
+        }
+        .order-nft-meta {
+            font-size: 14px;
+            color: #666;
+            margin: 0 0 8px 0;
+        }
+        .order-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 12px;
+            border-top: 1px solid #f0f0f0;
+        }
+        .order-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1890ff;
+        }
+        .order-actions {
+            display: flex;
+            gap: 8px;
+        }
+        .btn-sm {
+            padding: 4px 12px;
+            font-size: 12px;
+        }
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 300px;
+            color: #1890ff;
+            font-size: 16px;
+        }
+        .error {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 300px;
+            color: #ff4d4f;
+            font-size: 16px;
+        }
+        .empty {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 300px;
+            color: #999;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>订单历史</h1>
+            <p>查看您的NFT购买记录</p>
+        </div>
+
+        <div class="nav">
+            <div class="nav-left">
+                <button class="btn btn-secondary" onclick="window.location.href='/nft-marketplace.html'">返回商城</button>
+                <button class="btn btn-primary" onclick="window.location.href='/my-nfts.html'">我的NFT</button>
+            </div>
+        </div>
+
+        <div class="order-list">
+            <h2 style="margin: 0 0 20px 0; font-size: 18px; font-weight: 600; color: #333;">所有订单</h2>
+            <div id="order-list-content">
+                <div class="loading">加载中...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // API密钥，实际使用时应该从安全存储中获取
+        const API_KEY = 'your-api-key';
+        const USER_ID = 1; // 模拟用户ID
+
+        // 页面加载时初始化数据
+        window.onload = function() {
+            loadOrderHistory();
+        };
+
+        // 加载订单历史
+        function loadOrderHistory() {
+            const container = document.getElementById('order-list-content');
+            container.innerHTML = '<div class="loading">加载中...</div>';
+
+            // 模拟订单数据，实际应该从后端API获取
+            setTimeout(() => {
+                const orders = [
+                    {
+                        id: 1,
+                        orderId: 'ORD-20260128-001',
+                        nftId: 1,
+                        nftName: 'Chemistry Element #1',
+                        nftImage: 'https://via.placeholder.com/200x200?text=NFT+1',
+                        collectionName: 'Chemical Elements',
+                        price: 0.5,
+                        currency: 'ETH',
+                        status: 'completed',
+                        createdAt: '2026-01-28 10:30:00',
+                        completedAt: '2026-01-28 10:35:00'
+                    },
+                    {
+                        id: 2,
+                        orderId: 'ORD-20260128-002',
+                        nftId: 2,
+                        nftName: 'Chemistry Element #2',
+                        nftImage: 'https://via.placeholder.com/200x200?text=NFT+2',
+                        collectionName: 'Chemical Elements',
+                        price: 0.8,
+                        currency: 'ETH',
+                        status: 'processing',
+                        createdAt: '2026-01-28 11:15:00'
+                    },
+                    {
+                        id: 3,
+                        orderId: 'ORD-20260128-003',
+                        nftId: 3,
+                        nftName: 'Chemistry Element #3',
+                        nftImage: 'https://via.placeholder.com/200x200?text=NFT+3',
+                        collectionName: 'Chemical Elements',
+                        price: 1.2,
+                        currency: 'ETH',
+                        status: 'pending',
+                        createdAt: '2026-01-28 12:00:00'
+                    }
+                ];
+                
+                renderOrderList(container, orders);
+            }, 1000);
+        }
+
+        // 渲染订单列表
+        function renderOrderList(container, orders) {
+            if (!orders || orders.length === 0) {
+                container.innerHTML = '<div class="empty">暂无订单</div>';
+                return;
+            }
+
+            container.innerHTML = '';
+            orders.forEach(order => {
+                const orderItem = createOrderItem(order);
+                container.appendChild(orderItem);
+            });
+        }
+
+        // 创建订单项
+        function createOrderItem(order) {
+            const item = document.createElement('div');
+            item.className = 'order-item';
+
+            // 根据订单状态获取对应的样式和文本
+            let statusClass = '';
+            let statusText = '';
+            let actionButton = '';
+
+            switch (order.status) {
+                case 'pending':
+                    statusClass = 'status-pending';
+                    statusText = '待支付';
+                    actionButton = '<button class="btn btn-sm btn-primary" onclick="payOrder(' + order.id + ')">去支付</button>';
+                    break;
+                case 'processing':
+                    statusClass = 'status-processing';
+                    statusText = '支付中';
+                    actionButton = '<button class="btn btn-sm btn-secondary" disabled>处理中</button>';
+                    break;
+                case 'completed':
+                    statusClass = 'status-completed';
+                    statusText = '已完成';
+                    actionButton = '<button class="btn btn-sm btn-secondary" onclick="viewOrderDetail(' + order.id + ')">查看详情</button>';
+                    break;
+            }
+
+            item.innerHTML = `
+                <div class="order-header">
+                    <div class="order-id">订单号: ${order.orderId}</div>
+                    <div class="order-status ${statusClass}">${statusText}</div>
+                </div>
+                <div class="order-body">
+                    <img src="${order.nftImage}" alt="${order.nftName}" class="order-nft-image">
+                    <div class="order-nft-info">
+                        <h3 class="order-nft-name">${order.nftName}</h3>
+                        <p class="order-nft-meta">集合: ${order.collectionName}</p>
+                        <p class="order-nft-meta">创建时间: ${order.createdAt}</p>
+                        ${order.completedAt ? `<p class="order-nft-meta">完成时间: ${order.completedAt}</p>` : ''}
+                    </div>
+                </div>
+                <div class="order-footer">
+                    <div class="order-price">${order.price} ${order.currency}</div>
+                    <div class="order-actions">
+                        ${actionButton}
+                    </div>
+                </div>
+            `;
+
+            return item;
+        }
+
+        // 支付订单
+        function payOrder(orderId) {
+            alert('跳转到支付页面...');
+            
+            // 模拟支付流程
+            setTimeout(() => {
+                alert('支付成功！');
+                loadOrderHistory();
+            }, 1000);
+        }
+
+        // 查看订单详情
+        function viewOrderDetail(orderId) {
+            alert('查看订单详情: ' + orderId);
+        }
+    </script>
+</body>
+</html>

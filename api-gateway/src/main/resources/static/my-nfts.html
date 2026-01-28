@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的NFT</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/antd@5.12.8/dist/reset.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background-color: #1890ff;
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+        }
+        .nav {
+            background-color: white;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+        .btn-primary {
+            background-color: #1890ff;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #40a9ff;
+        }
+        .btn-secondary {
+            background-color: #f0f0f0;
+            color: #333;
+            border: 1px solid #d9d9d9;
+        }
+        .btn-secondary:hover {
+            background-color: #e6f7ff;
+            border-color: #1890ff;
+        }
+        .nft-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 30px;
+        }
+        .nft-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .nft-card:hover {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            transform: translateY(-4px);
+        }
+        .nft-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .nft-info {
+            padding: 16px;
+        }
+        .nft-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin: 0 0 8px 0;
+        }
+        .nft-collection {
+            font-size: 14px;
+            color: #666;
+            margin: 0 0 12px 0;
+        }
+        .nft-meta {
+            font-size: 14px;
+            color: #666;
+            margin: 0 0 8px 0;
+        }
+        .nft-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1890ff;
+            margin: 0 0 16px 0;
+        }
+        .nft-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nft-blockchain {
+            font-size: 12px;
+            color: #999;
+            background-color: #f5f5f5;
+            padding: 4px 8px;
+            border-radius: 12px;
+        }
+        .nft-actions {
+            display: flex;
+            gap: 8px;
+        }
+        .btn-sm {
+            padding: 4px 12px;
+            font-size: 12px;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin: 0 0 20px 0;
+            border-bottom: 1px solid #f0f0f0;
+            padding-bottom: 10px;
+        }
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 300px;
+            color: #1890ff;
+            font-size: 16px;
+        }
+        .error {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 300px;
+            color: #ff4d4f;
+            font-size: 16px;
+        }
+        .empty {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 300px;
+            color: #999;
+            font-size: 16px;
+        }
+        
+        /* 转赠状态样式 */
+        .nft-card.transferring {
+            opacity: 0.7;
+            position: relative;
+        }
+        
+        .nft-card.transferring::before {
+            content: '转赠中';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #faad14;
+            padding: 8px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .nft-card.transferring img {
+            filter: grayscale(30%);
+        }
+        
+        /* 转赠模态框样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 500px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .modal-close {
+            color: #aaa;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .modal-close:hover {
+            color: #333;
+        }
+        
+        .form-group {
+            margin-bottom: 16px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #d9d9d9;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #1890ff;
+            box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+        }
+        
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 1px solid #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>我的NFT</h1>
+            <p>查看您已购买的数字艺术品</p>
+        </div>
+
+        <div class="nav">
+            <div class="nav-left">
+                <button class="btn btn-secondary" onclick="window.location.href='/nft-marketplace.html'">返回商城</button>
+                <button class="btn btn-primary" onclick="viewOrderHistory()">订单历史</button>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">已购买NFT</h2>
+            <div id="my-nfts" class="nft-grid">
+                <div class="loading">加载中...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 转赠模态框 -->
+    <div id="transfer-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">转赠NFT</h3>
+                <span class="modal-close" onclick="closeTransferModal()">&times;</span>
+            </div>
+            <form id="transfer-form">
+                <input type="hidden" id="transfer-nft-id">
+                <div class="form-group">
+                    <label class="form-label" for="recipient-phone">接收人手机号</label>
+                    <input type="tel" class="form-input" id="recipient-phone" placeholder="请输入接收人的手机号" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="transfer-message">附言（可选）</label>
+                    <input type="text" class="form-input" id="transfer-message" placeholder="请输入附言">
+                </div>
+            </form>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeTransferModal()">取消</button>
+                <button class="btn btn-primary" onclick="confirmTransfer()">确认转赠</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // API密钥，实际使用时应该从安全存储中获取
+        const API_KEY = 'your-api-key';
+        const USER_ID = 1; // 模拟用户ID
+
+        // 页面加载时初始化数据
+        window.onload = function() {
+            loadMyNfts();
+        };
+
+        // 加载我的NFT
+        function loadMyNfts() {
+            const container = document.getElementById('my-nfts');
+            container.innerHTML = '<div class="loading">加载中...</div>';
+
+            // 模拟我的NFT数据，实际应该从后端API获取
+            setTimeout(() => {
+                const nfts = [
+                    {
+                        id: 1,
+                        name: 'Chemistry Element #1',
+                        collectionName: 'Chemical Elements',
+                        description: 'First element in the periodic table',
+                        imageUrl: 'https://via.placeholder.com/200x200?text=NFT+1',
+                        price: 0.5,
+                        currency: 'ETH',
+                        blockchain: 'Ethereum',
+                        purchaseDate: '2026-01-28 10:35:00',
+                        tokenId: '12345',
+                        status: 'owned'
+                    },
+                    {
+                        id: 2,
+                        name: 'Chemistry Element #2',
+                        collectionName: 'Chemical Elements',
+                        description: 'Second element in the periodic table',
+                        imageUrl: 'https://via.placeholder.com/200x200?text=NFT+2',
+                        price: 0.8,
+                        currency: 'ETH',
+                        blockchain: 'Ethereum',
+                        purchaseDate: '2026-01-28 11:00:00',
+                        tokenId: '12346',
+                        status: 'transferring'
+                    },
+                    {
+                        id: 3,
+                        name: 'Chemistry Element #3',
+                        collectionName: 'Chemical Elements',
+                        description: 'Third element in the periodic table',
+                        imageUrl: 'https://via.placeholder.com/200x200?text=NFT+3',
+                        price: 1.2,
+                        currency: 'ETH',
+                        blockchain: 'Ethereum',
+                        purchaseDate: '2026-01-28 11:45:00',
+                        tokenId: '12347',
+                        status: 'owned'
+                    }
+                ];
+                
+                renderNftGrid(container, nfts);
+            }, 1000);
+        }
+
+        // 渲染NFT网格
+        function renderNftGrid(container, nfts) {
+            if (!nfts || nfts.length === 0) {
+                container.innerHTML = '<div class="empty">暂无已购买的NFT</div>';
+                return;
+            }
+
+            container.innerHTML = '';
+            nfts.forEach(nft => {
+                const nftCard = createNftCard(nft);
+                container.appendChild(nftCard);
+            });
+        }
+
+        // 创建NFT卡片
+        function createNftCard(nft) {
+            const card = document.createElement('div');
+            card.className = `nft-card ${nft.status === 'transferring' ? 'transferring' : ''}`;
+
+            card.innerHTML = `
+                <img src="${nft.imageUrl}" alt="${nft.name}" class="nft-image">
+                <div class="nft-info">
+                    <h3 class="nft-name">${nft.name}</h3>
+                    <p class="nft-collection">${nft.collectionName}</p>
+                    <p class="nft-meta">购买时间: ${nft.purchaseDate}</p>
+                    <p class="nft-meta">Token ID: ${nft.tokenId}</p>
+                    ${nft.status === 'transferring' ? `<p class="nft-meta" style="color: #faad14;">转赠状态: 等待接收</p>` : ''}
+                    <p class="nft-price">${nft.price} ${nft.currency}</p>
+                    <div class="nft-footer">
+                        <span class="nft-blockchain">${nft.blockchain}</span>
+                        <div class="nft-actions">
+                            <button class="btn btn-sm btn-secondary" onclick="viewNftDetail(${nft.id})">详情</button>
+                            <button class="btn btn-sm btn-primary" onclick="shareNft(${nft.id})">分享</button>
+                            ${nft.status !== 'transferring' ? `<button class="btn btn-sm btn-primary" onclick="openTransferModal(${nft.id})">转赠</button>` : ''}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            return card;
+        }
+
+        // 查看NFT详情
+        function viewNftDetail(nftId) {
+            window.location.href = `/nft-detail.html?id=${nftId}`;
+        }
+
+        // 分享NFT
+        function shareNft(nftId) {
+            alert('分享NFT: ' + nftId);
+        }
+
+        // 打开转赠模态框
+        function openTransferModal(nftId) {
+            document.getElementById('transfer-nft-id').value = nftId;
+            document.getElementById('recipient-phone').value = '';
+            document.getElementById('transfer-message').value = '';
+            document.getElementById('transfer-modal').style.display = 'block';
+        }
+
+        // 关闭转赠模态框
+        function closeTransferModal() {
+            document.getElementById('transfer-modal').style.display = 'none';
+        }
+
+        // 确认转赠
+        function confirmTransfer() {
+            const nftId = document.getElementById('transfer-nft-id').value;
+            const recipientPhone = document.getElementById('recipient-phone').value;
+            const message = document.getElementById('transfer-message').value;
+
+            if (!recipientPhone) {
+                alert('请输入接收人的手机号');
+                return;
+            }
+
+            // 模拟转赠请求
+            alert(`正在转赠NFT ${nftId} 给 ${recipientPhone}...`);
+
+            // 模拟转赠成功
+            setTimeout(() => {
+                alert('转赠请求已发送，等待接收人确认');
+                closeTransferModal();
+                // 重新加载NFT列表，显示转赠状态
+                loadMyNfts();
+            }, 1000);
+        }
+
+        // 查看订单历史
+        function viewOrderHistory() {
+            window.location.href = `/order-history.html`;
+        }
+    </script>
+</body>
+</html>

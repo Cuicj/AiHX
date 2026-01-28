@@ -493,3 +493,97 @@ SELECT 'checkin_record' AS table_name, COUNT(*) AS row_count FROM checkin_record
 SELECT 'question_bank' AS table_name, COUNT(*) AS row_count FROM question_bank UNION
 SELECT 'quiz_record' AS table_name, COUNT(*) AS row_count FROM quiz_record UNION
 SELECT 'quiz_detail' AS table_name, COUNT(*) AS row_count FROM quiz_detail;
+
+-- NFT表 (nft-marketplace-service)
+CREATE TABLE IF NOT EXISTS nfts (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    nft_id VARCHAR(100) NOT NULL UNIQUE,
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    image_url VARCHAR(255) NOT NULL,
+    collection_name VARCHAR(100) NOT NULL,
+    blockchain VARCHAR(50) NOT NULL,
+    contract_address VARCHAR(255) NOT NULL,
+    token_id VARCHAR(100) NOT NULL,
+    price DOUBLE NOT NULL,
+    currency VARCHAR(20) NOT NULL,
+    owner_id BIGINT NOT NULL,
+    creator_id BIGINT NOT NULL,
+    status VARCHAR(20) NOT NULL, -- available, sold, reserved, transferring
+    listed_at TIMESTAMP,
+    sold_at TIMESTAMP,
+    total_quantity INT NOT NULL DEFAULT 1,
+    current_stock INT NOT NULL DEFAULT 1,
+    max_per_device INT NOT NULL DEFAULT 1,
+    whitelist_only BOOLEAN DEFAULT FALSE,
+    whitelist_start_time TIMESTAMP,
+    public_start_time TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (owner_id) REFERENCES user(id) ON DELETE CASCADE,
+    FOREIGN KEY (creator_id) REFERENCES user(id) ON DELETE CASCADE,
+    INDEX idx_nft_id (nft_id),
+    INDEX idx_name (name),
+    INDEX idx_collection_name (collection_name),
+    INDEX idx_status (status),
+    INDEX idx_owner_id (owner_id),
+    INDEX idx_creator_id (creator_id),
+    INDEX idx_price (price),
+    INDEX idx_current_stock (current_stock)
+);
+
+-- 消息表 (nft-marketplace-service)
+CREATE TABLE IF NOT EXISTS messages (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(100) NOT NULL,
+    content TEXT NOT NULL,
+    type VARCHAR(20) NOT NULL, -- info, success, warning, error
+    target_phone VARCHAR(20),
+    sender_id BIGINT NOT NULL,
+    status VARCHAR(20) NOT NULL, -- pending, sent, delivered
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (sender_id) REFERENCES user(id) ON DELETE CASCADE,
+    INDEX idx_target_phone (target_phone),
+    INDEX idx_sender_id (sender_id),
+    INDEX idx_status (status),
+    INDEX idx_type (type)
+);
+
+-- NFT转赠表 (nft-marketplace-service)
+CREATE TABLE IF NOT EXISTS nft_transfers (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    nft_id BIGINT NOT NULL,
+    sender_id BIGINT NOT NULL,
+    recipient_phone VARCHAR(20) NOT NULL,
+    recipient_id BIGINT,
+    message TEXT,
+    status VARCHAR(20) NOT NULL, -- pending, accepted, rejected, expired
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    expired_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (nft_id) REFERENCES nfts(id) ON DELETE CASCADE,
+    FOREIGN KEY (sender_id) REFERENCES user(id) ON DELETE CASCADE,
+    FOREIGN KEY (recipient_id) REFERENCES user(id) ON DELETE SET NULL,
+    INDEX idx_nft_id (nft_id),
+    INDEX idx_sender_id (sender_id),
+    INDEX idx_recipient_phone (recipient_phone),
+    INDEX idx_recipient_id (recipient_id),
+    INDEX idx_status (status),
+    INDEX idx_expired_at (expired_at)
+);
+
+-- 插入默认NFT数据
+INSERT INTO nfts (nft_id, name, description, image_url, collection_name, blockchain, contract_address, token_id, price, currency, owner_id, creator_id, status, total_quantity, current_stock, max_per_device)
+VALUES
+('nft-001', 'Chemistry Element #1', 'First element in the periodic table', 'https://via.placeholder.com/200x200?text=NFT+1', 'Chemical Elements', 'Ethereum', '0x1234567890123456789012345678901234567890', '1', 0.5, 'ETH', 1, 1, 'available', 10, 10, 1),
+('nft-002', 'Chemistry Element #2', 'Second element in the periodic table', 'https://via.placeholder.com/200x200?text=NFT+2', 'Chemical Elements', 'Ethereum', '0x1234567890123456789012345678901234567890', '2', 0.8, 'ETH', 1, 1, 'available', 10, 10, 1),
+('nft-003', 'Chemistry Element #3', 'Third element in the periodic table', 'https://via.placeholder.com/200x200?text=NFT+3', 'Chemical Elements', 'Ethereum', '0x1234567890123456789012345678901234567890', '3', 1.2, 'ETH', 1, 1, 'available', 10, 10, 1);
+
+-- 查看所有表
+SHOW TABLES;
+
+-- 查看NFT相关表数据量
+SELECT 'nfts' AS table_name, COUNT(*) AS row_count FROM nfts UNION
+SELECT 'messages' AS table_name, COUNT(*) AS row_count FROM messages UNION
+SELECT 'nft_transfers' AS table_name, COUNT(*) AS row_count FROM nft_transfers;
