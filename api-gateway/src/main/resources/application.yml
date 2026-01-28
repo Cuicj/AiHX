@@ -1,16 +1,21 @@
 server:
-  port: 8443
-  ssl:
-    enabled: true
-    key-store: classpath:keystore.jks
-    key-store-password: password
-    key-password: password
-    key-alias: apigateway
-    key-store-type: JKS
+  port: 8080
 
 spring:
   application:
     name: api-gateway
+  # Redis配置暂时禁用
+  # redis:
+  #   host: 192.168.0.175
+  #   port: 6379
+  #   database: 0
+  #   timeout: 3000
+  #   lettuce:
+  #     pool:
+  #       max-active: 8
+  #       max-idle: 8
+  #       min-idle: 0
+  #       max-wait: -1ms
   cloud:
     gateway:
       routes:
