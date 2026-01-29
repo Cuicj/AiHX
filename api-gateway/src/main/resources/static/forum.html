@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>化学论坛 - 分享你的化学见解</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <style>
+        /* 论坛特定样式 */
+        .forum-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .post-form {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .post {
+            background-color: #ffffff;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .post-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            margin-right: 12px;
+            background-color: #007bff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .post-info {
+            flex: 1;
+        }
+        
+        .post-author {
+            font-weight: bold;
+            margin: 0;
+        }
+        
+        .post-time {
+            color: #6c757d;
+            font-size: 0.875rem;
+            margin: 0;
+        }
+        
+        .post-content {
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .post-actions {
+            display: flex;
+            border-top: 1px solid #e9ecef;
+            padding-top: 10px;
+            margin-top: 10px;
+        }
+        
+        .action-btn {
+            background: none;
+            border: none;
+            color: #6c757d;
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+            padding: 5px 0;
+            cursor: pointer;
+        }
+        
+        .action-btn:hover {
+            color: #007bff;
+        }
+        
+        .action-btn i {
+            margin-right: 5px;
+        }
+        
+        .comments-section {
+            margin-top: 20px;
+            border-top: 1px solid #e9ecef;
+            padding-top: 20px;
+        }
+        
+        .comment {
+            display: flex;
+            margin-bottom: 15px;
+            padding-left: 10px;
+            border-left: 3px solid #e9ecef;
+        }
+        
+        .comment-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            margin-right: 10px;
+            background-color: #6c757d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.75rem;
+        }
+        
+        .comment-content {
+            flex: 1;
+        }
+        
+        .comment-author {
+            font-weight: bold;
+            font-size: 0.875rem;
+            margin: 0;
+        }
+        
+        .comment-text {
+            margin: 5px 0;
+            font-size: 0.875rem;
+        }
+        
+        .comment-time {
+            color: #6c757d;
+            font-size: 0.75rem;
+            margin: 0;
+        }
+        
+        .comment-form {
+            margin-top: 15px;
+            display: flex;
+        }
+        
+        .comment-input {
+            flex: 1;
+            border: 1px solid #ced4da;
+            border-radius: 20px;
+            padding: 8px 15px;
+            margin-right: 10px;
+        }
+        
+        .btn-primary {
+            border-radius: 20px;
+        }
+        
+        .btn-sm {
+            padding: 0.25rem 0.75rem;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .forum-container {
+                padding: 0 15px;
+            }
+            
+            .post-actions {
+                justify-content: space-between;
+            }
+            
+            .action-btn {
+                margin-right: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <span class="logo-text">化学探索</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">首页</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="elementDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            元素世界
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="elementDropdown">
+                            <li><a class="dropdown-item" href="periodic-table.html">元素周期表</a></li>
+                            <li><a class="dropdown-item" href="element-discovery.html">元素发现历史</a></li>
+                            <li><a class="dropdown-item" href="element-categories.html">元素分类</a></li>
+                            <li><a class="dropdown-item" href="element-detail.html">元素详情</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="reactionDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            化学反应
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="reactionDropdown">
+                            <li><a class="dropdown-item" href="#">基本反应类型</a></li>
+                            <li><a class="dropdown-item" href="#">氧化还原反应</a></li>
+                            <li><a class="dropdown-item" href="#">酸碱反应</a></li>
+                            <li><a class="dropdown-item" href="#">配位反应</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="chemistryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            化学分支
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="chemistryDropdown">
+                            <li><a class="dropdown-item" href="#">有机化学</a></li>
+                            <li><a class="dropdown-item" href="#">无机化学</a></li>
+                            <li><a class="dropdown-item" href="#">分析化学</a></li>
+                            <li><a class="dropdown-item" href="#">物理化学</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="applicationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            应用化学
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="applicationDropdown">
+                            <li><a class="dropdown-item" href="#">环境化学</a></li>
+                            <li><a class="dropdown-item" href="#">医药化学</a></li>
+                            <li><a class="dropdown-item" href="#">材料化学</a></li>
+                            <li><a class="dropdown-item" href="#">能源化学</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">学习资源</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="ai-assistant.html">AI助手</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="forum.html">论坛</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html">登录/注册</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" style="height: 300px;">
+        <div class="container">
+            <h1>化学论坛</h1>
+            <p>分享你的化学见解，与其他化学爱好者交流讨论</p>
+        </div>
+    </section>
+
+    <!-- Forum Content -->
+    <div class="container forum-container my-5">
+        <!-- Post Form -->
+        <div class="post-form">
+            <h3 class="mb-3">发布新帖子</h3>
+            <form id="postForm">
+                <div class="mb-3">
+                    <textarea class="form-control" id="postContent" rows="3" placeholder="分享你的化学见解..."></textarea>
+                </div>
+                <div class="d-flex justify-content-end">
+                    <button type="button" class="btn btn-primary" id="postButton">发布</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Posts List -->
+        <div id="postsContainer">
+            <!-- Post 1 -->
+            <div class="post">
+                <div class="post-header">
+                    <div class="avatar">张</div>
+                    <div class="post-info">
+                        <h4 class="post-author">张三</h4>
+                        <p class="post-time">2小时前</p>
+                    </div>
+                </div>
+                <div class="post-content">
+                    <p>最近在做有机合成实验时，发现了一个有趣的现象：当使用不同的催化剂时，反应速率和产物选择性有很大差异。大家有什么好的催化剂推荐吗？</p>
+                </div>
+                <div class="post-actions">
+                    <button class="action-btn" onclick="toggleLike(this)">
+                        <i class="bi bi-heart"></i>
+                        <span>点赞 (12)</span>
+                    </button>
+                    <button class="action-btn" onclick="toggleComments(this)">
+                        <i class="bi bi-chat"></i>
+                        <span>评论 (5)</span>
+                    </button>
+                    <button class="action-btn">
+                        <i class="bi bi-share"></i>
+                        <span>分享</span>
+                    </button>
+                </div>
+                <div class="comments-section">
+                    <div class="comment">
+                        <div class="comment-avatar">李</div>
+                        <div class="comment-content">
+                            <h5 class="comment-author">李四</h5>
+                            <p class="comment-text">我最近使用了Pd/C催化剂，效果不错，反应速率提高了3倍。</p>
+                            <p class="comment-time">1小时前</p>
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <div class="comment-avatar">王</div>
+                        <div class="comment-content">
+                            <h5 class="comment-author">王五</h5>
+                            <p class="comment-text">试试酶催化剂，虽然成本高，但选择性非常好。</p>
+                            <p class="comment-time">45分钟前</p>
+                        </div>
+                    </div>
+                    <div class="comment-form">
+                        <input type="text" class="comment-input" placeholder="添加评论...">
+                        <button class="btn btn-primary btn-sm">发布</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Post 2 -->
+            <div class="post">
+                <div class="post-header">
+                    <div class="avatar">李</div>
+                    <div class="post-info">
+                        <h4 class="post-author">李四</h4>
+                        <p class="post-time">5小时前</p>
+                    </div>
+                </div>
+                <div class="post-content">
+                    <p>有人对量子化学感兴趣吗？最近在学习密度泛函理论，感觉理解起来有点困难，大家有什么好的学习资源推荐吗？</p>
+                </div>
+                <div class="post-actions">
+                    <button class="action-btn" onclick="toggleLike(this)">
+                        <i class="bi bi-heart"></i>
+                        <span>点赞 (8)</span>
+                    </button>
+                    <button class="action-btn" onclick="toggleComments(this)">
+                        <i class="bi bi-chat"></i>
+                        <span>评论 (3)</span>
+                    </button>
+                    <button class="action-btn">
+                        <i class="bi bi-share"></i>
+                        <span>分享</span>
+                    </button>
+                </div>
+                <div class="comments-section">
+                    <div class="comment">
+                        <div class="comment-avatar">赵</div>
+                        <div class="comment-content">
+                            <h5 class="comment-author">赵六</h5>
+                            <p class="comment-text">推荐看看《量子化学》这本书，写得很详细，适合初学者。</p>
+                            <p class="comment-time">4小时前</p>
+                        </div>
+                    </div>
+                    <div class="comment-form">
+                        <input type="text" class="comment-input" placeholder="添加评论...">
+                        <button class="btn btn-primary btn-sm">发布</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Post 3 -->
+            <div class="post">
+                <div class="post-header">
+                    <div class="avatar">王</div>
+                    <div class="post-info">
+                        <h4 class="post-author">王五</h4>
+                        <p class="post-time">昨天</p>
+                    </div>
+                </div>
+                <div class="post-content">
+                    <p>分享一个有趣的化学实验：自制水晶。只需要一些简单的材料，就可以在家中观察水晶的生长过程，非常适合给孩子们展示化学的魅力。</p>
+                    <p>步骤：</p>
+                    <ol>
+                        <li>将明矾溶解在热水中，直到不能再溶解为止</li>
+                        <li>将溶液倒入干净的容器中</li>
+                        <li>在溶液中悬挂一根绳子作为晶核</li>
+                        <li>静置几天，观察水晶的生长</li>
+                    </ol>
+                </div>
+                <div class="post-actions">
+                    <button class="action-btn" onclick="toggleLike(this)">
+                        <i class="bi bi-heart"></i>
+                        <span>点赞 (25)</span>
+                    </button>
+                    <button class="action-btn" onclick="toggleComments(this)">
+                        <i class="bi bi-chat"></i>
+                        <span>评论 (10)</span>
+                    </button>
+                    <button class="action-btn">
+                        <i class="bi bi-share"></i>
+                        <span>分享</span>
+                    </button>
+                </div>
+                <div class="comments-section">
+                    <div class="comment">
+                        <div class="comment-avatar">孙</div>
+                        <div class="comment-content">
+                            <h5 class="comment-author">孙七</h5>
+                            <p class="comment-text">这个实验我做过，非常有趣！我用硫酸铜做了蓝色的水晶。</p>
+                            <p class="comment-time">昨天</p>
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <div class="comment-avatar">周</div>
+                        <div class="comment-content">
+                            <h5 class="comment-author">周八</h5>
+                            <p class="comment-text">请问需要多长时间才能看到明显的水晶生长？</p>
+                            <p class="comment-time">昨天</p>
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <div class="comment-avatar">王</div>
+                        <div class="comment-content">
+                            <h5 class="comment-author">王五</h5>
+                            <p class="comment-text">@周八 一般2-3天就能看到明显的水晶生长，一周后会形成较大的水晶。</p>
+                            <p class="comment-time">昨天</p>
+                        </div>
+                    </div>
+                    <div class="comment-form">
+                        <input type="text" class="comment-input" placeholder="添加评论...">
+                        <button class="btn btn-primary btn-sm">发布</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>关于项目</h3>
+                    <p>这是一个基于Spring Cloud的化学学习微服务项目，旨在通过微服务架构实现化学知识的管理和学习进度的跟踪。</p>
+                </div>
+                <div class="col-md-4">
+                    <h3>快速链接</h3>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html">首页</a></li>
+                        <li><a href="periodic-table.html">化学元素</a></li>
+                        <li><a href="login.html">用户中心</a></li>
+                        <li><a href="forum.html">论坛</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h3>联系方式</h3>
+                    <p>如有问题或建议，请联系我们。</p>
+                    <p>Email: contact@example.com</p>
+                </div>
+            </div>
+            <div class="border-top border-gray-700 mt-4 pt-4 text-center">
+                <p>&copy; 2026 化学学习微服务项目. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.min.js"></script>
+    <script>
+        // 前端违禁词列表
+        const forbiddenWords = ['暴力', '色情', '赌博', '毒品', '政治敏感', '侮辱', '歧视', '诈骗', '违法', '犯罪', '色情内容', '暴力行为', '赌博网站', '毒品交易', '政治问题', '侮辱他人', '歧视言论', '诈骗手段', '违法行为', '犯罪行为'];
+        
+        // 过滤文本中的违禁词
+        function filterText(text) {
+            if (!text) return text;
+            let filteredText = text;
+            forbiddenWords.forEach(word => {
+                if (filteredText.includes(word)) {
+                    filteredText = filteredText.replace(word, '***');
+                }
+            });
+            return filteredText;
+        }
+        
+        // 检查文本中是否包含违禁词
+        function containsForbiddenWords(text) {
+            if (!text) return false;
+            return forbiddenWords.some(word => text.includes(word));
+        }
+        
+        // 发布新帖子
+        document.getElementById('postButton').addEventListener('click', function() {
+            const postContent = document.getElementById('postContent').value.trim();
+            if (postContent) {
+                // 检查是否包含违禁词
+                if (containsForbiddenWords(postContent)) {
+                    alert('帖子内容包含违禁词，请修改后再发布！');
+                    return;
+                }
+                
+                const postsContainer = document.getElementById('postsContainer');
+                const now = new Date();
+                const timeString = '刚刚';
+                
+                // 过滤内容中的违禁词
+                const filteredContent = filterText(postContent);
+                
+                // 创建新帖子
+                const newPost = document.createElement('div');
+                newPost.className = 'post';
+                newPost.innerHTML = `
+                    <div class="post-header">
+                        <div class="avatar">我</div>
+                        <div class="post-info">
+                            <h4 class="post-author">我</h4>
+                            <p class="post-time">${timeString}</p>
+                        </div>
+                    </div>
+                    <div class="post-content">
+                        <p>${filteredContent}</p>
+                    </div>
+                    <div class="post-actions">
+                        <button class="action-btn" onclick="toggleLike(this)">
+                            <i class="bi bi-heart"></i>
+                            <span>点赞 (0)</span>
+                        </button>
+                        <button class="action-btn" onclick="toggleComments(this)">
+                            <i class="bi bi-chat"></i>
+                            <span>评论 (0)</span>
+                        </button>
+                        <button class="action-btn">
+                            <i class="bi bi-share"></i>
+                            <span>分享</span>
+                        </button>
+                    </div>
+                    <div class="comments-section">
+                        <div class="comment-form">
+                            <input type="text" class="comment-input" placeholder="添加评论...">
+                            <button class="btn btn-primary btn-sm">发布</button>
+                        </div>
+                    </div>
+                `;
+                
+                // 将新帖子添加到顶部
+                postsContainer.insertBefore(newPost, postsContainer.firstChild);
+                
+                // 清空输入框
+                document.getElementById('postContent').value = '';
+            }
+        });
+        
+        // 点赞功能
+        function toggleLike(button) {
+            const icon = button.querySelector('i');
+            const span = button.querySelector('span');
+            
+            if (icon.classList.contains('bi-heart')) {
+                icon.classList.remove('bi-heart');
+                icon.classList.add('bi-heart-fill');
+                icon.style.color = '#dc3545';
+                
+                // 更新点赞数
+                const currentCount = parseInt(span.textContent.match(/\d+/)[0]);
+                span.textContent = `点赞 (${currentCount + 1})`;
+            } else {
+                icon.classList.remove('bi-heart-fill');
+                icon.classList.add('bi-heart');
+                icon.style.color = '';
+                
+                // 更新点赞数
+                const currentCount = parseInt(span.textContent.match(/\d+/)[0]);
+                span.textContent = `点赞 (${currentCount - 1})`;
+            }
+        }
+        
+        // 评论功能
+        function toggleComments(button) {
+            const post = button.closest('.post');
+            const commentsSection = post.querySelector('.comments-section');
+            
+            if (commentsSection.style.display === 'none') {
+                commentsSection.style.display = 'block';
+            } else {
+                commentsSection.style.display = 'none';
+            }
+        }
+        
+        // 模拟评论发布
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('btn-primary') && e.target.textContent.trim() === '发布' && e.target.closest('.comment-form')) {
+                const commentForm = e.target.closest('.comment-form');
+                const input = commentForm.querySelector('input');
+                const commentText = input.value.trim();
+                
+                if (commentText) {
+                    // 检查是否包含违禁词
+                    if (containsForbiddenWords(commentText)) {
+                        alert('评论内容包含违禁词，请修改后再发布！');
+                        return;
+                    }
+                    
+                    const commentsSection = commentForm.closest('.comments-section');
+                    
+                    // 过滤评论内容中的违禁词
+                    const filteredComment = filterText(commentText);
+                    
+                    // 创建新评论
+                    const newComment = document.createElement('div');
+                    newComment.className = 'comment';
+                    newComment.innerHTML = `
+                        <div class="comment-avatar">我</div>
+                        <div class="comment-content">
+                            <h5 class="comment-author">我</h5>
+                            <p class="comment-text">${filteredComment}</p>
+                            <p class="comment-time">刚刚</p>
+                        </div>
+                    `;
+                    
+                    // 将新评论添加到评论列表顶部
+                    commentsSection.insertBefore(newComment, commentForm);
+                    
+                    // 清空输入框
+                    input.value = '';
+                    
+                    // 更新评论数
+                    const post = commentsSection.closest('.post');
+                    const commentButton = post.querySelector('.action-btn:nth-child(2)');
+                    const commentSpan = commentButton.querySelector('span');
+                    const currentCount = parseInt(commentSpan.textContent.match(/\d+/)[0]);
+                    commentSpan.textContent = `评论 (${currentCount + 1})`;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
