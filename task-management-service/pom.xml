@@ -6,12 +6,16 @@
 
     <parent>
         <groupId>com.cmatedata</groupId>
-        <artifactId>cmatedata</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <artifactId>chemistry-learning</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>task-management-service</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.0.1-SNAPSHOT</version>
+
+    <properties>
+        <java.version>17</java.version>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -33,6 +37,8 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.33</version>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
