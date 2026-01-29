@@ -500,60 +500,6 @@ NFT转赠流程中的状态流转如下：
 
 1. **获取每日随机题目**
    ```bash
-   curl "http://localhost:8080/api/quiz/daily-questions?userId=1&deviceId=device_123456"
-   ```
-
-2. **提交答题结果**
-   ```bash
-   curl -X POST "http://localhost:8080/api/quiz/submit?userId=1&deviceId=device_123456" \
-     -H "Content-Type: application/json" \
-     -d '{
-       "answers": {
-         "1": "B",
-         "2": "C",
-         "3": "A",
-         "4": "D",
-         "5": "A"
-       },
-       "timeSpent": 60
-     }'
-   ```
-
-3. **获取用户错题集**
-   ```bash
-   curl "http://localhost:8080/api/quiz/mistakes?userId=1&page=1&size=10"
-   ```
-
-### 签到测试
-
-1. **用户签到**
-   ```bash
-   curl -X POST http://localhost:8080/api/user/users/checkin \
-     -H "Content-Type: application/json" \
-     -d '{"userId": 1, "deviceId": "device_123456", "ipAddress": "192.168.1.100"}'
-   ```
-
-2. **签到状态查询**
-   ```bash
-   curl -X POST http://localhost:8080/api/user/users/checkin/status \
-     -H "Content-Type: application/json" \
-     -d '{"userId": 1, "deviceId": "device_123456", "ipAddress": "192.168.1.100"}'
-   ```
-
-3. **获取用户签到记录**
-   ```bash
-   curl http://localhost:8080/api/user/users/1/checkin-records
-   ```
-
-4. **获取用户签到统计**
-   ```bash
-   curl "http://localhost:8080/api/user/users/1/checkin-stats?month=1&year=2026"
-   ```
-
-### 答题测试
-
-1. **获取每日随机题目**
-   ```bash
    curl "http://localhost:8080/api/quiz/quiz/daily-questions?userId=1&deviceId=device_123456"
    ```
 
@@ -612,6 +558,32 @@ NFT转赠流程中的状态流转如下：
     ```bash
     curl "http://localhost:8080/api/quiz/quiz/mistakes?userId=1&page=1&size=10"
     ```
+
+### 签到测试
+
+1. **用户签到**
+   ```bash
+   curl -X POST http://localhost:8080/api/user/users/checkin \
+     -H "Content-Type: application/json" \
+     -d '{"userId": 1, "deviceId": "device_123456", "ipAddress": "192.168.1.100"}'
+   ```
+
+2. **签到状态查询**
+   ```bash
+   curl -X POST http://localhost:8080/api/user/users/checkin/status \
+     -H "Content-Type: application/json" \
+     -d '{"userId": 1, "deviceId": "device_123456", "ipAddress": "192.168.1.100"}'
+   ```
+
+3. **获取用户签到记录**
+   ```bash
+   curl http://localhost:8080/api/user/users/1/checkin-records
+   ```
+
+4. **获取用户签到统计**
+   ```bash
+   curl "http://localhost:8080/api/user/users/1/checkin-stats?month=1&year=2026"
+   ```
 
 ## 配置说明
 
