@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>氧化还原反应</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/page-transition.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        .hero-section {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 120px 0 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,%3Csvg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z" fill="%23ffffff" fill-opacity="0.1" fill-rule="evenodd"/%3E%3C/svg%3E');
+        }
+        .reaction-card {
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .reaction-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        .reaction-card .card-header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 1.5rem;
+        }
+        .reaction-formula {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.2rem;
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            text-align: center;
+        }
+        .interactive-section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        .simulator-container {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border: none;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(240, 147, 251, 0.3);
+        }
+        .nav-link {
+            transition: all 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #f093fb !important;
+            transform: translateY(-2px);
+        }
+        .nav-link.active {
+            color: #f093fb !important;
+            font-weight: bold;
+        }
+        .oxidation-state {
+            background: #fff3cd;
+            padding: 0.5rem;
+            border-radius: 6px;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+        }
+        .redox-flow {
+            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- 页面过渡层 -->
+    <div class="transition-overlay"></div>
+    
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html" data-transition="fade">
+                <span style="color: #f093fb; font-weight: bold;">Chem</span>Reactions
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html" data-transition="fade">首页</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="periodic-table.html" id="elementDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-transition="fade">
+                            元素世界
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="elementDropdown">
+                            <li><a class="dropdown-item" href="periodic-table.html" data-transition="fade">元素周期表</a></li>
+                            <li><a class="dropdown-item" href="element-discovery.html" data-transition="fade">元素发现历史</a></li>
+                            <li><a class="dropdown-item" href="element-categories.html" data-transition="fade">元素分类</a></li>
+                            <li><a class="dropdown-item" href="element-detail.html" data-transition="fade">元素详情</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="reactions.html" id="reactionDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="true" data-transition="fade">
+                            化学反应
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="reactionDropdown">
+                            <li><a class="dropdown-item" href="basic-reactions.html" data-transition="fade">基本反应类型</a></li>
+                            <li><a class="dropdown-item active" href="redox-reactions.html" data-transition="fade">氧化还原反应</a></li>
+                            <li><a class="dropdown-item" href="acid-base-reactions.html" data-transition="fade">酸碱反应</a></li>
+                            <li><a class="dropdown-item" href="coordination-reactions.html" data-transition="fade">配位反应</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="chemistryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-transition="fade">
+                            化学分支
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="chemistryDropdown">
+                            <li><a class="dropdown-item" href="organic-chemistry.html" data-transition="fade">有机化学</a></li>
+                            <li><a class="dropdown-item" href="inorganic-chemistry.html" data-transition="fade">无机化学</a></li>
+                            <li><a class="dropdown-item" href="analytical-chemistry.html" data-transition="fade">分析化学</a></li>
+                            <li><a class="dropdown-item" href="physical-chemistry.html" data-transition="fade">物理化学</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="applicationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-transition="fade">
+                            应用化学
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="applicationDropdown">
+                            <li><a class="dropdown-item" href="#" data-transition="fade">环境化学</a></li>
+                            <li><a class="dropdown-item" href="#" data-transition="fade">医药化学</a></li>
+                            <li><a class="dropdown-item" href="#" data-transition="fade">材料化学</a></li>
+                            <li><a class="dropdown-item" href="#" data-transition="fade">能源化学</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-transition="fade">学习资源</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="ai-assistant.html" data-transition="fade">AI助手</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="forum.html" data-transition="fade">论坛</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html" data-transition="fade">登录/注册</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- 英雄区 -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="display-4 mb-4">氧化还原反应</h1>
+                    <p class="lead mb-6">探索电子转移的奥秘，了解氧化还原反应的原理、类型和应用</p>
+                    <a href="#redox-basics" class="btn btn-light btn-lg" data-transition="fade">开始探索</a>
+                </div>
+                <div class="col-lg-6">
+                    <div class="text-center">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=redox%20reaction%20electron%20transfer%20between%20molecules%2C%20oxidation%20and%20reduction%20process%2C%20scientific%20illustration%2C%203D%20rendering&image_size=square_hd" alt="氧化还原反应" class="img-fluid rounded-lg shadow-lg">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 氧化还原反应基础 -->
+    <section id="redox-basics" class="py-16">
+        <div class="container">
+            <div class="text-center mb-12">
+                <h2 class="display-5 mb-4">氧化还原反应基础</h2>
+                <p class="text-muted">了解氧化还原反应的基本概念和原理</p>
+            </div>
+            
+            <div class="row g-6">
+                <div class="col-lg-6">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="mb-4">基本概念</h3>
+                        <ul class="list-unstyled space-y-4">
+                            <li class="d-flex align-items-start">
+                                <div class="bg-pink-100 p-2 rounded-full mr-3">
+                                    <i class="bi bi-lightning-fill text-pink-500"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold">氧化反应</h4>
+                                    <p>物质失去电子的过程，氧化态升高</p>
+                                    <div class="oxidation-state">Zn → Zn²⁺ + 2e⁻</div>
+                                </div>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <div class="bg-blue-100 p-2 rounded-full mr-3">
+                                    <i class="bi bi-magnet-fill text-blue-500"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold">还原反应</h4>
+                                    <p>物质得到电子的过程，氧化态降低</p>
+                                    <div class="oxidation-state">Cu²⁺ + 2e⁻ → Cu</div>
+                                </div>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <div class="bg-purple-100 p-2 rounded-full mr-3">
+                                    <i class="bi bi-exchange-alt text-purple-500"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold">氧化还原反应</h4>
+                                    <p>氧化反应和还原反应同时发生的反应</p>
+                                    <div class="oxidation-state">Zn + Cu²⁺ → Zn²⁺ + Cu</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="mb-4">氧化态计算</h3>
+                        <p class="mb-4">氧化态是指元素在化合物中的表观电荷数，计算规则如下：</p>
+                        <ul class="list-unstyled space-y-3">
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span>单质中元素的氧化态为0</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span>化合物中各元素氧化态的代数和为0</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span>离子中各元素氧化态的代数和等于离子电荷</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span>常见元素的氧化态：H为+1（金属氢化物中为-1），O为-2（过氧化物中为-1）</span>
+                            </li>
+                        </ul>
+                        <div class="mt-4">
+                            <h5 class="mb-2">示例：计算MnO₄⁻中Mn的氧化态</h5>
+                            <div class="oxidation-state">设Mn的氧化态为x，则x + 4×(-2) = -1，解得x = +7</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 氧化还原反应类型 -->
+    <section class="py-16 bg-light">
+        <div class="container">
+            <div class="text-center mb-12">
+                <h2 class="display-5 mb-4">氧化还原反应类型</h2>
+                <p class="text-muted">了解不同类型的氧化还原反应</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="reaction-card">
+                        <div class="card-header">
+                            <h3 class="card-title mb-0">置换反应</h3>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-4">单质与化合物反应，生成另一种单质和另一种化合物。</p>
+                            <div class="reaction-formula">Zn + 2HCl → ZnCl₂ + H₂</div>
+                            <div class="redox-flow mt-4">
+                                <h5>电子转移：</h5>
+                                <p>Zn → Zn²⁺ + 2e⁻（氧化）</p>
+                                <p>2H⁺ + 2e⁻ → H₂（还原）</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4">
+                    <div class="reaction-card">
+                        <div class="card-header">
+                            <h3 class="card-title mb-0">化合反应</h3>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-4">两种或两种以上物质反应生成一种新物质。</p>
+                            <div class="reaction-formula">2H₂ + O₂ → 2H₂O</div>
+                            <div class="redox-flow mt-4">
+                                <h5>电子转移：</h5>
+                                <p>H₂ → 2H⁺ + 2e⁻（氧化）</p>
+                                <p>O₂ + 4e⁻ → 2O²⁻（还原）</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4">
+                    <div class="reaction-card">
+                        <div class="card-header">
+                            <h3 class="card-title mb-0">分解反应</h3>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-4">一种物质分解生成两种或两种以上新物质。</p>
+                            <div class="reaction-formula">2H₂O₂ → 2H₂O + O₂</div>
+                            <div class="redox-flow mt-4">
+                                <h5>电子转移：</h5>
+                                <p>2O⁻ → O₂ + 2e⁻（氧化）</p>
+                                <p>2O⁻ + 2e⁻ → 2O²⁻（还原）</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4">
+                    <div class="reaction-card">
+                        <div class="card-header">
+                            <h3 class="card-title mb-0">燃烧反应</h3>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-4">物质与氧气反应，放出热量和光。</p>
+                            <div class="reaction-formula">CH₄ + 2O₂ → CO₂ + 2H₂O</div>
+                            <div class="redox-flow mt-4">
+                                <h5>电子转移：</h5>
+                                <p>C⁻⁴ → C⁺⁴ + 8e⁻（氧化）</p>
+                                <p>2O₂ + 8e⁻ → 4O²⁻（还原）</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4">
+                    <div class="reaction-card">
+                        <div class="card-header">
+                            <h3 class="card-title mb-0">歧化反应</h3>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-4">同一物质中的同一元素既被氧化又被还原。</p>
+                            <div class="reaction-formula">Cl₂ + H₂O → HCl + HClO</div>
+                            <div class="redox-flow mt-4">
+                                <h5>电子转移：</h5>
+                                <p>Cl → Cl⁺ + e⁻（氧化）</p>
+                                <p>Cl + e⁻ → Cl⁻（还原）</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4">
+                    <div class="reaction-card">
+                        <div class="card-header">
+                            <h3 class="card-title mb-0">归中反应</h3>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-4">同一元素的不同氧化态反应生成中间氧化态。</p>
+                            <div class="reaction-formula">2H₂S + SO₂ → 3S + 2H₂O</div>
+                            <div class="redox-flow mt-4">
+                                <h5>电子转移：</h5>
+                                <p>S²⁻ → S + 2e⁻（氧化）</p>
+                                <p>S⁺⁴ + 4e⁻ → S（还原）</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 互动模拟器 -->
+    <section class="interactive-section">
+        <div class="container">
+            <div class="text-center mb-10">
+                <h2 class="display-5 mb-4">氧化还原反应模拟器</h2>
+                <p class="text-muted">选择反应物，观察电子转移和反应产物</p>
+            </div>
+            
+            <div class="simulator-container">
+                <div class="row">
+                    <div class="col-lg-6 mb-4">
+                        <div class="mb-4">
+                            <label class="form-label">选择金属</label>
+                            <select id="metal" class="form-select form-select-lg">
+                                <option value="Zn">Zn (锌)</option>
+                                <option value="Fe">Fe (铁)</option>
+                                <option value="Cu">Cu (铜)</option>
+                                <option value="Ag">Ag (银)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="form-label">选择溶液</label>
+                            <select id="solution" class="form-select form-select-lg">
+                                <option value="HCl">HCl (盐酸)</option>
+                                <option value="CuSO4">CuSO₄ (硫酸铜)</option>
+                                <option value="AgNO3">AgNO₃ (硝酸银)</option>
+                                <option value="FeCl3">FeCl₃ (氯化铁)</option>
+                            </select>
+                        </div>
+                        
+                        <button id="simulate-btn" class="btn btn-primary btn-lg w-100">模拟反应</button>
+                    </div>
+                    
+                    <div class="col-lg-6">
+                        <div class="bg-light p-4 rounded-lg h-100">
+                            <h4 class="mb-4">反应结果</h4>
+                            <div id="reaction-result" class="mb-4">
+                                <p class="text-muted">点击模拟按钮查看反应结果</p>
+                            </div>
+                            <div id="reaction-equation" class="reaction-formula mb-4"></div>
+                            <div id="electron-transfer" class="redox-flow mb-4"></div>
+                            <div id="reaction-explanation"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 氧化还原反应的应用 -->
+    <section class="py-16">
+        <div class="container">
+            <div class="text-center mb-12">
+                <h2 class="display-5 mb-4">氧化还原反应的应用</h2>
+                <p class="text-muted">了解氧化还原反应在日常生活和工业中的应用</p>
+            </div>
+            
+            <div class="row g-6">
+                <div class="col-lg-6">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="mb-4">日常生活中的应用</h3>
+                        <ul class="list-unstyled space-y-3">
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-battery-charging text-green-500 mt-1 me-3"></i>
+                                <span>电池：利用氧化还原反应将化学能转化为电能</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-fire text-orange-500 mt-1 me-3"></i>
+                                <span>燃烧：燃料与氧气的氧化还原反应，提供热能</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-shield-check text-blue-500 mt-1 me-3"></i>
+                                <span>金属腐蚀：金属与氧气、水等发生的氧化反应</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-activity text-purple-500 mt-1 me-3"></i>
+                                <span>光合作用：植物将二氧化碳和水转化为葡萄糖和氧气</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-heart-pulse text-red-500 mt-1 me-3"></i>
+                                <span>呼吸作用：生物体将葡萄糖氧化为二氧化碳和水，释放能量</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="mb-4">工业中的应用</h3>
+                        <ul class="list-unstyled space-y-3">
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-gear text-gray-500 mt-1 me-3"></i>
+                                <span>金属冶炼：从矿石中提取金属的过程</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-flask text-blue-500 mt-1 me-3"></i>
+                                <span>化工生产：合成各种化学品的过程</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-truck text-yellow-500 mt-1 me-3"></i>
+                                <span>燃料电池：清洁高效的能源转换装置</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-water text-cyan-500 mt-1 me-3"></i>
+                                <span>水处理：去除水中的污染物</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-recycle text-green-500 mt-1 me-3"></i>
+                                <span>环境保护：处理工业废水和废气</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 热门化学信息 -->
+    <section class="py-16 bg-light">
+        <div class="container">
+            <div class="text-center mb-12">
+                <h2 class="display-5 mb-4">热门氧化还原研究</h2>
+                <p class="text-muted">了解最新的氧化还原反应研究进展</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="card h-100">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=hydrogen%20fuel%20cell%20technology%2C%20clean%20energy%20research%2C%20scientific%20laboratory&image_size=landscape_4_3" alt="燃料电池" class="card-img-top">
+                        <div class="card-body">
+                            <h3 class="card-title">高效燃料电池的开发</h3>
+                            <p class="card-text">研究人员开发出新型催化剂，提高燃料电池的能量转换效率，减少贵金属使用量。</p>
+                            <a href="#" class="btn btn-primary">了解更多</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4">
+                    <div class="card h-100">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=metal-air%20battery%20research%2C%20advanced%20energy%20storage%2C%20scientific%20laboratory&image_size=landscape_4_3" alt="金属空气电池" class="card-img-top">
+                        <div class="card-body">
+                            <h3 class="card-title">金属空气电池的突破</h3>
+                            <p class="card-text">新型金属空气电池技术取得重大突破，能量密度大幅提高，为电动汽车提供更长续航。</p>
+                            <a href="#" class="btn btn-primary">了解更多</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4">
+                    <div class="card h-100">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=photocatalytic%20water%20splitting%2C%20solar%20energy%20conversion%2C%20scientific%20laboratory&image_size=landscape_4_3" alt="光催化水分解" class="card-img-top">
+                        <div class="card-body">
+                            <h3 class="card-title">光催化水分解制氢</h3>
+                            <p class="card-text">新型光催化剂能够更高效地利用太阳能分解水制氢，为清洁能源生产提供新途径。</p>
+                            <a href="#" class="btn btn-primary">了解更多</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 实验室安全 -->
+    <section class="py-16">
+        <div class="container">
+            <div class="text-center mb-12">
+                <h2 class="display-5 mb-4">实验室安全</h2>
+                <p class="text-muted">了解氧化还原反应实验的安全注意事项</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="mb-4">安全规则</h3>
+                        <ul class="list-unstyled space-y-3">
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-shield-check text-success mt-1 me-3"></i>
+                                <span>实验前必须了解反应的潜在危险和安全措施</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-shield-check text-success mt-1 me-3"></i>
+                                <span>穿戴适当的个人防护装备，包括实验服、手套和护目镜</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-shield-check text-success mt-1 me-3"></i>
+                                <span>在通风橱中进行产生有害气体的反应</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-shield-check text-success mt-1 me-3"></i>
+                                <span>严格控制反应物的用量，特别是强氧化剂和强还原剂</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-shield-check text-success mt-1 me-3"></i>
+                                <span>实验结束后彻底清理实验区域，妥善处理废弃物</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="mb-4">危险化学品</h3>
+                        <ul class="list-unstyled space-y-3">
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-exclamation-triangle text-danger mt-1 me-3"></i>
+                                <span><strong>强氧化剂：</strong>高锰酸钾、重铬酸钾、过氧化氢等，与有机物接触可能引起燃烧或爆炸</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-exclamation-triangle text-danger mt-1 me-3"></i>
+                                <span><strong>强还原剂：</strong>金属钠、钾、铝粉、锌粉等，与水或酸反应可能产生易燃易爆气体</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-exclamation-triangle text-danger mt-1 me-3"></i>
+                                <span><strong>有毒物质：</strong>氰化物、砷化合物、汞化合物等，接触或吸入可能导致中毒</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-exclamation-triangle text-danger mt-1 me-3"></i>
+                                <span><strong>腐蚀性物质：</strong>浓硫酸、浓硝酸、浓盐酸等，接触皮肤可能导致灼伤</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white py-8">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h3 class="mb-4"><span style="color: #f093fb;">Chem</span>Reactions</h3>
+                    <p>探索化学反应的奥秘，了解化学世界的精彩</p>
+                </div>
+                
+                <div class="col-lg-4 mb-4">
+                    <h4 class="mb-4">快速链接</h4>
+                    <ul class="list-unstyled space-y-2">
+                        <li><a href="index.html" class="text-white text-decoration-none" data-transition="fade">首页</a></li>
+                        <li><a href="reactions.html" class="text-white text-decoration-none" data-transition="fade">化学反应</a></li>
+                        <li><a href="basic-reactions.html" class="text-white text-decoration-none" data-transition="fade">基本反应类型</a></li>
+                        <li><a href="redox-reactions.html" class="text-white text-decoration-none" data-transition="fade">氧化还原反应</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-4">
+                    <h4 class="mb-4">联系我们</h4>
+                    <ul class="list-unstyled space-y-2">
+                        <li>邮箱：info@chemreactions.com</li>
+                        <li>电话：+86 123 4567 8910</li>
+                        <li>地址：中国化学研究所</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-top border-gray-700 mt-8 pt-6 text-center">
+                <p>&copy; 2024 ChemReactions. 保留所有权利。</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/page-transition.js"></script>
+    <script>
+        // 反应模拟器逻辑
+        document.addEventListener('DOMContentLoaded', function() {
+            const metal = document.getElementById('metal');
+            const solution = document.getElementById('solution');
+            const simulateBtn = document.getElementById('simulate-btn');
+            const reactionResult = document.getElementById('reaction-result');
+            const reactionEquation = document.getElementById('reaction-equation');
+            const electronTransfer = document.getElementById('electron-transfer');
+            const reactionExplanation = document.getElementById('reaction-explanation');
+            
+            // 模拟反应
+            simulateBtn.addEventListener('click', function() {
+                const m = metal.value;
+                const s = solution.value;
+                
+                let equation = '';
+                let electronFlow = '';
+                let explanation = '';
+                let result = '';
+                
+                // 金属活动性顺序：K > Ca > Na > Mg > Al > Zn > Fe > Sn > Pb > (H) > Cu > Hg > Ag > Pt > Au
+                const activityOrder = ['K', 'Ca', 'Na', 'Mg', 'Al', 'Zn', 'Fe', 'Sn', 'Pb', 'H', 'Cu', 'Hg', 'Ag', 'Pt', 'Au'];
+                const metalIndex = activityOrder.indexOf(m);
+                
+                switch(s) {
+                    case 'HCl':
+                        const hIndex = activityOrder.indexOf('H');
+                        if (metalIndex < hIndex) {
+                            if (m === 'Zn') {
+                                equation = 'Zn + 2HCl → ZnCl₂ + H₂';
+                                electronFlow = '<h5>电子转移：</h5><p>Zn → Zn²⁺ + 2e⁻（氧化）</p><p>2H⁺ + 2e⁻ → H₂（还原）</p>';
+                                explanation = '锌的金属活动性比氢强，能够从盐酸中置换出氢气。这是一个典型的氧化还原反应，锌被氧化，氢离子被还原。';
+                                result = '<p class="text-success">反应发生！产生氢气气泡。</p>';
+                            } else if (m === 'Fe') {
+                                equation = 'Fe + 2HCl → FeCl₂ + H₂';
+                                electronFlow = '<h5>电子转移：</h5><p>Fe → Fe²⁺ + 2e⁻（氧化）</p><p>2H⁺ + 2e⁻ → H₂（还原）</p>';
+                                explanation = '铁的金属活动性比氢强，能够从盐酸中置换出氢气。铁被氧化为亚铁离子，氢离子被还原为氢气。';
+                                result = '<p class="text-success">反应发生！产生氢气气泡。</p>';
+                            } else {
+                                equation = '';
+                                electronFlow = '';
+                                explanation = '铜和银的金属活动性比氢弱，不能从盐酸中置换出氢气。';
+                                result = '<p class="text-muted">无反应发生。</p>';
+                            }
+                        } else {
+                            equation = '';
+                            electronFlow = '';
+                            explanation = '该金属的活动性比氢弱，不能从盐酸中置换出氢气。';
+                            result = '<p class="text-muted">无反应发生。</p>';
+                        }
+                        break;
+                        
+                    case 'CuSO4':
+                        const cuIndex = activityOrder.indexOf('Cu');
+                        if (metalIndex < cuIndex) {
+                            if (m === 'Zn') {
+                                equation = 'Zn + CuSO₄ → ZnSO₄ + Cu';
+                                electronFlow = '<h5>电子转移：</h5><p>Zn → Zn²⁺ + 2e⁻（氧化）</p><p>Cu²⁺ + 2e⁻ → Cu（还原）</p>';
+                                explanation = '锌的金属活动性比铜强，能够从硫酸铜溶液中置换出铜。锌被氧化，铜离子被还原为铜单质。';
+                                result = '<p class="text-success">反应发生！溶液蓝色变浅，有红色铜单质析出。</p>';
+                            } else if (m === 'Fe') {
+                                equation = 'Fe + CuSO₄ → FeSO₄ + Cu';
+                                electronFlow = '<h5>电子转移：</h5><p>Fe → Fe²⁺ + 2e⁻（氧化）</p><p>Cu²⁺ + 2e⁻ → Cu（还原）</p>';
+                                explanation = '铁的金属活动性比铜强，能够从硫酸铜溶液中置换出铜。铁被氧化为亚铁离子，铜离子被还原为铜单质。';
+                                result = '<p class="text-success">反应发生！溶液蓝色变浅，有红色铜单质析出。</p>';
+                            } else {
+                                equation = '';
+                                electronFlow = '';
+                                explanation = '铜和银的金属活动性比铜弱，不能从硫酸铜溶液中置换出铜。';
+                                result = '<p class="text-muted">无反应发生。</p>';
+                            }
+                        } else {
+                            equation = '';
+                            electronFlow = '';
+                            explanation = '该金属的活动性比铜弱，不能从硫酸铜溶液中置换出铜。';
+                            result = '<p class="text-muted">无反应发生。</p>';
+                        }
+                        break;
+                        
+                    case 'AgNO3':
+                        const agIndex = activityOrder.indexOf('Ag');
+                        if (metalIndex < agIndex) {
+                            if (m === 'Zn') {
+                                equation = 'Zn + 2AgNO₃ → Zn(NO₃)₂ + 2Ag';
+                                electronFlow = '<h5>电子转移：</h5><p>Zn → Zn²⁺ + 2e⁻（氧化）</p><p>2Ag⁺ + 2e⁻ → 2Ag（还原）</p>';
+                                explanation = '锌的金属活动性比银强，能够从硝酸银溶液中置换出银。锌被氧化，银离子被还原为银单质。';
+                                result = '<p class="text-success">反应发生！有银白色银单质析出。</p>';
+                            } else if (m === 'Fe') {
+                                equation = 'Fe + 2AgNO₃ → Fe(NO₃)₂ + 2Ag';
+                                electronFlow = '<h5>电子转移：</h5><p>Fe → Fe²⁺ + 2e⁻（氧化）</p><p>2Ag⁺ + 2e⁻ → 2Ag（还原）</p>';
+                                explanation = '铁的金属活动性比银强，能够从硝酸银溶液中置换出银。铁被氧化为亚铁离子，银离子被还原为银单质。';
+                                result = '<p class="text-success">反应发生！有银白色银单质析出。</p>';
+                            } else if (m === 'Cu') {
+                                equation = 'Cu + 2AgNO₃ → Cu(NO₃)₂ + 2Ag';
+                                electronFlow = '<h5>电子转移：</h5><p>Cu → Cu²⁺ + 2e⁻（氧化）</p><p>2Ag⁺ + 2e⁻ → 2Ag（还原）</p>';
+                                explanation = '铜的金属活动性比银强，能够从硝酸银溶液中置换出银。铜被氧化为铜离子，银离子被还原为银单质。';
+                                result = '<p class="text-success">反应发生！有银白色银单质析出，溶液变为蓝色。</p>';
+                            } else {
+                                equation = '';
+                                electronFlow = '';
+                                explanation = '银的金属活动性与银相同，不能从硝酸银溶液中置换出银。';
+                                result = '<p class="text-muted">无反应发生。</p>';
+                            }
+                        } else {
+                            equation = '';
+                            electronFlow = '';
+                            explanation = '该金属的活动性比银弱，不能从硝酸银溶液中置换出银。';
+                            result = '<p class="text-muted">无反应发生。</p>';
+                        }
+                        break;
+                        
+                    case 'FeCl3':
+                        // 铁离子具有氧化性，能与许多金属反应
+                        if (m === 'Zn') {
+                            equation = 'Zn + 2FeCl₃ → ZnCl₂ + 2FeCl₂';
+                            electronFlow = '<h5>电子转移：</h5><p>Zn → Zn²⁺ + 2e⁻（氧化）</p><p>2Fe³⁺ + 2e⁻ → 2Fe²⁺（还原）</p>';
+                            explanation = '锌与氯化铁反应，锌被氧化为锌离子，铁离子被还原为亚铁离子。';
+                            result = '<p class="text-success">反应发生！溶液黄色变浅。</p>';
+                        } else if (m === 'Fe') {
+                            equation = 'Fe + 2FeCl₃ → 3FeCl₂';
+                            electronFlow = '<h5>电子转移：</h5><p>Fe → Fe²⁺ + 2e⁻（氧化）</p><p>2Fe³⁺ + 2e⁻ → 2Fe²⁺（还原）</p>';
+                            explanation = '铁与氯化铁反应，铁被氧化为亚铁离子，铁离子被还原为亚铁离子。这是一个归中反应。';
+                            result = '<p class="text-success">反应发生！溶液黄色变浅。</p>';
+                        } else if (m === 'Cu') {
+                            equation = 'Cu + 2FeCl₃ → CuCl₂ + 2FeCl₂';
+                            electronFlow = '<h5>电子转移：</h5><p>Cu → Cu²⁺ + 2e⁻（氧化）</p><p>2Fe³⁺ + 2e⁻ → 2Fe²⁺（还原）</p>';
+                            explanation = '铜与氯化铁反应，铜被氧化为铜离子，铁离子被还原为亚铁离子。';
+                            result = '<p class="text-success">反应发生！溶液黄色变浅，变为蓝绿色。</p>';
+                        } else if (m === 'Ag') {
+                            equation = '';
+                            electronFlow = '';
+                            explanation = '银的还原性较弱，不能与氯化铁反应。';
+                            result = '<p class="text-muted">无反应发生。</p>';
+                        }
+                        break;
+                }
+                
+                reactionResult.innerHTML = result;
+                reactionEquation.textContent = equation;
+                electronTransfer.innerHTML = electronFlow;
+                reactionExplanation.textContent = explanation;
+            });
+        });
+    </script>
+</body>
+</html>

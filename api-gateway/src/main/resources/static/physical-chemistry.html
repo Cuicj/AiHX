@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>物理化学 - 化学探索</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/page-transition.css">
+    <style>
+        /* 自定义样式 */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        .hero-section {
+            background: linear-gradient(135deg, #a8caba 0%, #5d4e75 100%);
+            color: white;
+            padding: 120px 0 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,%3Csvg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z" fill="%23ffffff" fill-opacity="0.1" fill-rule="evenodd"%3E%3C/path%3E%3C/svg%3E');
+        }
+        .physical-card {
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .physical-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        .physical-card .card-header {
+            background: linear-gradient(135deg, #a8caba 0%, #5d4e75 100%);
+            color: white;
+            padding: 1.5rem;
+        }
+        .equation {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.2rem;
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            text-align: center;
+        }
+        .interactive-section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        .simulator-container {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #a8caba 0%, #5d4e75 100%);
+            border: none;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(168, 202, 186, 0.3);
+        }
+        .nav-link {
+            transition: all 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #a8caba !important;
+            transform: translateY(-2px);
+        }
+        .nav-link.active {
+            color: #a8caba !important;
+            font-weight: bold;
+        }
+        .concept-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1rem 0;
+            color: white;
+        }
+        .formula-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1rem 0;
+            color: white;
+            text-align: center;
+        }
+        .hot-topics {
+            background: #e3f2fd;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        .topic-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .topic-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- 页面过渡层 -->
+    <div class="transition-overlay"></div>
+    
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html" data-transition="fade">
+                <span style="color: #a8caba; font-weight: bold;">Chem</span>Reactions
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html" data-transition="fade">首页</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="periodic-table.html" id="elementDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-transition="fade">
+                            元素世界
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="elementDropdown">
+                            <li><a class="dropdown-item" href="periodic-table.html" data-transition="fade">元素周期表</a></li>
+                            <li><a class="dropdown-item" href="element-discovery.html" data-transition="fade">元素发现历史</a></li>
+                            <li><a class="dropdown-item" href="element-categories.html" data-transition="fade">元素分类</a></li>
+                            <li><a class="dropdown-item" href="element-detail.html" data-transition="fade">元素详情</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="reactions.html" id="reactionDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-transition="fade">
+                            化学反应
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="reactionDropdown">
+                            <li><a class="dropdown-item" href="basic-reactions.html" data-transition="fade">基本反应类型</a></li>
+                            <li><a class="dropdown-item" href="redox-reactions.html" data-transition="fade">氧化还原反应</a></li>
+                            <li><a class="dropdown-item" href="acid-base-reactions.html" data-transition="fade">酸碱反应</a></li>
+                            <li><a class="dropdown-item" href="coordination-reactions.html" data-transition="fade">配位反应</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="physical-chemistry.html" id="chemistryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="true" data-transition="fade">
+                            化学分支
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="chemistryDropdown">
+                            <li><a class="dropdown-item" href="organic-chemistry.html" data-transition="fade">有机化学</a></li>
+                            <li><a class="dropdown-item" href="inorganic-chemistry.html" data-transition="fade">无机化学</a></li>
+                            <li><a class="dropdown-item" href="analytical-chemistry.html" data-transition="fade">分析化学</a></li>
+                            <li><a class="dropdown-item active" href="physical-chemistry.html" data-transition="fade">物理化学</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="applicationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-transition="fade">
+                            应用化学
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="applicationDropdown">
+                            <li><a class="dropdown-item" href="#" data-transition="fade">环境化学</a></li>
+                            <li><a class="dropdown-item" href="#" data-transition="fade">医药化学</a></li>
+                            <li><a class="dropdown-item" href="#" data-transition="fade">材料化学</a></li>
+                            <li><a class="dropdown-item" href="#" data-transition="fade">能源化学</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-transition="fade">学习资源</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="ai-assistant.html" data-transition="fade">AI助手</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="forum.html" data-transition="fade">论坛</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html" data-transition="fade">登录/注册</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 英雄区 -->
+    <section class="hero-section">
+        <div class="container">
+            <h1 class="display-4 mb-4">物理化学</h1>
+            <p class="lead mb-6">探索化学现象背后的物理原理，从热力学到动力学的微观世界</p>
+            <a href="#explore" class="btn btn-primary btn-lg">开始探索</a>
+        </div>
+    </section>
+
+    <!-- 主要内容 -->
+    <div class="container" id="explore">
+        <!-- 物理化学概述 -->
+        <section class="section mb-6">
+            <h2 class="section-title">物理化学概述</h2>
+            <p class="text-center text-muted mb-4">了解物理化学的基本概念和研究领域</p>
+            
+            <div class="card mb-4">
+                <div class="card-body">
+                    <p>物理化学是研究化学现象背后的物理原理的科学，通过物理方法和理论来解释和预测化学行为。物理化学是化学学科的重要基础，它连接了化学和物理学，为理解化学现象提供了微观和宏观的理论框架。</p>
+                    
+                    <h3 class="mt-4 mb-3">物理化学的研究领域</h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="bi bi-check-circle text-primary"></i> 热力学：研究能量转换和化学反应的方向</li>
+                                <li class="mb-2"><i class="bi bi-check-circle text-primary"></i> 动力学：研究化学反应的速率和机制</li>
+                                <li class="mb-2"><i class="bi bi-check-circle text-primary"></i> 量子化学：研究分子的电子结构和化学键</li>
+                                <li class="mb-2"><i class="bi bi-check-circle text-primary"></i> 统计力学：研究大量粒子系统的宏观性质</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="bi bi-check-circle text-primary"></i> 电化学：研究电与化学反应的关系</li>
+                                <li class="mb-2"><i class="bi bi-check-circle text-primary"></i> 表面化学：研究界面现象和表面反应</li>
+                                <li class="mb-2"><i class="bi bi-check-circle text-primary"></i> 胶体与界面化学：研究胶体系统的性质</li>
+                                <li class="mb-2"><i class="bi bi-check-circle text-primary"></i> 光化学：研究光与物质的相互作用</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 核心概念 -->
+        <section class="section mb-6">
+            <h2 class="section-title">物理化学核心概念</h2>
+            <p class="text-center text-muted mb-4">探索物理化学中的重要概念和原理</p>
+            
+            <div class="row">
+                <!-- 热力学定律 -->
+                <div class="col-md-4">
+                    <div class="physical-card card">
+                        <div class="card-header">
+                            <h3 class="card-title">热力学定律</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="concept-card">
+                                <h4>热力学第一定律</h4>
+                                <p>能量守恒定律：能量既不会凭空产生，也不会凭空消失，只能从一种形式转化为另一种形式。</p>
+                            </div>
+                            <div class="concept-card">
+                                <h4>热力学第二定律</h4>
+                                <p>熵增定律：孤立系统的熵总是趋向于增加，直到达到热力学平衡。</p>
+                            </div>
+                            <div class="concept-card">
+                                <h4>热力学第三定律</h4>
+                                <p>绝对零度定律：当温度趋近于绝对零度时，纯物质的完美晶体的熵趋近于零。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 化学反应动力学 -->
+                <div class="col-md-4">
+                    <div class="physical-card card">
+                        <div class="card-header">
+                            <h3 class="card-title">化学反应动力学</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="formula-card">
+                                <h4>速率方程</h4>
+                                <p>v = k[A]^m[B]^n</p>
+                                <small>其中k为速率常数，m和n为反应级数</small>
+                            </div>
+                            <div class="formula-card">
+                                <h4>阿伦尼乌斯方程</h4>
+                                <p>k = A·e<sup>-Ea/RT</sup></p>
+                                <small>其中A为指前因子，Ea为活化能</small>
+                            </div>
+                            <div class="formula-card">
+                                <h4>半衰期</h4>
+                                <p>t<sub>1/2</sub> = ln2/k</p>
+                                <small>一级反应的半衰期公式</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 量子化学 -->
+                <div class="col-md-4">
+                    <div class="physical-card card">
+                        <div class="card-header">
+                            <h3 class="card-title">量子化学</h3>
+                        </div>
+                        <div class="card-body">
+                            <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=quantum%20chemistry%20molecular%20orbital%20theory%20electron%20density%20scientific%20illustration&image_size=landscape_4_3" class="card-img-top mb-3" alt="量子化学">
+                            <p class="card-text">量子化学研究分子的电子结构和化学键，通过薛定谔方程来描述电子的行为，为理解分子性质和化学反应提供了微观基础。</p>
+                            <h4 class="mt-3">重要概念</h4>
+                            <ul class="list-unstyled">
+                                <li class="mb-1"><i class="bi bi-dot text-primary"></i> 分子轨道理论</li>
+                                <li class="mb-1"><i class="bi bi-dot text-primary"></i> 电子组态</li>
+                                <li class="mb-1"><i class="bi bi-dot text-primary"></i> 化学键的本质</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 互动性内容 -->
+        <section class="interactive-section">
+            <h2 class="section-title">互动实验室</h2>
+            <p class="text-center text-muted mb-4">亲自动手探索物理化学的奥秘</p>
+            
+            <div class="simulator-container">
+                <h3 class="mb-4">物理化学模拟器</h3>
+                <p>选择模拟类型，观察物理化学现象：</p>
+                
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="simulation-type" class="form-label">模拟类型</label>
+                            <select class="form-select" id="simulation-type">
+                                <option value="">选择类型</option>
+                                <option value="thermodynamics">热力学模拟</option>
+                                <option value="kinetics">动力学模拟</option>
+                                <option value="electrochemistry">电化学模拟</option>
+                                <option value="quantum">量子化学模拟</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="parameter" class="form-label">参数设置</label>
+                            <select class="form-select" id="parameter">
+                                <option value="">选择参数</option>
+                                <option value="temperature">温度</option>
+                                <option value="pressure">压力</option>
+                                <option value="concentration">浓度</option>
+                                <option value="activation-energy">活化能</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="value" class="form-label">参数值</label>
+                    <input type="number" class="form-control" id="value" placeholder="输入参数值">
+                </div>
+                
+                <button class="btn btn-primary mb-4" onclick="simulatePhysicalChemistry()">运行模拟</button>
+                
+                <div id="simulation-result" class="mt-4">
+                    <h4>模拟结果</h4>
+                    <div id="result-content" class="equation">
+                        请选择模拟类型和参数并点击运行模拟按钮
+                    </div>
+                    <div id="simulation-visualization" class="mt-4 p-4 bg-light rounded-lg">
+                        <h5>模拟可视化</h5>
+                        <div id="visualization-content" class="text-center py-4">
+                            <p>选择模拟参数后将显示模拟过程的可视化效果</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 热门物理化学信息 -->
+        <section class="hot-topics mb-6">
+            <h2 class="section-title">热门物理化学信息</h2>
+            <p class="text-center text-muted mb-4">了解最新的物理化学研究和应用</p>
+            
+            <div class="row">
+                <!-- 热门话题 1 -->
+                <div class="col-md-6">
+                    <div class="topic-card">
+                        <h3 class="mb-2">量子计算在化学中的应用</h3>
+                        <p class="text-muted mb-3">2026年1月28日</p>
+                        <p>研究人员利用量子计算机模拟复杂分子的电子结构，取得了突破性进展。这种方法能够准确预测分子的性质和反应行为，为药物研发和材料设计提供了新的工具。</p>
+                        <a href="#" class="btn btn-outline-primary btn-sm">阅读更多</a>
+                    </div>
+                </div>
+                
+                <!-- 热门话题 2 -->
+                <div class="col-md-6">
+                    <div class="topic-card">
+                        <h3 class="mb-2">新型催化剂的设计与开发</h3>
+                        <p class="text-muted mb-3">2026年1月25日</p>
+                        <p>科学家通过理论计算和实验验证，设计出一种高效的新型催化剂，能够显著降低化学反应的活化能。这种催化剂基于纳米结构，具有高选择性和稳定性，可应用于清洁能源生产。</p>
+                        <a href="#" class="btn btn-outline-primary btn-sm">阅读更多</a>
+                    </div>
+                </div>
+                
+                <!-- 热门话题 3 -->
+                <div class="col-md-6">
+                    <div class="topic-card">
+                        <h3 class="mb-2">能源存储材料的研究进展</h3>
+                        <p class="text-muted mb-3">2026年1月20日</p>
+                        <p>研究团队开发出一种新型储能材料，基于物理化学原理设计，具有高能量密度和长循环寿命。这种材料可应用于下一代电池和超级电容器，为可再生能源存储提供了新方案。</p>
+                        <a href="#" class="btn btn-outline-primary btn-sm">阅读更多</a>
+                    </div>
+                </div>
+                
+                <!-- 热门话题 4 -->
+                <div class="col-md-6">
+                    <div class="topic-card">
+                        <h3 class="mb-2">分子机器的设计与合成</h3>
+                        <p class="text-muted mb-3">2026年1月15日</p>
+                        <p>化学家设计并合成了一种基于物理化学原理的分子机器，能够在分子尺度上执行特定的机械功能。这种分子机器有望应用于药物递送、纳米制造等领域，开启了分子纳米技术的新篇章。</p>
+                        <a href="#" class="btn btn-outline-primary btn-sm">阅读更多</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 物理化学应用 -->
+        <section class="section mb-6">
+            <h2 class="section-title">物理化学应用</h2>
+            <p class="text-center text-muted mb-4">探索物理化学在现代社会中的广泛应用</p>
+            
+            <div class="row">
+                <!-- 能源领域 -->
+                <div class="col-md-4">
+                    <div class="physical-card card">
+                        <div class="card-header">
+                            <h3 class="card-title">能源领域</h3>
+                        </div>
+                        <div class="card-body">
+                            <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=renewable%20energy%20solar%20cells%20batteries%20fuel%20cells%20science&image_size=landscape_4_3" class="card-img-top mb-3" alt="能源领域">
+                            <p class="card-text">物理化学在能源领域的应用包括燃料电池、太阳能电池、储能材料等的开发，为可再生能源的利用提供了理论基础和技术支持。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 材料科学 -->
+                <div class="col-md-4">
+                    <div class="physical-card card">
+                        <div class="card-header">
+                            <h3 class="card-title">材料科学</h3>
+                        </div>
+                        <div class="card-body">
+                            <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=advanced%20materials%20science%20nanotechnology%20quantum%20dots%20scientific&image_size=landscape_4_3" class="card-img-top mb-3" alt="材料科学">
+                            <p class="card-text">物理化学在材料科学中的应用包括纳米材料、半导体材料、催化剂等的设计和开发，通过调控材料的微观结构来获得所需的宏观性质。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 医药领域 -->
+                <div class="col-md-4">
+                    <div class="physical-card card">
+                        <div class="card-header">
+                            <h3 class="card-title">医药领域</h3>
+                        </div>
+                        <div class="card-body">
+                            <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=pharmaceutical%20science%20drug%20design%20molecular%20modeling%20biotechnology&image_size=landscape_4_3" class="card-img-top mb-3" alt="医药领域">
+                            <p class="card-text">物理化学在医药领域的应用包括药物设计、药物递送系统、生物分子相互作用等的研究，为新药开发和治疗方案优化提供了理论指导。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>关于项目</h3>
+                    <p>这是一个基于Spring Cloud的化学学习微服务项目，旨在通过微服务架构实现化学知识的管理和学习进度的跟踪。</p>
+                </div>
+                <div class="col-md-4">
+                    <h3>快速链接</h3>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html">首页</a></li>
+                        <li><a href="periodic-table.html">元素周期表</a></li>
+                        <li><a href="reactions.html">化学反应</a></li>
+                        <li><a href="forum.html">论坛</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h3>联系方式</h3>
+                    <p>如有问题或建议，请联系我们。</p>
+                    <p>Email: contact@example.com</p>
+                </div>
+            </div>
+            <div class="border-top border-gray-700 mt-4 pt-4 text-center">
+                <p>&copy; 2026 化学学习微服务项目. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.min.js"></script>
+    <script src="js/page-transition.js"></script>
+    <script>
+        // 物理化学模拟器
+        function simulatePhysicalChemistry() {
+            const simulationType = document.getElementById('simulation-type').value;
+            const parameter = document.getElementById('parameter').value;
+            const value = document.getElementById('value').value;
+            const resultContent = document.getElementById('result-content');
+            const visualizationContent = document.getElementById('visualization-content');
+            
+            if (!simulationType || !parameter || !value) {
+                resultContent.innerHTML = '请选择模拟类型、参数并输入参数值';
+                visualizationContent.innerHTML = '<p>选择模拟参数后将显示模拟过程的可视化效果</p>';
+                return;
+            }
+            
+            // 模拟物理化学过程
+            let simulationResult = '';
+            let simulationDescription = '';
+            let simulationVisualization = '';
+            let simulationTypeText = '';
+            
+            if (simulationType === 'thermodynamics' && parameter === 'temperature') {
+                simulationResult = `温度: ${value} K`;
+                simulationDescription = `在${value} K温度下，系统的 Gibbs 自由能变化为 ΔG = ΔH - TΔS。当ΔG < 0时，反应自发进行。`;
+                simulationVisualization = '<div class="text-center"><img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=thermodynamics%20energy%20diagram%20reaction%20coordinate%20enthalpy%20entropy%20scientific%20illustration&image_size=square" alt="热力学模拟" class="img-fluid rounded" style="max-width: 300px;"></div>';
+                simulationTypeText = '热力学模拟';
+            } else if (simulationType === 'kinetics' && parameter === 'activation-energy') {
+                simulationResult = `活化能: ${value} kJ/mol`;
+                simulationDescription = `活化能为${value} kJ/mol时，反应速率常数k = A·e^(-Ea/RT)。活化能越低，反应速率越快。`;
+                simulationVisualization = '<div class="text-center"><img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=reaction%20kinetics%20energy%20barrier%20activation%20energy%20reaction%20coordinate%20scientific%20illustration&image_size=square" alt="动力学模拟" class="img-fluid rounded" style="max-width: 300px;"></div>';
+                simulationTypeText = '动力学模拟';
+            } else if (simulationType === 'electrochemistry' && parameter === 'concentration') {
+                simulationResult = `浓度: ${value} mol/L`;
+                simulationDescription = `根据能斯特方程，电极电势E = E° - (RT/nF)ln(1/[M^n+])，浓度变化会影响电极电势。`;
+                simulationVisualization = '<div class="text-center"><img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=electrochemistry%20cell%20potential%20nernst%20equation%20concentration%20effect%20scientific%20illustration&image_size=square" alt="电化学模拟" class="img-fluid rounded" style="max-width: 300px;"></div>';
+                simulationTypeText = '电化学模拟';
+            } else if (simulationType === 'quantum' && parameter === 'temperature') {
+                simulationResult = `温度: ${value} K`;
+                simulationDescription = `在${value} K温度下，分子的热运动加剧，电子能级分布遵循玻尔兹曼分布。`;
+                simulationVisualization = '<div class="text-center"><img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=quantum%20chemistry%20molecular%20orbitals%20electron%20density%20energy%20levels%20scientific%20illustration&image_size=square" alt="量子化学模拟" class="img-fluid rounded" style="max-width: 300px;"></div>';
+                simulationTypeText = '量子化学模拟';
+            } else {
+                simulationResult = `参数值: ${value}`;
+                simulationDescription = `所选模拟类型和参数的组合尚未实现。请选择其他组合。`;
+                simulationVisualization = '<div class="text-center"><p class="text-muted">无法显示该模拟过程的可视化效果</p></div>';
+                simulationTypeText = '所选模拟类型';
+            }
+            
+            resultContent.innerHTML = `
+                <strong>模拟类型：</strong>${simulationTypeText}<br>
+                <strong>参数：</strong>${parameter}<br>
+                <strong>${simulationResult}</strong><br>
+                <strong>模拟描述：</strong>${simulationDescription}
+            `;
+            
+            visualizationContent.innerHTML = simulationVisualization;
+        }
+    </script>
+</body>
+</html>

@@ -6,12 +6,16 @@
     <title>化学：从生活日常到宇宙星辰的认知进阶</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/page-transition.css">
 </head>
 <body>
+    <!-- 页面过渡层 -->
+    <div class="transition-overlay"></div>
+    
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
         <div class="container">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="index.html" data-transition="fade">
                 <span class="logo-text">化学探索</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -20,28 +24,28 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" href="index.html">首页</a>
+                        <a class="nav-link active" href="index.html" data-transition="fade">首页</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="elementDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             元素世界
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="elementDropdown">
-                            <li><a class="dropdown-item" href="periodic-table.html">元素周期表</a></li>
-                            <li><a class="dropdown-item" href="element-discovery.html">元素发现历史</a></li>
-                            <li><a class="dropdown-item" href="element-categories.html">元素分类</a></li>
-                            <li><a class="dropdown-item" href="element-detail.html">元素详情</a></li>
+                            <li><a class="dropdown-item" href="periodic-table.html" data-transition="fade">元素周期表</a></li>
+                            <li><a class="dropdown-item" href="element-discovery.html" data-transition="fade">元素发现历史</a></li>
+                            <li><a class="dropdown-item" href="element-categories.html" data-transition="fade">元素分类</a></li>
+                            <li><a class="dropdown-item" href="element-detail.html" data-transition="fade">元素详情</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="reactionDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="reactions.html" id="reactionDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-transition="fade">
                             化学反应
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="reactionDropdown">
-                            <li><a class="dropdown-item" href="#">基本反应类型</a></li>
-                            <li><a class="dropdown-item" href="#">氧化还原反应</a></li>
-                            <li><a class="dropdown-item" href="#">酸碱反应</a></li>
-                            <li><a class="dropdown-item" href="#">配位反应</a></li>
+                            <li><a class="dropdown-item" href="basic-reactions.html" data-transition="fade">基本反应类型</a></li>
+                            <li><a class="dropdown-item" href="redox-reactions.html" data-transition="fade">氧化还原反应</a></li>
+                            <li><a class="dropdown-item" href="acid-base-reactions.html" data-transition="fade">酸碱反应</a></li>
+                            <li><a class="dropdown-item" href="coordination-reactions.html" data-transition="fade">配位反应</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
@@ -49,10 +53,10 @@
                             化学分支
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="chemistryDropdown">
-                            <li><a class="dropdown-item" href="#">有机化学</a></li>
-                            <li><a class="dropdown-item" href="#">无机化学</a></li>
-                            <li><a class="dropdown-item" href="#">分析化学</a></li>
-                            <li><a class="dropdown-item" href="#">物理化学</a></li>
+                            <li><a class="dropdown-item" href="organic-chemistry.html" data-transition="fade">有机化学</a></li>
+                            <li><a class="dropdown-item" href="inorganic-chemistry.html" data-transition="fade">无机化学</a></li>
+                            <li><a class="dropdown-item" href="analytical-chemistry.html" data-transition="fade">分析化学</a></li>
+                            <li><a class="dropdown-item" href="physical-chemistry.html" data-transition="fade">物理化学</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
@@ -60,23 +64,23 @@
                             应用化学
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="applicationDropdown">
-                            <li><a class="dropdown-item" href="#">环境化学</a></li>
-                            <li><a class="dropdown-item" href="#">医药化学</a></li>
-                            <li><a class="dropdown-item" href="#">材料化学</a></li>
-                            <li><a class="dropdown-item" href="#">能源化学</a></li>
+                            <li><a class="dropdown-item" href="#" data-transition="fade">环境化学</a></li>
+                            <li><a class="dropdown-item" href="#" data-transition="fade">医药化学</a></li>
+                            <li><a class="dropdown-item" href="#" data-transition="fade">材料化学</a></li>
+                            <li><a class="dropdown-item" href="#" data-transition="fade">能源化学</a></li>
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">学习资源</a>
+                        <a class="nav-link" href="#" data-transition="fade">学习资源</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="ai-assistant.html">AI助手</a>
+                        <a class="nav-link" href="ai-assistant.html" data-transition="fade">AI助手</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="forum.html">论坛</a>
+                        <a class="nav-link" href="forum.html" data-transition="fade">论坛</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="login.html">登录/注册</a>
+                        <a class="nav-link" href="login.html" data-transition="fade">登录/注册</a>
                     </li>
                 </ul>
             </div>
@@ -317,5 +321,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/constants.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/page-transition.js"></script>
 </body>
 </html>

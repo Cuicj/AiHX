@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>我的NFT</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/antd@5.12.8/dist/reset.css">
+    <link rel="stylesheet" href="css/page-transition.css">
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -488,6 +489,37 @@
         function viewOrderHistory() {
             window.location.href = `/order-history.html`;
         }
+    </script>
+
+    <script src="js/page-transition.js"></script>
+    <script>
+        // 初始化页面切换特效系统
+        document.addEventListener('DOMContentLoaded', function() {
+            // 设置默认特效
+            pageTransition.setDefaultEffect('fade-in-out');
+            
+            // 更新按钮点击事件，使用页面切换特效
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(button => {
+                if (button.onclick && button.onclick.toString().includes('window.location.href')) {
+                    const originalOnClick = button.onclick;
+                    button.onclick = function() {
+                        // 提取目标URL
+                        const onClickStr = originalOnClick.toString();
+                        const urlMatch = onClickStr.match(/window\.location\.href\s*=\s*['"]([^'"]+)['"]/);
+                        if (urlMatch && urlMatch[1]) {
+                            const url = urlMatch[1];
+                            // 使用随机特效
+                            const effect = pageTransition.getRandomEffect();
+                            pageTransition.navigateTo(url, effect);
+                        } else {
+                            // 执行原始点击事件
+                            originalOnClick.call(this);
+                        }
+                    };
+                }
+            });
+        });
     </script>
 </body>
 </html>

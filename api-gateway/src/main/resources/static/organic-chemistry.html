@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>有机化学 - 化学探索</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/page-transition.css">
+    <style>
+        /* 自定义样式 */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        .hero-section {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            color: white;
+            padding: 120px 0 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,%3Csvg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z" fill="%23ffffff" fill-opacity="0.1" fill-rule="evenodd"%3E%3C/path%3E%3C/svg%3E');
+        }
+        .organic-card {
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .organic-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        .organic-card .card-header {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            color: white;
+            padding: 1.5rem;
+        }
+        .reaction-formula {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.2rem;
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            text-align: center;
+        }
+        .interactive-section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        .simulator-container {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            border: none;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(168, 237, 234, 0.3);
+        }
+        .nav-link {
+            transition: all 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #a8edea !important;
+            transform: translateY(-2px);
+        }
+        .nav-link.active {
+            color: #a8edea !important;
+            font-weight: bold;
+        }
+        .functional-group {
+            background: linear-gradient(135deg, #fceabb 0%, #f8b500 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1rem 0;
+        }
+        .molecular-structure {
+            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1rem 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- 页面过渡层 -->
+    <div class="transition-overlay"></div>
+    
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html" data-transition="fade">
+                <span style="color: #a8edea; font-weight: bold;">Chem</span>Reactions
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html" data-transition="fade">首页</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="periodic-table.html" id="elementDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-transition="fade">
+                            元素世界
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="elementDropdown">
+                            <li><a class="dropdown-item" href="periodic-table.html" data-transition="fade">元素周期表</a></li>
+                            <li><a class="dropdown-item" href="element-discovery.html" data-transition="fade">元素发现历史</a></li>
+                            <li><a class="dropdown-item" href="element-categories.html" data-transition="fade">元素分类</a></li>
+                            <li><a class="dropdown-item" href="element-detail.html" data-transition="fade">元素详情</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="reactions.html" id="reactionDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-transition="fade">
+                            化学反应
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="reactionDropdown">
+                            <li><a class="dropdown-item" href="basic-reactions.html" data-transition="fade">基本反应类型</a></li>
+                            <li><a class="dropdown-item" href="redox-reactions.html" data-transition="fade">氧化还原反应</a></li>
+                            <li><a class="dropdown-item" href="acid-base-reactions.html" data-transition="fade">酸碱反应</a></li>
+                            <li><a class="dropdown-item" href="coordination-reactions.html" data-transition="fade">配位反应</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="organic-chemistry.html" id="chemistryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="true" data-transition="fade">
+                            化学分支
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="chemistryDropdown">
+                            <li><a class="dropdown-item active" href="organic-chemistry.html" data-transition="fade">有机化学</a></li>
+                            <li><a class="dropdown-item" href="inorganic-chemistry.html" data-transition="fade">无机化学</a></li>
+                            <li><a class="dropdown-item" href="analytical-chemistry.html" data-transition="fade">分析化学</a></li>
+                            <li><a class="dropdown-item" href="physical-chemistry.html" data-transition="fade">物理化学</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="applicationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-transition="fade">
+                            应用化学
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="applicationDropdown">
+                            <li><a class="dropdown-item" href="#" data-transition="fade">环境化学</a></li>
+                            <li><a class="dropdown-item" href="#" data-transition="fade">医药化学</a></li>
+                            <li><a class="dropdown-item" href="#" data-transition="fade">材料化学</a></li>
+                            <li><a class="dropdown-item" href="#" data-transition="fade">能源化学</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-transition="fade">学习资源</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="ai-assistant.html" data-transition="fade">AI助手</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="forum.html" data-transition="fade">论坛</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html" data-transition="fade">登录/注册</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- 英雄区 -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="display-4 mb-4">有机化学</h1>
+                    <p class="lead mb-6">探索碳化合物的奥秘，了解有机分子的结构、性质和反应</p>
+                    <a href="#organic-basics" class="btn btn-light btn-lg" data-transition="fade">开始探索</a>
+                </div>
+                <div class="col-lg-6">
+                    <div class="text-center">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=organic%20chemistry%20molecules%20carbon%20compounds%20structural%20formulas%2C%20scientific%20illustration%2C%203D%20rendering&image_size=square_hd" alt="有机化学" class="img-fluid rounded-lg shadow-lg">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 有机化学基础 -->
+    <section id="organic-basics" class="py-16">
+        <div class="container">
+            <div class="text-center mb-12">
+                <h2 class="display-5 mb-4">有机化学基础</h2>
+                <p class="text-muted">了解有机化学的基本概念和原理</p>
+            </div>
+            
+            <div class="row g-6">
+                <div class="col-lg-6">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="mb-4">基本概念</h3>
+                        <ul class="list-unstyled space-y-4">
+                            <li class="d-flex align-items-start">
+                                <div class="bg-pink-100 p-2 rounded-full mr-3">
+                                    <i class="bi bi-atom text-pink-500"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold">有机化合物</h4>
+                                    <p>主要由碳、氢元素组成，通常还含有氧、氮、硫、磷等元素的化合物</p>
+                                </div>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <div class="bg-blue-100 p-2 rounded-full mr-3">
+                                    <i class="bi bi-link text-blue-500"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold">共价键</h4>
+                                    <p>有机化合物中原子之间通过共用电子对形成的化学键，特别是碳-碳键和碳-氢键</p>
+                                </div>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <div class="bg-purple-100 p-2 rounded-full mr-3">
+                                    <i class="bi bi-compass text-purple-500"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold">同分异构体</h4>
+                                    <p>具有相同分子式但结构不同的化合物，表现出不同的物理和化学性质</p>
+                                </div>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <div class="bg-green-100 p-2 rounded-full mr-3">
+                                    <i class="bi bi-crystal text-green-500"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold">官能团</h4>
+                                    <p>有机分子中决定其化学性质的原子或原子团，如羟基、羧基、氨基等</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="mb-4">有机化合物的特点</h3>
+                        <ul class="list-unstyled space-y-3">
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span><strong>碳原子的四价性：</strong>碳原子可以形成四个共价键，为复杂分子结构提供了可能性</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span><strong>碳链的形成：</strong>碳原子可以相互连接形成链状或环状结构</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span><strong>同分异构现象：</strong>相同分子式可以有不同的结构，导致性质差异</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span><strong>反应速率：</strong>通常比无机反应慢，常需要催化剂</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span><strong>溶解性：</strong>多数不溶于水，易溶于有机溶剂</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span><strong>可燃性：</strong>多数可以燃烧，生成二氧化碳和水</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 有机化合物分类 -->
+    <section class="py-16 bg-light">
+        <div class="container">
+            <div class="text-center mb-12">
+                <h2 class="display-5 mb-4">有机化合物分类</h2>
+                <p class="text-muted">了解不同类型的有机化合物</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="organic-card">
+                        <div class="card-header">
+                            <h3 class="card-title mb-0">烃类化合物</h3>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-4">只含有碳和氢两种元素的有机化合物。</p>
+                            <ul class="list-unstyled space-y-2">
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span><strong>烷烃：</strong>饱和烃，如甲烷(CH₄)、乙烷(C₂H₆)</span>
+                                </li>
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span><strong>烯烃：</strong>含有碳碳双键，如乙烯(C₂H₄)</span>
+                                </li>
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span><strong>炔烃：</strong>含有碳碳三键，如乙炔(C₂H₂)</span>
+                                </li>
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span><strong>芳烃：</strong>含有苯环结构，如苯(C₆H₆)、甲苯(C₇H₈)</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4">
+                    <div class="organic-card">
+                        <div class="card-header">
+                            <h3 class="card-title mb-0">含氧有机化合物</h3>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-4">含有氧元素的有机化合物。</p>
+                            <ul class="list-unstyled space-y-2">
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span><strong>醇：</strong>含有羟基(-OH)，如乙醇(C₂H₅OH)</span>
+                                </li>
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span><strong>酚：</strong>羟基直接连接在苯环上，如苯酚(C₆H₅OH)</span>
+                                </li>
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span><strong>醚：</strong>含有醚键(-O-)，如乙醚(C₂H₅OC₂H₅)</span>
+                                </li>
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span><strong>醛和酮：</strong>含有羰基(C=O)，如乙醛(CH₃CHO)、丙酮(CH₃COCH₃)</span>
+                                </li>
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span><strong>羧酸：</strong>含有羧基(-COOH)，如乙酸(CH₃COOH)</span>
+                                </li>
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span><strong>酯：</strong>含有酯键(-COO-)，如乙酸乙酯(CH₃COOC₂H₅)</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4">
+                    <div class="organic-card">
+                        <div class="card-header">
+                            <h3 class="card-title mb-0">含氮有机化合物</h3>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-4">含有氮元素的有机化合物。</p>
+                            <ul class="list-unstyled space-y-2">
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span><strong>胺：</strong>含有氨基(-NH₂)，如甲胺(CH₃NH₂)、苯胺(C₆H₅NH₂)</span>
+                                </li>
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span><strong>酰胺：</strong>含有酰胺键(-CONH-)，如乙酰胺(CH₃CONH₂)</span>
+                                </li>
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span><strong>硝基化合物：</strong>含有硝基(-NO₂)，如硝基苯(C₆H₅NO₂)</span>
+                                </li>
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span><strong>腈：</strong>含有氰基(-CN)，如乙腈(CH₃CN)</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 有机反应类型 -->
+    <section class="py-16">
+        <div class="container">
+            <div class="text-center mb-12">
+                <h2 class="display-5 mb-4">有机反应类型</h2>
+                <p class="text-muted">了解常见的有机化学反应</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-lg-6">
+                    <div class="organic-card">
+                        <div class="card-header">
+                            <h3 class="card-title mb-0">取代反应</h3>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-4">有机分子中的一个原子或原子团被另一个原子或原子团取代的反应。</p>
+                            <div class="reaction-formula">CH₄ + Cl₂ → CH₃Cl + HCl</div>
+                            <h5 class="mt-4 mb-2">常见类型：</h5>
+                            <ul class="list-unstyled space-y-2">
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span>卤代反应：氢原子被卤素原子取代</span>
+                                </li>
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span>硝化反应：氢原子被硝基取代</span>
+                                </li>
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span>磺化反应：氢原子被磺酸基取代</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="organic-card">
+                        <div class="card-header">
+                            <h3 class="card-title mb-0">加成反应</h3>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-4">不饱和键（双键或三键）打开，加成试剂的原子或原子团加到不饱和键的两个碳原子上的反应。</p>
+                            <div class="reaction-formula">CH₂=CH₂ + HBr → CH₃CH₂Br</div>
+                            <h5 class="mt-4 mb-2">常见类型：</h5>
+                            <ul class="list-unstyled space-y-2">
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span>加氢反应：与氢气加成</span>
+                                </li>
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span>加卤反应：与卤素加成</span>
+                                </li>
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span>加水反应：与水加成</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="organic-card">
+                        <div class="card-header">
+                            <h3 class="card-title mb-0">消除反应</h3>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-4">从有机分子中脱去一个小分子（如H₂O、HX等），形成不饱和键的反应。</p>
+                            <div class="reaction-formula">CH₃CH₂CH₂OH → CH₃CH=CH₂ + H₂O</div>
+                            <h5 class="mt-4 mb-2">常见类型：</h5>
+                            <ul class="list-unstyled space-y-2">
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span>脱水反应：脱去水分子</span>
+                                </li>
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span>脱卤化氢反应：脱去卤化氢分子</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="organic-card">
+                        <div class="card-header">
+                            <h3 class="card-title mb-0">氧化还原反应</h3>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-4">有机分子中发生电子转移的反应，通常表现为氢的得失或氧的得失。</p>
+                            <div class="reaction-formula">CH₃CH₂OH → CH₃CHO → CH₃COOH</div>
+                            <h5 class="mt-4 mb-2">常见类型：</h5>
+                            <ul class="list-unstyled space-y-2">
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span>氧化反应：如醇氧化为醛或羧酸</span>
+                                </li>
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span>还原反应：如醛或酮还原为醇</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 互动模拟器 -->
+    <section class="interactive-section">
+        <div class="container">
+            <div class="text-center mb-10">
+                <h2 class="display-5 mb-4">有机分子模拟器</h2>
+                <p class="text-muted">探索有机分子的结构和性质</p>
+            </div>
+            
+            <div class="simulator-container">
+                <div class="row">
+                    <div class="col-lg-6 mb-4">
+                        <div class="mb-4">
+                            <label class="form-label">选择有机化合物</label>
+                            <select id="organic-compound" class="form-select form-select-lg">
+                                <option value="methane">甲烷 (CH₄)</option>
+                                <option value="ethane">乙烷 (C₂H₆)</option>
+                                <option value="ethylene">乙烯 (C₂H₄)</option>
+                                <option value="acetylene">乙炔 (C₂H₂)</option>
+                                <option value="benzene">苯 (C₆H₆)</option>
+                                <option value="ethanol">乙醇 (C₂H₅OH)</option>
+                                <option value="acetic-acid">乙酸 (CH₃COOH)</option>
+                                <option value="acetone">丙酮 (CH₃COCH₃)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="form-label">显示模式</label>
+                            <select id="display-mode" class="form-select form-select-lg">
+                                <option value="ball-stick">球棍模型</option>
+                                <option value="space-filling">空间填充模型</option>
+                                <option value="stick">键线式</option>
+                                <option value="lewis">路易斯结构式</option>
+                            </select>
+                        </div>
+                        
+                        <button id="simulate-btn" class="btn btn-primary btn-lg w-100">显示分子结构</button>
+                    </div>
+                    
+                    <div class="col-lg-6">
+                        <div class="bg-light p-4 rounded-lg h-100">
+                            <h4 class="mb-4">分子结构</h4>
+                            <div id="molecular-structure" class="molecular-structure mb-4">
+                                <h5>分子可视化</h5>
+                                <p>选择化合物并点击显示分子结构按钮</p>
+                            </div>
+                            <div id="molecular-properties" class="mb-4">
+                                <h5>分子性质</h5>
+                                <p id="properties-content">点击显示分子结构按钮查看性质</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 有机化学的应用 -->
+    <section class="py-16">
+        <div class="container">
+            <div class="text-center mb-12">
+                <h2 class="display-5 mb-4">有机化学的应用</h2>
+                <p class="text-muted">了解有机化学在各个领域的应用</p>
+            </div>
+            
+            <div class="row g-6">
+                <div class="col-lg-6">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="mb-4">医药领域</h3>
+                        <ul class="list-unstyled space-y-3">
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span>药物合成：如阿司匹林、抗生素、抗癌药物等</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span>药物设计：基于分子结构的药物开发</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span>天然产物提取：从植物和微生物中提取有效成分</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="mb-4">材料领域</h3>
+                        <ul class="list-unstyled space-y-3">
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span>聚合物：塑料、橡胶、纤维等合成材料</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span>涂料和胶粘剂：各种有机涂层和粘合剂</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span>电子材料：有机导体、有机发光二极管(OLED)等</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="mb-4">能源领域</h3>
+                        <ul class="list-unstyled space-y-3">
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span>燃料：石油化工产品、生物燃料等</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span>电池：有机电解液、聚合物电池等</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span>太阳能电池：有机光伏材料</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="mb-4">食品和农业领域</h3>
+                        <ul class="list-unstyled space-y-3">
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span>食品添加剂：防腐剂、调味剂、色素等</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span>农药：杀虫剂、除草剂、杀菌剂等</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span>肥料：有机肥料、化肥等</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 热门有机化学研究 -->
+    <section class="py-16 bg-light">
+        <div class="container">
+            <div class="text-center mb-12">
+                <h2 class="display-5 mb-4">热门有机化学研究</h2>
+                <p class="text-muted">了解最新的有机化学研究进展</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="card h-100">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=green%20organic%20chemistry%20sustainable%20synthesis%20laboratory%20setting&image_size=landscape_4_3" alt="绿色有机化学" class="card-img-top">
+                        <div class="card-body">
+                            <h3 class="card-title">绿色有机化学</h3>
+                            <p class="card-text">研究人员开发出更环保的有机合成方法，减少有机溶剂的使用，采用可再生原料，降低反应温度和能耗，实现更可持续的化学合成。</p>
+                            <a href="#" class="btn btn-primary">了解更多</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4">
+                    <div class="card h-100">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=organocatalysis%20organic%20catalysts%20chemical%20reaction%20laboratory%20setting&image_size=landscape_4_3" alt="有机催化" class="card-img-top">
+                        <div class="card-body">
+                            <h3 class="card-title">有机催化</h3>
+                            <p class="card-text">新型有机催化剂的开发取得重大突破，这些催化剂不含金属，更加环保，能够高效催化各种有机反应，为药物合成和材料制备提供了新方法。</p>
+                            <a href="#" class="btn btn-primary">了解更多</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4">
+                    <div class="card h-100">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=medicinal%20chemistry%20drug%20discovery%20molecular%20modeling%20laboratory&image_size=landscape_4_3" alt=" medicinal chemistry" class="card-img-top">
+                        <div class="card-body">
+                            <h3 class="card-title"> medicinal chemistry</h3>
+                            <p class="card-text">基于结构的药物设计和计算机辅助药物发现技术的结合，加速了新型药物的开发。研究人员利用有机化学方法合成了多种具有潜在治疗作用的新化合物。</p>
+                            <a href="#" class="btn btn-primary">了解更多</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 实验室安全 -->
+    <section class="py-16">
+        <div class="container">
+            <div class="text-center mb-12">
+                <h2 class="display-5 mb-4">实验室安全</h2>
+                <p class="text-muted">了解有机化学实验的安全注意事项</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="mb-4">安全规则</h3>
+                        <ul class="list-unstyled space-y-3">
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-shield-check text-success mt-1 me-3"></i>
+                                <span>实验前必须了解所用试剂的危险性和安全措施</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-shield-check text-success mt-1 me-3"></i>
+                                <span>穿戴适当的个人防护装备，包括实验服、手套和护目镜</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-shield-check text-success mt-1 me-3"></i>
+                                <span>在通风橱中进行产生有害气体的反应</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-shield-check text-success mt-1 me-3"></i>
+                                <span>严格控制反应物的用量，特别是易燃、易爆或有毒物质</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-shield-check text-success mt-1 me-3"></i>
+                                <span>实验结束后彻底清理实验区域，妥善处理废弃物</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="mb-4">危险有机试剂</h3>
+                        <ul class="list-unstyled space-y-3">
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-exclamation-triangle text-danger mt-1 me-3"></i>
+                                <span><strong>易燃溶剂：</strong>乙醇、乙醚、丙酮等，应远离火源，在通风良好的地方使用</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-exclamation-triangle text-danger mt-1 me-3"></i>
+                                <span><strong>有毒试剂：</strong>苯、甲苯、甲醛等，应在通风橱中使用，避免接触和吸入</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-exclamation-triangle text-danger mt-1 me-3"></i>
+                                <span><strong>腐蚀性试剂：</strong>浓硫酸、浓硝酸、浓盐酸等，应小心操作，避免接触皮肤</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-exclamation-triangle text-danger mt-1 me-3"></i>
+                                <span><strong>易爆试剂：</strong>过氧化物、叠氮化合物等，应妥善储存，避免震动和受热</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white py-8">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h3 class="mb-4"><span style="color: #a8edea;">Chem</span>Reactions</h3>
+                    <p>探索化学反应的奥秘，了解化学世界的精彩</p>
+                </div>
+                
+                <div class="col-lg-4 mb-4">
+                    <h4 class="mb-4">快速链接</h4>
+                    <ul class="list-unstyled space-y-2">
+                        <li><a href="index.html" class="text-white text-decoration-none" data-transition="fade">首页</a></li>
+                        <li><a href="reactions.html" class="text-white text-decoration-none" data-transition="fade">化学反应</a></li>
+                        <li><a href="organic-chemistry.html" class="text-white text-decoration-none" data-transition="fade">有机化学</a></li>
+                        <li><a href="inorganic-chemistry.html" class="text-white text-decoration-none" data-transition="fade">无机化学</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-4">
+                    <h4 class="mb-4">联系我们</h4>
+                    <ul class="list-unstyled space-y-2">
+                        <li>邮箱：info@chemreactions.com</li>
+                        <li>电话：+86 123 4567 8910</li>
+                        <li>地址：中国化学研究所</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-top border-gray-700 mt-8 pt-6 text-center">
+                <p>&copy; 2026 ChemReactions. 保留所有权利。</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/page-transition.js"></script>
+    <script>
+        // 有机分子模拟器逻辑
+        document.addEventListener('DOMContentLoaded', function() {
+            const organicCompound = document.getElementById('organic-compound');
+            const displayMode = document.getElementById('display-mode');
+            const simulateBtn = document.getElementById('simulate-btn');
+            const molecularStructure = document.getElementById('molecular-structure');
+            const molecularProperties = document.getElementById('properties-content');
+            
+            // 分子结构和性质数据
+            const compoundData = {
+                methane: {
+                    name: '甲烷',
+                    formula: 'CH₄',
+                    structure: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=methane%20molecule%203D%20structure%20ball%20and%20stick%20model&image_size=square',
+                    properties: '• 分子量：16.04 g/mol<br>• 沸点：-161.5 °C<br>• 熔点：-182.5 °C<br>• 结构：四面体构型<br>• 性质：无色无味气体，天然气的主要成分'
+                },
+                ethane: {
+                    name: '乙烷',
+                    formula: 'C₂H₆',
+                    structure: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=ethane%20molecule%203D%20structure%20ball%20and%20stick%20model&image_size=square',
+                    properties: '• 分子量：30.07 g/mol<br>• 沸点：-88.6 °C<br>• 熔点：-183.3 °C<br>• 结构：链状烷烃<br>• 性质：无色无味气体，天然气的成分之一'
+                },
+                ethylene: {
+                    name: '乙烯',
+                    formula: 'C₂H₄',
+                    structure: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=ethylene%20molecule%203D%20structure%20ball%20and%20stick%20model&image_size=square',
+                    properties: '• 分子量：28.05 g/mol<br>• 沸点：-103.7 °C<br>• 熔点：-169.4 °C<br>• 结构：含有碳碳双键<br>• 性质：无色稍有气味气体，重要的化工原料'
+                },
+                acetylene: {
+                    name: '乙炔',
+                    formula: 'C₂H₂',
+                    structure: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=acetylene%20molecule%203D%20structure%20ball%20and%20stick%20model&image_size=square',
+                    properties: '• 分子量：26.04 g/mol<br>• 沸点：-84.0 °C<br>• 熔点：-80.8 °C<br>• 结构：含有碳碳三键<br>• 性质：无色无味气体，电石气的主要成分'
+                },
+                benzene: {
+                    name: '苯',
+                    formula: 'C₆H₆',
+                    structure: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=benzene%20molecule%203D%20structure%20ball%20and%20stick%20model&image_size=square',
+                    properties: '• 分子量：78.11 g/mol<br>• 沸点：80.1 °C<br>• 熔点：5.5 °C<br>• 结构：平面六边形，含有共轭双键<br>• 性质：无色液体，有特殊气味，重要的化工原料'
+                },
+                ethanol: {
+                    name: '乙醇',
+                    formula: 'C₂H₅OH',
+                    structure: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=ethanol%20molecule%203D%20structure%20ball%20and%20stick%20model&image_size=square',
+                    properties: '• 分子量：46.07 g/mol<br>• 沸点：78.4 °C<br>• 熔点：-114.3 °C<br>• 结构：含有羟基官能团<br>• 性质：无色液体，有特殊气味，酒精的主要成分'
+                },
+                'acetic-acid': {
+                    name: '乙酸',
+                    formula: 'CH₃COOH',
+                    structure: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=acetic%20acid%20molecule%203D%20structure%20ball%20and%20stick%20model&image_size=square',
+                    properties: '• 分子量：60.05 g/mol<br>• 沸点：117.9 °C<br>• 熔点：16.6 °C<br>• 结构：含有羧基官能团<br>• 性质：无色液体，有刺激性气味，醋酸的主要成分'
+                },
+                acetone: {
+                    name: '丙酮',
+                    formula: 'CH₃COCH₃',
+                    structure: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=acetone%20molecule%203D%20structure%20ball%20and%20stick%20model&image_size=square',
+                    properties: '• 分子量：58.08 g/mol<br>• 沸点：56.05 °C<br>• 熔点：-94.9 °C<br>• 结构：含有羰基官能团<br>• 性质：无色液体，有特殊气味，常用有机溶剂'
+                }
+            };
+            
+            // 显示分子结构
+            simulateBtn.addEventListener('click', function() {
+                const compound = organicCompound.value;
+                const mode = displayMode.value;
+                const data = compoundData[compound];
+                
+                let structureImage = data.structure;
+                if (mode === 'space-filling') {
+                    structureImage = data.structure.replace('ball%20and%20stick', 'space%20filling');
+                } else if (mode === 'stick') {
+                    structureImage = data.structure.replace('ball%20and%20stick', 'stick%20model');
+                }
+                
+                molecularStructure.innerHTML = `
+                    <h5>${data.name} (${data.formula})</h5>
+                    <img src="${structureImage}" alt="${data.name}分子结构" class="img-fluid rounded" style="max-width: 250px;">
+                `;
+                
+                molecularProperties.innerHTML = data.properties;
+            });
+        });
+    </script>
+</body>
+</html>

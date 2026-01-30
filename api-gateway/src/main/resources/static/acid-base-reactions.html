@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>酸碱反应</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/page-transition.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        .hero-section {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 120px 0 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,%3Csvg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z" fill="%23ffffff" fill-opacity="0.1" fill-rule="evenodd"/%3E%3C/svg%3E');
+        }
+        .reaction-card {
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .reaction-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        .reaction-card .card-header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 1.5rem;
+        }
+        .reaction-formula {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.2rem;
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            text-align: center;
+        }
+        .interactive-section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        .simulator-container {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            border: none;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(79, 172, 254, 0.3);
+        }
+        .nav-link {
+            transition: all 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #4facfe !important;
+            transform: translateY(-2px);
+        }
+        .nav-link.active {
+            color: #4facfe !important;
+            font-weight: bold;
+        }
+        .ph-scale {
+            background: linear-gradient(90deg, #ff0000 0%, #ff7f00 16.67%, #ffff00 33.33%, #00ff00 50%, #0000ff 66.67%, #4b0082 83.33%, #8b00ff 100%);
+            height: 20px;
+            border-radius: 10px;
+            margin: 1rem 0;
+            position: relative;
+        }
+        .ph-markers {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 5px;
+        }
+        .acid-base-theory {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1rem 0;
+        }
+        .calculation-box {
+            background: #f3e5f5;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- 页面过渡层 -->
+    <div class="transition-overlay"></div>
+    
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html" data-transition="fade">
+                <span style="color: #4facfe; font-weight: bold;">Chem</span>Reactions
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html" data-transition="fade">首页</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="periodic-table.html" id="elementDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-transition="fade">
+                            元素世界
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="elementDropdown">
+                            <li><a class="dropdown-item" href="periodic-table.html" data-transition="fade">元素周期表</a></li>
+                            <li><a class="dropdown-item" href="element-discovery.html" data-transition="fade">元素发现历史</a></li>
+                            <li><a class="dropdown-item" href="element-categories.html" data-transition="fade">元素分类</a></li>
+                            <li><a class="dropdown-item" href="element-detail.html" data-transition="fade">元素详情</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="reactions.html" id="reactionDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="true" data-transition="fade">
+                            化学反应
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="reactionDropdown">
+                            <li><a class="dropdown-item" href="basic-reactions.html" data-transition="fade">基本反应类型</a></li>
+                            <li><a class="dropdown-item" href="redox-reactions.html" data-transition="fade">氧化还原反应</a></li>
+                            <li><a class="dropdown-item active" href="acid-base-reactions.html" data-transition="fade">酸碱反应</a></li>
+                            <li><a class="dropdown-item" href="coordination-reactions.html" data-transition="fade">配位反应</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="chemistryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-transition="fade">
+                            化学分支
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="chemistryDropdown">
+                            <li><a class="dropdown-item" href="organic-chemistry.html" data-transition="fade">有机化学</a></li>
+                            <li><a class="dropdown-item" href="inorganic-chemistry.html" data-transition="fade">无机化学</a></li>
+                            <li><a class="dropdown-item" href="analytical-chemistry.html" data-transition="fade">分析化学</a></li>
+                            <li><a class="dropdown-item" href="physical-chemistry.html" data-transition="fade">物理化学</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="applicationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-transition="fade">
+                            应用化学
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="applicationDropdown">
+                            <li><a class="dropdown-item" href="#" data-transition="fade">环境化学</a></li>
+                            <li><a class="dropdown-item" href="#" data-transition="fade">医药化学</a></li>
+                            <li><a class="dropdown-item" href="#" data-transition="fade">材料化学</a></li>
+                            <li><a class="dropdown-item" href="#" data-transition="fade">能源化学</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-transition="fade">学习资源</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="ai-assistant.html" data-transition="fade">AI助手</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="forum.html" data-transition="fade">论坛</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html" data-transition="fade">登录/注册</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- 英雄区 -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="display-4 mb-4">酸碱反应</h1>
+                    <p class="lead mb-6">探索酸碱理论的奥秘，了解pH值、中和反应和缓冲溶液的原理</p>
+                    <a href="#acid-base-basics" class="btn btn-light btn-lg" data-transition="fade">开始探索</a>
+                </div>
+                <div class="col-lg-6">
+                    <div class="text-center">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=acid-base%20reaction%20proton%20transfer%20between%20molecules%2C%20pH%20scale%20visualization%2C%20scientific%20illustration%2C%203D%20rendering&image_size=square_hd" alt="酸碱反应" class="img-fluid rounded-lg shadow-lg">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 酸碱反应基础 -->
+    <section id="acid-base-basics" class="py-16">
+        <div class="container">
+            <div class="text-center mb-12">
+                <h2 class="display-5 mb-4">酸碱反应基础</h2>
+                <p class="text-muted">了解酸碱反应的基本概念和不同的酸碱理论</p>
+            </div>
+            
+            <div class="row g-6">
+                <div class="col-lg-12">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="mb-6">pH值和酸碱度</h3>
+                        <div class="ph-scale"></div>
+                        <div class="ph-markers">
+                            <span>0</span>
+                            <span>2</span>
+                            <span>4</span>
+                            <span>6</span>
+                            <span>7</span>
+                            <span>8</span>
+                            <span>10</span>
+                            <span>12</span>
+                            <span>14</span>
+                        </div>
+                        <div class="row mt-6">
+                            <div class="col-lg-4">
+                                <div class="text-center p-4 bg-red-50 rounded-lg">
+                                    <h4 class="text-red-600">酸性</h4>
+                                    <p>pH < 7</p>
+                                    <p>例子：盐酸、硫酸、醋酸</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="text-center p-4 bg-green-50 rounded-lg">
+                                    <h4 class="text-green-600">中性</h4>
+                                    <p>pH = 7</p>
+                                    <p>例子：纯水</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="text-center p-4 bg-blue-50 rounded-lg">
+                                    <h4 class="text-blue-600">碱性</h4>
+                                    <p>pH > 7</p>
+                                    <p>例子：氢氧化钠、氨水、碳酸钠</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 酸碱理论 -->
+    <section class="py-16 bg-light">
+        <div class="container">
+            <div class="text-center mb-12">
+                <h2 class="display-5 mb-4">酸碱理论</h2>
+                <p class="text-muted">了解不同的酸碱定义和理论</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="acid-base-theory">
+                        <h3 class="mb-4">Arrhenius 理论</h3>
+                        <p class="mb-4">由瑞典化学家 Svante Arrhenius 在1884年提出。</p>
+                        <ul class="list-unstyled space-y-3">
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span><strong>酸：</strong>在水溶液中解离出氢离子(H⁺)的物质</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span><strong>碱：</strong>在水溶液中解离出氢氧根离子(OH⁻)的物质</span>
+                            </li>
+                        </ul>
+                        <div class="reaction-formula mt-4">HCl → H⁺ + Cl⁻</div>
+                        <div class="reaction-formula mt-2">NaOH → Na⁺ + OH⁻</div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4">
+                    <div class="acid-base-theory">
+                        <h3 class="mb-4">Bronsted-Lowry 理论</h3>
+                        <p class="mb-4">由丹麦化学家 Johannes Bronsted 和英国化学家 Thomas Lowry 在1923年提出。</p>
+                        <ul class="list-unstyled space-y-3">
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span><strong>酸：</strong>质子(H⁺)的给予体</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span><strong>碱：</strong>质子(H⁺)的接受体</span>
+                            </li>
+                        </ul>
+                        <div class="reaction-formula mt-4">HCl + H₂O → H₃O⁺ + Cl⁻</div>
+                        <div class="reaction-formula mt-2">NH₃ + H₂O → NH₄⁺ + OH⁻</div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4">
+                    <div class="acid-base-theory">
+                        <h3 class="mb-4">Lewis 理论</h3>
+                        <p class="mb-4">由美国化学家 Gilbert N. Lewis 在1923年提出。</p>
+                        <ul class="list-unstyled space-y-3">
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span><strong>酸：</strong>电子对的接受体</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span><strong>碱：</strong>电子对的给予体</span>
+                            </li>
+                        </ul>
+                        <div class="reaction-formula mt-4">BF₃ + NH₃ → F₃B-NH₃</div>
+                        <div class="reaction-formula mt-2">Cu²⁺ + 4NH₃ → [Cu(NH₃)₄]²⁺</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 酸碱反应类型 -->
+    <section class="py-16">
+        <div class="container">
+            <div class="text-center mb-12">
+                <h2 class="display-5 mb-4">酸碱反应类型</h2>
+                <p class="text-muted">了解不同类型的酸碱反应</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-lg-6">
+                    <div class="reaction-card">
+                        <div class="card-header">
+                            <h3 class="card-title mb-0">中和反应</h3>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-4">酸和碱反应生成盐和水的反应。</p>
+                            <div class="reaction-formula">HCl + NaOH → NaCl + H₂O</div>
+                            <div class="reaction-formula mt-2">H₂SO₄ + 2KOH → K₂SO₄ + 2H₂O</div>
+                            <h5 class="mt-4 mb-2">特点：</h5>
+                            <ul class="list-unstyled space-y-2">
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span>酸和碱反应生成盐和水</span>
+                                </li>
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span>通常放出热量（放热反应）</span>
+                                </li>
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span>反应后溶液的pH值取决于反应物的相对强弱</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="reaction-card">
+                        <div class="card-header">
+                            <h3 class="card-title mb-0">酸碱解离反应</h3>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-4">酸或碱在水溶液中的解离反应。</p>
+                            <div class="reaction-formula">CH₃COOH ⇌ CH₃COO⁻ + H⁺</div>
+                            <div class="reaction-formula mt-2">NH₃ + H₂O ⇌ NH₄⁺ + OH⁻</div>
+                            <h5 class="mt-4 mb-2">特点：</h5>
+                            <ul class="list-unstyled space-y-2">
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span>弱酸和弱碱的解离是可逆的</span>
+                                </li>
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span>解离程度用解离常数(Kₐ或Kᵦ)表示</span>
+                                </li>
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span>强酸和强碱在水溶液中几乎完全解离</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="reaction-card">
+                        <div class="card-header">
+                            <h3 class="card-title mb-0">缓冲溶液反应</h3>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-4">缓冲溶液抵抗pH值变化的反应。</p>
+                            <div class="reaction-formula">CH₃COOH + OH⁻ → CH₃COO⁻ + H₂O</div>
+                            <div class="reaction-formula mt-2">CH₃COO⁻ + H⁺ → CH₃COOH</div>
+                            <h5 class="mt-4 mb-2">特点：</h5>
+                            <ul class="list-unstyled space-y-2">
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span>由弱酸及其共轭碱或弱碱及其共轭酸组成</span>
+                                </li>
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span>能够抵抗少量酸或碱的加入而保持pH值基本不变</span>
+                                </li>
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span>广泛应用于生物化学和分析化学中</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="reaction-card">
+                        <div class="card-header">
+                            <h3 class="card-title mb-0">水解反应</h3>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-4">盐与水反应生成酸和碱的反应。</p>
+                            <div class="reaction-formula">CH₃COONa + H₂O ⇌ CH₃COOH + NaOH</div>
+                            <div class="reaction-formula mt-2">NH₄Cl + H₂O ⇌ NH₃·H₂O + HCl</div>
+                            <h5 class="mt-4 mb-2">特点：</h5>
+                            <ul class="list-unstyled space-y-2">
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span>由盐的离子与水反应生成弱酸或弱碱</span>
+                                </li>
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span>水解程度取决于盐的类型</span>
+                                </li>
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span>可能使溶液呈酸性、碱性或中性</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 互动模拟器 -->
+    <section class="interactive-section">
+        <div class="container">
+            <div class="text-center mb-10">
+                <h2 class="display-5 mb-4">酸碱反应模拟器</h2>
+                <p class="text-muted">进行pH计算和中和反应模拟</p>
+            </div>
+            
+            <div class="simulator-container">
+                <div class="row">
+                    <div class="col-lg-6 mb-4">
+                        <div class="mb-4">
+                            <label class="form-label">选择模拟类型</label>
+                            <select id="simulation-type" class="form-select form-select-lg">
+                                <option value="ph-calculation">pH值计算</option>
+                                <option value="neutralization">中和反应</option>
+                                <option value="buffer">缓冲溶液</option>
+                            </select>
+                        </div>
+                        
+                        <div id="ph-calculation-container">
+                            <div class="mb-4">
+                                <label class="form-label">溶液类型</label>
+                                <select id="solution-type" class="form-select form-select-lg">
+                                    <option value="strong-acid">强酸</option>
+                                    <option value="strong-base">强碱</option>
+                                    <option value="weak-acid">弱酸</option>
+                                    <option value="weak-base">弱碱</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="form-label">浓度 (mol/L)</label>
+                                <input type="number" id="concentration" class="form-control form-control-lg" step="0.01" min="0.001" value="0.1">
+                            </div>
+                            
+                            <div class="mb-4" id="ka-container">
+                                <label class="form-label">解离常数 (Kₐ或Kᵦ)</label>
+                                <input type="number" id="ka" class="form-control form-control-lg" step="1e-10" min="1e-14" value="1.8e-5">
+                            </div>
+                        </div>
+                        
+                        <div id="neutralization-container" style="display: none;">
+                            <div class="mb-4">
+                                <label class="form-label">酸溶液</label>
+                                <select id="acid" class="form-select form-select-lg">
+                                    <option value="HCl">HCl (盐酸)</option>
+                                    <option value="H2SO4">H₂SO₄ (硫酸)</option>
+                                    <option value="CH3COOH">CH₃COOH (醋酸)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="form-label">酸浓度 (mol/L)</label>
+                                <input type="number" id="acid-concentration" class="form-control form-control-lg" step="0.01" min="0.001" value="0.1">
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="form-label">碱溶液</label>
+                                <select id="base" class="form-select form-select-lg">
+                                    <option value="NaOH">NaOH (氢氧化钠)</option>
+                                    <option value="KOH">KOH (氢氧化钾)</option>
+                                    <option value="NH3">NH₃ (氨水)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="form-label">碱浓度 (mol/L)</label>
+                                <input type="number" id="base-concentration" class="form-control form-control-lg" step="0.01" min="0.001" value="0.1">
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="form-label">酸体积 (mL)</label>
+                                <input type="number" id="acid-volume" class="form-control form-control-lg" step="1" min="1" value="50">
+                            </div>
+                        </div>
+                        
+                        <div id="buffer-container" style="display: none;">
+                            <div class="mb-4">
+                                <label class="form-label">缓冲溶液类型</label>
+                                <select id="buffer-type" class="form-select form-select-lg">
+                                    <option value="acetic-acid">醋酸/醋酸钠</option>
+                                    <option value="ammonia">氨水/氯化铵</option>
+                                    <option value="phosphate">磷酸二氢钠/磷酸氢二钠</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="form-label">弱酸浓度 (mol/L)</label>
+                                <input type="number" id="acid-buffer-conc" class="form-control form-control-lg" step="0.01" min="0.001" value="0.1">
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="form-label">共轭碱浓度 (mol/L)</label>
+                                <input type="number" id="base-buffer-conc" class="form-control form-control-lg" step="0.01" min="0.001" value="0.1">
+                            </div>
+                        </div>
+                        
+                        <button id="simulate-btn" class="btn btn-primary btn-lg w-100">模拟计算</button>
+                    </div>
+                    
+                    <div class="col-lg-6">
+                        <div class="bg-light p-4 rounded-lg h-100">
+                            <h4 class="mb-4">模拟结果</h4>
+                            <div id="simulation-result" class="mb-4">
+                                <p class="text-muted">点击模拟按钮查看结果</p>
+                            </div>
+                            <div id="ph-result" class="calculation-box mb-4"></div>
+                            <div id="reaction-equation" class="reaction-formula mb-4"></div>
+                            <div id="reaction-explanation"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 酸碱反应的应用 -->
+    <section class="py-16">
+        <div class="container">
+            <div class="text-center mb-12">
+                <h2 class="display-5 mb-4">酸碱反应的应用</h2>
+                <p class="text-muted">了解酸碱反应在日常生活和工业中的应用</p>
+            </div>
+            
+            <div class="row g-6">
+                <div class="col-lg-6">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="mb-4">日常生活中的应用</h3>
+                        <ul class="list-unstyled space-y-3">
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span><strong>医药：</strong>抗酸药治疗胃酸过多，如氢氧化铝、碳酸氢钠</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span><strong>食品：</strong>发酵过程中的酸碱反应，如面包制作、酿酒</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span><strong>清洁：</strong>洗涤剂中的碱性成分去除油污</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span><strong>园艺：</strong>调节土壤pH值以适应不同植物的生长需求</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span><strong>个人护理：</strong>护肤品中的pH平衡，如洗发水、沐浴露</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="mb-4">工业中的应用</h3>
+                        <ul class="list-unstyled space-y-3">
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span><strong>化工生产：</strong>合成各种化学品，如肥料、塑料、药物</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span><strong>制药：</strong>药物合成和纯化过程中的pH调节</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span><strong>食品工业：</strong>食品加工和 preservation中的pH控制</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span><strong>水处理：</strong>调节水的pH值，去除杂质</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span><strong>金属加工：</strong>酸洗去除金属表面的氧化物</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 热门化学信息 -->
+    <section class="py-16 bg-light">
+        <div class="container">
+            <div class="text-center mb-12">
+                <h2 class="display-5 mb-4">热门酸碱研究</h2>
+                <p class="text-muted">了解最新的酸碱化学研究进展</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="card h-100">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=green%20chemistry%20acid-base%20catalysts%2C%20sustainable%20chemical%20processes%2C%20laboratory%20setting&image_size=landscape_4_3" alt="绿色化学" class="card-img-top">
+                        <div class="card-body">
+                            <h3 class="card-title">绿色酸碱催化剂</h3>
+                            <p class="card-text">研究人员开发出新型环境友好的酸碱催化剂，减少传统催化剂对环境的污染，提高反应效率。</p>
+                            <a href="#" class="btn btn-primary">了解更多</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4">
+                    <div class="card h-100">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=biomedical%20pH%20sensors%2C%20medical%20diagnostics%2C%20advanced%20technology&image_size=landscape_4_3" alt="生物医学传感器" class="card-img-top">
+                        <div class="card-body">
+                            <h3 class="card-title">生物医学pH传感器</h3>
+                            <p class="card-text">新型pH传感器技术在医学诊断中的应用取得突破，能够实时监测体内pH变化，为疾病诊断提供新手段。</p>
+                            <a href="#" class="btn btn-primary">了解更多</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4">
+                    <div class="card h-100">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=proton%20exchange%20membranes%20fuel%20cells%2C%20clean%20energy%20technology&image_size=landscape_4_3" alt="质子交换膜" class="card-img-top">
+                        <div class="card-body">
+                            <h3 class="card-title">质子交换膜技术</h3>
+                            <p class="card-text">新型质子交换膜材料的开发为燃料电池技术带来重大突破，提高了能量转换效率，降低了成本。</p>
+                            <a href="#" class="btn btn-primary">了解更多</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 实验室安全 -->
+    <section class="py-16">
+        <div class="container">
+            <div class="text-center mb-12">
+                <h2 class="display-5 mb-4">实验室安全</h2>
+                <p class="text-muted">了解酸碱反应实验的安全注意事项</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="mb-4">安全规则</h3>
+                        <ul class="list-unstyled space-y-3">
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-shield-check text-success mt-1 me-3"></i>
+                                <span>实验前必须了解酸碱的浓度和危险性</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-shield-check text-success mt-1 me-3"></i>
+                                <span>穿戴适当的个人防护装备，包括实验服、手套和护目镜</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-shield-check text-success mt-1 me-3"></i>
+                                <span>在通风橱中进行产生有害气体的反应</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-shield-check text-success mt-1 me-3"></i>
+                                <span>稀释浓硫酸时，必须将浓硫酸缓慢倒入水中，不可反向操作</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-shield-check text-success mt-1 me-3"></i>
+                                <span>实验结束后彻底清理实验区域，妥善处理废弃物</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="mb-4">应急措施</h3>
+                        <ul class="list-unstyled space-y-3">
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-exclamation-triangle text-warning mt-1 me-3"></i>
+                                <span><strong>皮肤接触酸：</strong>立即用大量清水冲洗至少15分钟，然后用碳酸氢钠溶液中和</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-exclamation-triangle text-warning mt-1 me-3"></i>
+                                <span><strong>皮肤接触碱：</strong>立即用大量清水冲洗至少15分钟，然后用硼酸溶液中和</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-exclamation-triangle text-warning mt-1 me-3"></i>
+                                <span><strong>眼睛接触：</strong>使用洗眼器冲洗至少15分钟，然后就医</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-exclamation-triangle text-warning mt-1 me-3"></i>
+                                <span><strong>吸入有害气体：</strong>立即转移到新鲜空气处，保持呼吸道通畅</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-exclamation-triangle text-warning mt-1 me-3"></i>
+                                <span><strong>误食：</strong>立即就医，不要自行催吐</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white py-8">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h3 class="mb-4"><span style="color: #4facfe;">Chem</span>Reactions</h3>
+                    <p>探索化学反应的奥秘，了解化学世界的精彩</p>
+                </div>
+                
+                <div class="col-lg-4 mb-4">
+                    <h4 class="mb-4">快速链接</h4>
+                    <ul class="list-unstyled space-y-2">
+                        <li><a href="index.html" class="text-white text-decoration-none" data-transition="fade">首页</a></li>
+                        <li><a href="reactions.html" class="text-white text-decoration-none" data-transition="fade">化学反应</a></li>
+                        <li><a href="basic-reactions.html" class="text-white text-decoration-none" data-transition="fade">基本反应类型</a></li>
+                        <li><a href="redox-reactions.html" class="text-white text-decoration-none" data-transition="fade">氧化还原反应</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-4">
+                    <h4 class="mb-4">联系我们</h4>
+                    <ul class="list-unstyled space-y-2">
+                        <li>邮箱：info@chemreactions.com</li>
+                        <li>电话：+86 123 4567 8910</li>
+                        <li>地址：中国化学研究所</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-top border-gray-700 mt-8 pt-6 text-center">
+                <p>&copy; 2024 ChemReactions. 保留所有权利。</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/page-transition.js"></script>
+    <script>
+        // 反应模拟器逻辑
+        document.addEventListener('DOMContentLoaded', function() {
+            const simulationType = document.getElementById('simulation-type');
+            const phCalculationContainer = document.getElementById('ph-calculation-container');
+            const neutralizationContainer = document.getElementById('neutralization-container');
+            const bufferContainer = document.getElementById('buffer-container');
+            const solutionType = document.getElementById('solution-type');
+            const kaContainer = document.getElementById('ka-container');
+            const simulateBtn = document.getElementById('simulate-btn');
+            const simulationResult = document.getElementById('simulation-result');
+            const phResult = document.getElementById('ph-result');
+            const reactionEquation = document.getElementById('reaction-equation');
+            const reactionExplanation = document.getElementById('reaction-explanation');
+            
+            // 模拟类型变化时的处理
+            simulationType.addEventListener('change', function() {
+                const type = this.value;
+                
+                phCalculationContainer.style.display = type === 'ph-calculation' ? 'block' : 'none';
+                neutralizationContainer.style.display = type === 'neutralization' ? 'block' : 'none';
+                bufferContainer.style.display = type === 'buffer' ? 'block' : 'none';
+            });
+            
+            // 溶液类型变化时的处理
+            solutionType.addEventListener('change', function() {
+                const type = this.value;
+                kaContainer.style.display = (type === 'weak-acid' || type === 'weak-base') ? 'block' : 'none';
+            });
+            
+            // 模拟计算
+            simulateBtn.addEventListener('click', function() {
+                const type = simulationType.value;
+                
+                switch(type) {
+                    case 'ph-calculation':
+                        calculatePH();
+                        break;
+                    case 'neutralization':
+                        simulateNeutralization();
+                        break;
+                    case 'buffer':
+                        calculateBuffer();
+                        break;
+                }
+            });
+            
+            // pH值计算
+            function calculatePH() {
+                const solutionTypeValue = solutionType.value;
+                const concentration = parseFloat(document.getElementById('concentration').value);
+                const ka = parseFloat(document.getElementById('ka').value);
+                
+                let ph = 0;
+                let explanation = '';
+                
+                switch(solutionTypeValue) {
+                    case 'strong-acid':
+                        ph = -Math.log10(concentration);
+                        explanation = `强酸在水溶液中完全解离，因此[H⁺] = 浓度 = ${concentration} mol/L，pH = -log[H⁺] = ${ph.toFixed(2)}`;
+                        break;
+                    case 'strong-base':
+                        const poh = -Math.log10(concentration);
+                        ph = 14 - poh;
+                        explanation = `强碱在水溶液中完全解离，因此[OH⁻] = 浓度 = ${concentration} mol/L，pOH = -log[OH⁻] = ${poh.toFixed(2)}，pH = 14 - pOH = ${ph.toFixed(2)}`;
+                        break;
+                    case 'weak-acid':
+                        const hConcentration = Math.sqrt(ka * concentration);
+                        ph = -Math.log10(hConcentration);
+                        explanation = `弱酸在水溶液中部分解离，使用公式[H⁺] = √(Kₐ×c)计算，得到[H⁺] = ${hConcentration.toExponential(2)} mol/L，pH = ${ph.toFixed(2)}`;
+                        break;
+                    case 'weak-base':
+                        const ohConcentration = Math.sqrt(ka * concentration);
+                        const pohValue = -Math.log10(ohConcentration);
+                        ph = 14 - pohValue;
+                        explanation = `弱碱在水溶液中部分解离，使用公式[OH⁻] = √(Kᵦ×c)计算，得到[OH⁻] = ${ohConcentration.toExponential(2)} mol/L，pOH = ${pohValue.toFixed(2)}，pH = ${ph.toFixed(2)}`;
+                        break;
+                }
+                
+                simulationResult.innerHTML = `<p class="text-success">pH值计算完成！</p>`;
+                phResult.innerHTML = `<h5>计算结果：</h5><p>pH值 = <strong>${ph.toFixed(2)}</strong></p>`;
+                reactionEquation.textContent = '';
+                reactionExplanation.textContent = explanation;
+            }
+            
+            // 中和反应模拟
+            function simulateNeutralization() {
+                const acid = document.getElementById('acid').value;
+                const acidConcentration = parseFloat(document.getElementById('acid-concentration').value);
+                const base = document.getElementById('base').value;
+                const baseConcentration = parseFloat(document.getElementById('base-concentration').value);
+                const acidVolume = parseFloat(document.getElementById('acid-volume').value);
+                
+                let equation = '';
+                let explanation = '';
+                
+                // 计算酸和碱的物质的量
+                const acidMoles = acidConcentration * acidVolume / 1000;
+                const baseMoles = baseConcentration * acidVolume / 1000; // 假设碱体积与酸体积相同
+                
+                // 生成反应方程式
+                if (acid === 'HCl' && base === 'NaOH') {
+                    equation = 'HCl + NaOH → NaCl + H₂O';
+                } else if (acid === 'H2SO4' && base === 'KOH') {
+                    equation = 'H₂SO₄ + 2KOH → K₂SO₄ + 2H₂O';
+                } else if (acid === 'CH3COOH' && base === 'NH3') {
+                    equation = 'CH₃COOH + NH₃ → CH₃COONH₄';
+                } else {
+                    equation = `${acid} + ${base} → 盐 + H₂O`;
+                }
+                
+                // 计算反应结果
+                let result = '';
+                if (acid === 'H2SO4') {
+                    if (acidMoles * 2 > baseMoles) {
+                        result = '酸过量，溶液呈酸性';
+                    } else if (acidMoles * 2 < baseMoles) {
+                        result = '碱过量，溶液呈碱性';
+                    } else {
+                        result = '恰好完全反应，溶液呈中性';
+                    }
+                } else {
+                    if (acidMoles > baseMoles) {
+                        result = '酸过量，溶液呈酸性';
+                    } else if (acidMoles < baseMoles) {
+                        result = '碱过量，溶液呈碱性';
+                    } else {
+                        result = '恰好完全反应，溶液呈中性';
+                    }
+                }
+                
+                explanation = `酸的物质的量：${acidMoles.toExponential(2)} mol<br>碱的物质的量：${baseMoles.toExponential(2)} mol<br>${result}`;
+                
+                simulationResult.innerHTML = `<p class="text-success">中和反应模拟完成！</p>`;
+                phResult.innerHTML = `<h5>反应结果：</h5><p>${result}</p>`;
+                reactionEquation.textContent = equation;
+                reactionExplanation.innerHTML = explanation;
+            }
+            
+            // 缓冲溶液计算
+            function calculateBuffer() {
+                const bufferType = document.getElementById('buffer-type').value;
+                const acidConc = parseFloat(document.getElementById('acid-buffer-conc').value);
+                const baseConc = parseFloat(document.getElementById('base-buffer-conc').value);
+                
+                let pKa = 0;
+                let bufferName = '';
+                
+                switch(bufferType) {
+                    case 'acetic-acid':
+                        pKa = 4.76;
+                        bufferName = '醋酸/醋酸钠缓冲溶液';
+                        break;
+                    case 'ammonia':
+                        pKa = 9.25;
+                        bufferName = '氨水/氯化铵缓冲溶液';
+                        break;
+                    case 'phosphate':
+                        pKa = 7.21;
+                        bufferName = '磷酸二氢钠/磷酸氢二钠缓冲溶液';
+                        break;
+                }
+                
+                // 使用Henderson-Hasselbalch方程计算pH
+                const ph = pKa + Math.log10(baseConc / acidConc);
+                const explanation = `使用Henderson-Hasselbalch方程：pH = pKₐ + log([共轭碱]/[弱酸])，计算得到${bufferName}的pH值为${ph.toFixed(2)}`;
+                
+                simulationResult.innerHTML = `<p class="text-success">缓冲溶液计算完成！</p>`;
+                phResult.innerHTML = `<h5>计算结果：</h5><p>pH值 = <strong>${ph.toFixed(2)}</strong></p>`;
+                reactionEquation.textContent = '';
+                reactionExplanation.textContent = explanation;
+            }
+        });
+    </script>
+</body>
+</html>

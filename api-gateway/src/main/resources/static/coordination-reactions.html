@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>配位反应</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/page-transition.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        .hero-section {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            color: white;
+            padding: 120px 0 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,%3Csvg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z" fill="%23ffffff" fill-opacity="0.1" fill-rule="evenodd"/%3E%3C/svg%3E');
+        }
+        .reaction-card {
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .reaction-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        .reaction-card .card-header {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            color: white;
+            padding: 1.5rem;
+        }
+        .reaction-formula {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.2rem;
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            text-align: center;
+        }
+        .interactive-section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        .simulator-container {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            border: none;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(168, 237, 234, 0.3);
+        }
+        .nav-link {
+            transition: all 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #a8edea !important;
+            transform: translateY(-2px);
+        }
+        .nav-link.active {
+            color: #a8edea !important;
+            font-weight: bold;
+        }
+        .coordination-complex {
+            background: linear-gradient(135deg, #fceabb 0%, #f8b500 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1rem 0;
+        }
+        .complex-structure {
+            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1rem 0;
+            text-align: center;
+        }
+        .stability-constant {
+            background: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1rem 0;
+        }
+        .coordination-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        .coordination-table th,
+        .coordination-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        .coordination-table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- 页面过渡层 -->
+    <div class="transition-overlay"></div>
+    
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html" data-transition="fade">
+                <span style="color: #a8edea; font-weight: bold;">Chem</span>Reactions
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html" data-transition="fade">首页</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="periodic-table.html" id="elementDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-transition="fade">
+                            元素世界
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="elementDropdown">
+                            <li><a class="dropdown-item" href="periodic-table.html" data-transition="fade">元素周期表</a></li>
+                            <li><a class="dropdown-item" href="element-discovery.html" data-transition="fade">元素发现历史</a></li>
+                            <li><a class="dropdown-item" href="element-categories.html" data-transition="fade">元素分类</a></li>
+                            <li><a class="dropdown-item" href="element-detail.html" data-transition="fade">元素详情</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="reactions.html" id="reactionDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="true" data-transition="fade">
+                            化学反应
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="reactionDropdown">
+                            <li><a class="dropdown-item" href="basic-reactions.html" data-transition="fade">基本反应类型</a></li>
+                            <li><a class="dropdown-item" href="redox-reactions.html" data-transition="fade">氧化还原反应</a></li>
+                            <li><a class="dropdown-item" href="acid-base-reactions.html" data-transition="fade">酸碱反应</a></li>
+                            <li><a class="dropdown-item active" href="coordination-reactions.html" data-transition="fade">配位反应</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="chemistryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-transition="fade">
+                            化学分支
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="chemistryDropdown">
+                            <li><a class="dropdown-item" href="organic-chemistry.html" data-transition="fade">有机化学</a></li>
+                            <li><a class="dropdown-item" href="inorganic-chemistry.html" data-transition="fade">无机化学</a></li>
+                            <li><a class="dropdown-item" href="analytical-chemistry.html" data-transition="fade">分析化学</a></li>
+                            <li><a class="dropdown-item" href="physical-chemistry.html" data-transition="fade">物理化学</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="applicationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-transition="fade">
+                            应用化学
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="applicationDropdown">
+                            <li><a class="dropdown-item" href="#" data-transition="fade">环境化学</a></li>
+                            <li><a class="dropdown-item" href="#" data-transition="fade">医药化学</a></li>
+                            <li><a class="dropdown-item" href="#" data-transition="fade">材料化学</a></li>
+                            <li><a class="dropdown-item" href="#" data-transition="fade">能源化学</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-transition="fade">学习资源</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="ai-assistant.html" data-transition="fade">AI助手</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="forum.html" data-transition="fade">论坛</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html" data-transition="fade">登录/注册</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- 英雄区 -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="display-4 mb-4">配位反应</h1>
+                    <p class="lead mb-6">探索配合物的奥秘，了解中心金属离子与配体之间的键合作用</p>
+                    <a href="#coordination-basics" class="btn btn-light btn-lg" data-transition="fade">开始探索</a>
+                </div>
+                <div class="col-lg-6">
+                    <div class="text-center">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=coordination%20complex%20metal%20ion%20with%20ligands%2C%20molecular%20structure%20of%20coordination%20compound%2C%20scientific%20illustration%2C%203D%20rendering&image_size=square_hd" alt="配位反应" class="img-fluid rounded-lg shadow-lg">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 配位反应基础 -->
+    <section id="coordination-basics" class="py-16">
+        <div class="container">
+            <div class="text-center mb-12">
+                <h2 class="display-5 mb-4">配位反应基础</h2>
+                <p class="text-muted">了解配位反应的基本概念和原理</p>
+            </div>
+            
+            <div class="row g-6">
+                <div class="col-lg-6">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="mb-4">基本概念</h3>
+                        <ul class="list-unstyled space-y-4">
+                            <li class="d-flex align-items-start">
+                                <div class="bg-pink-100 p-2 rounded-full mr-3">
+                                    <i class="bi bi-atom text-pink-500"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold">中心金属离子</h4>
+                                    <p>通常是过渡金属离子，具有空的价电子轨道，能够接受配体的电子对</p>
+                                </div>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <div class="bg-blue-100 p-2 rounded-full mr-3">
+                                    <i class="bi bi-link text-blue-500"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold">配体</h4>
+                                    <p>含有孤对电子的分子或离子，能够提供电子对与中心金属离子形成配位键</p>
+                                </div>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <div class="bg-purple-100 p-2 rounded-full mr-3">
+                                    <i class="bi bi-compass text-purple-500"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold">配位键</h4>
+                                    <p>由配体提供孤对电子，中心金属离子提供空轨道形成的共价键</p>
+                                </div>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <div class="bg-green-100 p-2 rounded-full mr-3">
+                                    <i class="bi bi-crystal text-green-500"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold">配合物</h4>
+                                    <p>由中心金属离子与一定数目的配体通过配位键结合形成的化合物</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="mb-4">配位反应示例</h3>
+                        <div class="coordination-complex">
+                            <h5 class="mb-2">银氨络离子的形成</h5>
+                            <div class="reaction-formula">Ag⁺ + 2NH₃ → [Ag(NH₃)₂]⁺</div>
+                            <p class="mt-2">中心离子：Ag⁺（银离子）</p>
+                            <p>配体：NH₃（氨分子）</p>
+                            <p>配位数：2</p>
+                        </div>
+                        
+                        <div class="coordination-complex mt-4">
+                            <h5 class="mb-2">铜氨络离子的形成</h5>
+                            <div class="reaction-formula">Cu²⁺ + 4NH₃ → [Cu(NH₃)₄]²⁺</div>
+                            <p class="mt-2">中心离子：Cu²⁺（铜离子）</p>
+                            <p>配体：NH₃（氨分子）</p>
+                            <p>配位数：4</p>
+                        </div>
+                        
+                        <div class="coordination-complex mt-4">
+                            <h5 class="mb-2">铁氰络离子的形成</h5>
+                            <div class="reaction-formula">Fe³⁺ + 6CN⁻ → [Fe(CN)₆]³⁻</div>
+                            <p class="mt-2">中心离子：Fe³⁺（铁离子）</p>
+                            <p>配体：CN⁻（氰离子）</p>
+                            <p>配位数：6</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 配合物的结构和命名 -->
+    <section class="py-16 bg-light">
+        <div class="container">
+            <div class="text-center mb-12">
+                <h2 class="display-5 mb-4">配合物的结构和命名</h2>
+                <p class="text-muted">了解配合物的空间结构和命名规则</p>
+            </div>
+            
+            <div class="row g-6">
+                <div class="col-lg-6">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="mb-4">常见配位数和几何构型</h3>
+                        <table class="coordination-table">
+                            <thead>
+                                <tr>
+                                    <th>配位数</th>
+                                    <th>几何构型</th>
+                                    <th>示例</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>2</td>
+                                    <td>直线型</td>
+                                    <td>[Ag(NH₃)₂]⁺</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>四面体</td>
+                                    <td>[Zn(NH₃)₄]²⁺</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>平面正方形</td>
+                                    <td>[Cu(NH₃)₄]²⁺</td>
+                                </tr>
+                                <tr>
+                                    <td>6</td>
+                                    <td>八面体</td>
+                                    <td>[Fe(CN)₆]³⁻</td>
+                                </tr>
+                                <tr>
+                                    <td>6</td>
+                                    <td>八面体</td>
+                                    <td>[Co(NH₃)₆]³⁺</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="mb-4">配合物的命名规则</h3>
+                        <ul class="list-unstyled space-y-3">
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span>先命名配体，再命名中心离子</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span>配体命名顺序：阴离子配体在前，中性分子配体在后</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span>同类配体按配位原子的元素符号英文字母顺序排列</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span>配体数目用中文数字表示，如二、三、四等</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span>中心离子的氧化态用罗马数字在括号内表示</span>
+                            </li>
+                        </ul>
+                        <div class="mt-4">
+                            <h5 class="mb-2">命名示例：</h5>
+                            <p>[Cu(NH₃)₄]SO₄ → 硫酸四氨合铜(II)</p>
+                            <p>K₃[Fe(CN)₆] → 六氰合铁(III)酸钾</p>
+                            <p>[Ag(NH₃)₂]Cl → 氯化二氨合银(I)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 配位平衡和稳定常数 -->
+    <section class="py-16">
+        <div class="container">
+            <div class="text-center mb-12">
+                <h2 class="display-5 mb-4">配位平衡和稳定常数</h2>
+                <p class="text-muted">了解配位反应的平衡和配合物的稳定性</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-lg-6">
+                    <div class="reaction-card">
+                        <div class="card-header">
+                            <h3 class="card-title mb-0">配位平衡</h3>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-4">配位反应是可逆的，当正反应速率等于逆反应速率时，达到配位平衡。</p>
+                            <div class="reaction-formula">Mⁿ⁺ + xL⁻ ⇌ [MLₓ]ⁿ⁻ˣ</div>
+                            <h5 class="mt-4 mb-2">平衡常数表达式：</h5>
+                            <div class="stability-constant">
+                                <p>K稳 = [MLₓ]ⁿ⁻ˣ / ([Mⁿ⁺] × [L⁻]ˣ)</p>
+                            </div>
+                            <h5 class="mt-4 mb-2">影响配位平衡的因素：</h5>
+                            <ul class="list-unstyled space-y-2">
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span>中心金属离子的性质和电荷</span>
+                                </li>
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span>配体的性质和浓度</span>
+                                </li>
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span>溶液的pH值</span>
+                                </li>
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span>温度和压力</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="reaction-card">
+                        <div class="card-header">
+                            <h3 class="card-title mb-0">稳定常数</h3>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-4">稳定常数（K稳）是衡量配合物稳定性的重要指标，K稳越大，配合物越稳定。</p>
+                            <h5 class="mt-4 mb-2">常见配合物的稳定常数：</h5>
+                            <table class="coordination-table">
+                                <thead>
+                                    <tr>
+                                        <th>配合物</th>
+                                        <th>稳定常数 (lgK稳)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>[Ag(NH₃)₂]⁺</td>
+                                        <td>7.2</td>
+                                    </tr>
+                                    <td>[Cu(NH₃)₄]²⁺</td>
+                                    <td>13.0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>[Zn(NH₃)₄]²⁺</td>
+                                        <td>9.1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>[Fe(CN)₆]³⁻</td>
+                                        <td>42.0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>[Co(NH₃)₆]³⁺</td>
+                                        <td>35.2</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <h5 class="mt-4 mb-2">稳定常数的应用：</h5>
+                            <ul class="list-unstyled space-y-2">
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span>判断配合物的稳定性</span>
+                                </li>
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span>计算配合物溶液中各物种的浓度</span>
+                                </li>
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span>设计配位滴定方案</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 配位反应的类型 -->
+    <section class="py-16 bg-light">
+        <div class="container">
+            <div class="text-center mb-12">
+                <h2 class="display-5 mb-4">配位反应的类型</h2>
+                <p class="text-muted">了解不同类型的配位反应</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="reaction-card">
+                        <div class="card-header">
+                            <h3 class="card-title mb-0">配体取代反应</h3>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-4">一种配体被另一种配体取代的反应。</p>
+                            <div class="reaction-formula">[Cu(H₂O)₄]²⁺ + 4NH₃ → [Cu(NH₃)₄]²⁺ + 4H₂O</div>
+                            <h5 class="mt-4 mb-2">特点：</h5>
+                            <ul class="list-unstyled space-y-2">
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span>配位数不变</span>
+                                </li>
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span>反应速率取决于配体的性质</span>
+                                </li>
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span>通常遵循一定的反应机理</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4">
+                    <div class="reaction-card">
+                        <div class="card-header">
+                            <h3 class="card-title mb-0">配位加成反应</h3>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-4">配体与中心金属离子结合形成配合物的反应。</p>
+                            <div class="reaction-formula">Ag⁺ + 2NH₃ → [Ag(NH₃)₂]⁺</div>
+                            <h5 class="mt-4 mb-2">特点：</h5>
+                            <ul class="list-unstyled space-y-2">
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span>中心金属离子的配位数增加</span>
+                                </li>
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span>通常是放热反应</span>
+                                </li>
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span>反应速率较快</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4">
+                    <div class="reaction-card">
+                        <div class="card-header">
+                            <h3 class="card-title mb-0">氧化还原配位反应</h3>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-4">同时涉及氧化还原和配位的反应。</p>
+                            <div class="reaction-formula">Cu + 4HNO₃ → Cu(NO₃)₂ + 2NO₂ + 2H₂O</div>
+                            <h5 class="mt-4 mb-2">特点：</h5>
+                            <ul class="list-unstyled space-y-2">
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span>中心金属离子的氧化态发生变化</span>
+                                </li>
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span>通常伴随配体的变化</span>
+                                </li>
+                                <li class="d-flex align-items-start">
+                                    <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                    <span>反应机理较复杂</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 互动模拟器 -->
+    <section class="interactive-section">
+        <div class="container">
+            <div class="text-center mb-10">
+                <h2 class="display-5 mb-4">配位反应模拟器</h2>
+                <p class="text-muted">选择中心金属离子和配体，观察配合物的形成</p>
+            </div>
+            
+            <div class="simulator-container">
+                <div class="row">
+                    <div class="col-lg-6 mb-4">
+                        <div class="mb-4">
+                            <label class="form-label">选择中心金属离子</label>
+                            <select id="metal-ion" class="form-select form-select-lg">
+                                <option value="Ag+">Ag⁺ (银离子)</option>
+                                <option value="Cu2+">Cu²⁺ (铜离子)</option>
+                                <option value="Fe3+">Fe³⁺ (铁离子)</option>
+                                <option value="Zn2+">Zn²⁺ (锌离子)</option>
+                                <option value="Co3+">Co³⁺ (钴离子)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="form-label">选择配体</label>
+                            <select id="ligand" class="form-select form-select-lg">
+                                <option value="NH3">NH₃ (氨)</option>
+                                <option value="CN-">CN⁻ (氰离子)</option>
+                                <option value="H2O">H₂O (水)</option>
+                                <option value="Cl-">Cl⁻ (氯离子)</option>
+                                <option value="EDTA">EDTA (乙二胺四乙酸)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="form-label">配体浓度 (mol/L)</label>
+                            <input type="number" id="ligand-concentration" class="form-control form-control-lg" step="0.1" min="0.1" value="1.0">
+                        </div>
+                        
+                        <button id="simulate-btn" class="btn btn-primary btn-lg w-100">模拟反应</button>
+                    </div>
+                    
+                    <div class="col-lg-6">
+                        <div class="bg-light p-4 rounded-lg h-100">
+                            <h4 class="mb-4">模拟结果</h4>
+                            <div id="simulation-result" class="mb-4">
+                                <p class="text-muted">点击模拟按钮查看结果</p>
+                            </div>
+                            <div id="complex-structure" class="complex-structure mb-4"></div>
+                            <div id="reaction-equation" class="reaction-formula mb-4"></div>
+                            <div id="reaction-explanation"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 配位反应的应用 -->
+    <section class="py-16">
+        <div class="container">
+            <div class="text-center mb-12">
+                <h2 class="display-5 mb-4">配位反应的应用</h2>
+                <p class="text-muted">了解配位化学在各个领域的应用</p>
+            </div>
+            
+            <div class="row g-6">
+                <div class="col-lg-6">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="mb-4">日常生活中的应用</h3>
+                        <ul class="list-unstyled space-y-3">
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span><strong>水处理：</strong>使用螯合剂去除水中的重金属离子</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span><strong>食品工业：</strong>使用EDTA等螯合剂作为食品添加剂，防止金属离子引起的变质</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span><strong>洗涤剂：</strong>含磷洗涤剂中的三聚磷酸钠与钙、镁离子形成配合物，增强去污能力</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span><strong>医药：</strong>顺铂等铂类配合物作为抗癌药物</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span><strong>化妆品：</strong>某些金属配合物作为防晒剂和着色剂</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="mb-4">工业和科技中的应用</h3>
+                        <ul class="list-unstyled space-y-3">
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span><strong>冶金：</strong>使用氰化物提取金、银等贵金属</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span><strong>分析化学：</strong>配位滴定法测定金属离子含量</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span><strong>催化：</strong>金属配合物作为催化剂，如齐格勒-纳塔催化剂</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span><strong>材料科学：</strong>金属有机框架(MOFs)等新型材料的合成</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-check-circle text-success mt-1 me-3"></i>
+                                <span><strong>电子工业：</strong>金属配合物作为电镀液和电子材料</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 热门化学信息 -->
+    <section class="py-16 bg-light">
+        <div class="container">
+            <div class="text-center mb-12">
+                <h2 class="display-5 mb-4">热门配位化学研究</h2>
+                <p class="text-muted">了解最新的配位化学研究进展</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="card h-100">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=metal-organic%20frameworks%20mofs%20crystal%20structure%2C%20advanced%20materials%20science%2C%20laboratory%20setting&image_size=landscape_4_3" alt="金属有机框架" class="card-img-top">
+                        <div class="card-body">
+                            <h3 class="card-title">金属有机框架(MOFs)</h3>
+                            <p class="card-text">研究人员开发出新型金属有机框架材料，具有超高的比表面积和孔隙率，在气体存储、分离和催化领域展现出巨大潜力。</p>
+                            <a href="#" class="btn btn-primary">了解更多</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4">
+                    <div class="card h-100">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=platinum%20complexes%20cancer%20treatment%2C%20medical%20research%2C%20laboratory%20setting&image_size=landscape_4_3" alt="铂类配合物" class="card-img-top">
+                        <div class="card-body">
+                            <h3 class="card-title">新型抗癌金属配合物</h3>
+                            <p class="card-text">新型金属配合物抗癌药物的研发取得重大突破，具有更高的活性和更低的毒性，为癌症治疗提供了新的选择。</p>
+                            <a href="#" class="btn btn-primary">了解更多</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4">
+                    <div class="card h-100">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=coordination%20catalysis%20green%20chemistry%2C%20sustainable%20chemical%20processes%2C%20laboratory%20setting&image_size=landscape_4_3" alt="配位催化" class="card-img-top">
+                        <div class="card-body">
+                            <h3 class="card-title">绿色配位催化</h3>
+                            <p class="card-text">研究人员开发出环境友好的配位催化剂，用于绿色化学合成，减少传统催化剂对环境的污染，提高反应效率。</p>
+                            <a href="#" class="btn btn-primary">了解更多</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 实验室安全 -->
+    <section class="py-16">
+        <div class="container">
+            <div class="text-center mb-12">
+                <h2 class="display-5 mb-4">实验室安全</h2>
+                <p class="text-muted">了解配位反应实验的安全注意事项</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="mb-4">安全规则</h3>
+                        <ul class="list-unstyled space-y-3">
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-shield-check text-success mt-1 me-3"></i>
+                                <span>实验前必须了解所用试剂的危险性和安全措施</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-shield-check text-success mt-1 me-3"></i>
+                                <span>穿戴适当的个人防护装备，包括实验服、手套和护目镜</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-shield-check text-success mt-1 me-3"></i>
+                                <span>在通风橱中进行产生有害气体的反应</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-shield-check text-success mt-1 me-3"></i>
+                                <span>严格控制反应物的用量，特别是有毒配体如氰化物</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-shield-check text-success mt-1 me-3"></i>
+                                <span>实验结束后彻底清理实验区域，妥善处理废弃物</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="mb-4">危险配体</h3>
+                        <ul class="list-unstyled space-y-3">
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-exclamation-triangle text-danger mt-1 me-3"></i>
+                                <span><strong>氰化物：</strong>如KCN、NaCN，剧毒，接触或吸入可能导致中毒死亡</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-exclamation-triangle text-danger mt-1 me-3"></i>
+                                <span><strong>氨：</strong>刺激性气体，高浓度时可导致呼吸道损伤</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-exclamation-triangle text-danger mt-1 me-3"></i>
+                                <span><strong>重金属离子：</strong>如Pb²⁺、Hg²⁺，有毒，可在体内积累</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-exclamation-triangle text-danger mt-1 me-3"></i>
+                                <span><strong>有机配体：</strong>某些有机配体可能具有致癌性或致畸性</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white py-8">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h3 class="mb-4"><span style="color: #a8edea;">Chem</span>Reactions</h3>
+                    <p>探索化学反应的奥秘，了解化学世界的精彩</p>
+                </div>
+                
+                <div class="col-lg-4 mb-4">
+                    <h4 class="mb-4">快速链接</h4>
+                    <ul class="list-unstyled space-y-2">
+                        <li><a href="index.html" class="text-white text-decoration-none" data-transition="fade">首页</a></li>
+                        <li><a href="reactions.html" class="text-white text-decoration-none" data-transition="fade">化学反应</a></li>
+                        <li><a href="basic-reactions.html" class="text-white text-decoration-none" data-transition="fade">基本反应类型</a></li>
+                        <li><a href="redox-reactions.html" class="text-white text-decoration-none" data-transition="fade">氧化还原反应</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-4">
+                    <h4 class="mb-4">联系我们</h4>
+                    <ul class="list-unstyled space-y-2">
+                        <li>邮箱：info@chemreactions.com</li>
+                        <li>电话：+86 123 4567 8910</li>
+                        <li>地址：中国化学研究所</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-top border-gray-700 mt-8 pt-6 text-center">
+                <p>&copy; 2024 ChemReactions. 保留所有权利。</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/page-transition.js"></script>
+    <script>
+        // 反应模拟器逻辑
+        document.addEventListener('DOMContentLoaded', function() {
+            const metalIon = document.getElementById('metal-ion');
+            const ligand = document.getElementById('ligand');
+            const ligandConcentration = document.getElementById('ligand-concentration');
+            const simulateBtn = document.getElementById('simulate-btn');
+            const simulationResult = document.getElementById('simulation-result');
+            const complexStructure = document.getElementById('complex-structure');
+            const reactionEquation = document.getElementById('reaction-equation');
+            const reactionExplanation = document.getElementById('reaction-explanation');
+            
+            // 模拟反应
+            simulateBtn.addEventListener('click', function() {
+                const metal = metalIon.value;
+                const lig = ligand.value;
+                const conc = parseFloat(ligandConcentration.value);
+                
+                let equation = '';
+                let structure = '';
+                let explanation = '';
+                
+                // 根据选择的金属离子和配体生成反应
+                switch(metal) {
+                    case 'Ag+':
+                        if (lig === 'NH3') {
+                            equation = 'Ag⁺ + 2NH₃ → [Ag(NH₃)₂]⁺';
+                            structure = '<h5>配合物结构：</h5><p>直线型</p><p>[Ag(NH₃)₂]⁺</p>';
+                            explanation = `银离子与氨分子形成二氨合银(I)配离子，配位数为2，几何构型为直线型。当氨浓度为${conc} mol/L时，反应向生成配合物的方向进行，配合物稳定常数lgK稳 = 7.2。`;
+                        } else if (lig === 'CN-') {
+                            equation = 'Ag⁺ + 2CN⁻ → [Ag(CN)₂]⁻';
+                            structure = '<h5>配合物结构：</h5><p>直线型</p><p>[Ag(CN)₂]⁻</p>';
+                            explanation = `银离子与氰离子形成二氰合银(I)配离子，配位数为2，几何构型为直线型。这是一个非常稳定的配合物，稳定常数lgK稳 > 20。`;
+                        } else {
+                            equation = `Ag⁺ + ${lig} → [Ag${lig}]`;
+                            structure = '<h5>配合物结构：</h5><p>直线型</p>';
+                            explanation = `银离子与${lig}形成配合物。`;
+                        }
+                        break;
+                        
+                    case 'Cu2+':
+                        if (lig === 'NH3') {
+                            equation = 'Cu²⁺ + 4NH₃ → [Cu(NH₃)₄]²⁺';
+                            structure = '<h5>配合物结构：</h5><p>平面正方形</p><p>[Cu(NH₃)₄]²⁺</p>';
+                            explanation = `铜离子与氨分子形成四氨合铜(II)配离子，配位数为4，几何构型为平面正方形。当氨浓度为${conc} mol/L时，反应向生成配合物的方向进行，配合物稳定常数lgK稳 = 13.0。`;
+                        } else if (lig === 'CN-') {
+                            equation = 'Cu²⁺ + 4CN⁻ → [Cu(CN)₄]²⁻';
+                            structure = '<h5>配合物结构：</h5><p>四面体</p><p>[Cu(CN)₄]²⁻</p>';
+                            explanation = `铜离子与氰离子形成四氰合铜(II)配离子，配位数为4，几何构型为四面体。这是一个稳定的配合物。`;
+                        } else {
+                            equation = `Cu²⁺ + ${lig} → [Cu${lig}]`;
+                            structure = '<h5>配合物结构：</h5><p>平面正方形或四面体</p>';
+                            explanation = `铜离子与${lig}形成配合物。`;
+                        }
+                        break;
+                        
+                    case 'Fe3+':
+                        if (lig === 'CN-') {
+                            equation = 'Fe³⁺ + 6CN⁻ → [Fe(CN)₆]³⁻';
+                            structure = '<h5>配合物结构：</h5><p>八面体</p><p>[Fe(CN)₆]³⁻</p>';
+                            explanation = `铁离子与氰离子形成六氰合铁(III)配离子，配位数为6，几何构型为八面体。这是一个非常稳定的配合物，稳定常数lgK稳 = 42.0。`;
+                        } else if (lig === 'EDTA') {
+                            equation = 'Fe³⁺ + EDTA⁴⁻ → [Fe(EDTA)]⁻';
+                            structure = '<h5>配合物结构：</h5><p>八面体</p><p>[Fe(EDTA)]⁻</p>';
+                            explanation = `铁离子与EDTA形成稳定的配合物，配位数为6，几何构型为八面体。EDTA是一种强螯合剂，能与大多数金属离子形成稳定的配合物。`;
+                        } else {
+                            equation = `Fe³⁺ + ${lig} → [Fe${lig}]`;
+                            structure = '<h5>配合物结构：</h5><p>八面体</p>';
+                            explanation = `铁离子与${lig}形成配合物。`;
+                        }
+                        break;
+                        
+                    case 'Zn2+':
+                        if (lig === 'NH3') {
+                            equation = 'Zn²⁺ + 4NH₃ → [Zn(NH₃)₄]²⁺';
+                            structure = '<h5>配合物结构：</h5><p>四面体</p><p>[Zn(NH₃)₄]²⁺</p>';
+                            explanation = `锌离子与氨分子形成四氨合锌(II)配离子，配位数为4，几何构型为四面体。当氨浓度为${conc} mol/L时，反应向生成配合物的方向进行，配合物稳定常数lgK稳 = 9.1。`;
+                        } else {
+                            equation = `Zn²⁺ + ${lig} → [Zn${lig}]`;
+                            structure = '<h5>配合物结构：</h5><p>四面体</p>';
+                            explanation = `锌离子与${lig}形成配合物。`;
+                        }
+                        break;
+                        
+                    case 'Co3+':
+                        if (lig === 'NH3') {
+                            equation = 'Co³⁺ + 6NH₃ → [Co(NH₃)₆]³⁺';
+                            structure = '<h5>配合物结构：</h5><p>八面体</p><p>[Co(NH₃)₆]³⁺</p>';
+                            explanation = `钴离子与氨分子形成六氨合钴(III)配离子，配位数为6，几何构型为八面体。这是一个非常稳定的配合物，稳定常数lgK稳 = 35.2。`;
+                        } else {
+                            equation = `Co³⁺ + ${lig} → [Co${lig}]`;
+                            structure = '<h5>配合物结构：</h5><p>八面体</p>';
+                            explanation = `钴离子与${lig}形成配合物。`;
+                        }
+                        break;
+                }
+                
+                simulationResult.innerHTML = '<p class="text-success">配位反应模拟完成！</p>';
+                complexStructure.innerHTML = structure;
+                reactionEquation.textContent = equation;
+                reactionExplanation.textContent = explanation;
+            });
+        });
+    </script>
+</body>
+</html>

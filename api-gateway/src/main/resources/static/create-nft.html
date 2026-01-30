@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>创建NFT</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/antd@5.12.8/dist/reset.css">
+    <link rel="stylesheet" href="css/page-transition.css">
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -307,6 +308,104 @@
         function resetForm() {
             document.getElementById('nft-form').reset();
         }
+    </script>
+
+    <script src="js/page-transition.js"></script>
+    <script>
+        // 初始化页面切换特效系统
+        document.addEventListener('DOMContentLoaded', function() {
+            // 设置默认特效
+            pageTransition.setDefaultEffect('fade-in-out');
+            
+            // 更新按钮点击事件，使用页面切换特效
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(button => {
+                if (button.onclick && button.onclick.toString().includes('window.location.href')) {
+                    const originalOnClick = button.onclick;
+                    button.onclick = function() {
+                        // 提取目标URL
+                        const onClickStr = originalOnClick.toString();
+                        const urlMatch = onClickStr.match(/window\.location\.href\s*=\s*['"]([^'"]+)['"]/);
+                        if (urlMatch && urlMatch[1]) {
+                            const url = urlMatch[1];
+                            // 使用随机特效
+                            const effect = pageTransition.getRandomEffect();
+                            pageTransition.navigateTo(url, effect);
+                        } else {
+                            // 执行原始点击事件
+                            originalOnClick.call(this);
+                        }
+                    };
+                }
+            });
+            
+            // 更新表单提交后的页面跳转，使用页面切换特效
+            const form = document.getElementById('nft-form');
+            if (form) {
+                const originalOnSubmit = form.onsubmit;
+                form.onsubmit = function(event) {
+                    event.preventDefault();
+                    // 执行原始提交逻辑
+                    originalOnSubmit.call(this, event);
+                    // 注意：页面跳转逻辑在createNft函数中，需要单独处理
+                };
+            }
+        });
+        
+        // 重写createNft函数，使用页面切换特效进行跳转
+        const originalCreateNft = createNft;
+        createNft = function(event) {
+            event.preventDefault();
+            
+            const form = event.target;
+            const nftData = {
+                name: document.getElementById('nft-name').value,
+                description: document.getElementById('nft-description').value,
+                imageUrl: document.getElementById('nft-image').value,
+                collectionName: document.getElementById('nft-collection').value,
+                blockchain: document.getElementById('nft-blockchain').value,
+                currency: document.getElementById('nft-currency').value,
+                price: parseFloat(document.getElementById('nft-price').value),
+                tokenId: document.getElementById('nft-token-id').value,
+                contractAddress: document.getElementById('nft-contract').value,
+                ownerId: USER_ID,
+                creatorId: USER_ID
+            };
+
+            const formContainer = document.querySelector('.create-form');
+            const originalContent = formContainer.innerHTML;
+            formContainer.innerHTML = '<div class="loading">创建中...</div>';
+
+            fetch('/api/nft/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-API-Key': API_KEY
+                },
+                body: JSON.stringify(nftData)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('网络响应错误');
+                }
+                return response.json();
+            })
+            .then(data => {
+                formContainer.innerHTML = '<div class="success">NFT创建成功！</div>';
+                setTimeout(() => {
+                    // 使用页面切换特效进行跳转
+                    const effect = pageTransition.getRandomEffect();
+                    pageTransition.navigateTo(`/nft-detail.html?id=${data.id}`, effect);
+                }, 1500);
+            })
+            .catch(error => {
+                console.error('创建NFT失败:', error);
+                formContainer.innerHTML = '<div class="error">创建失败，请稍后重试</div>';
+                setTimeout(() => {
+                    formContainer.innerHTML = originalContent;
+                }, 1500);
+            });
+        };
     </script>
 </body>
 </html>

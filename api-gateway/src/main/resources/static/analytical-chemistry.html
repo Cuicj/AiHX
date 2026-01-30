@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>分析化学 - 化学探索</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/page-transition.css">
+    <style>
+        /* 自定义样式 */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        .hero-section {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 120px 0 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,%3Csvg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z" fill="%23ffffff" fill-opacity="0.1" fill-rule="evenodd"%3E%3C/path%3E%3C/svg%3E');
+        }
+        .analytical-card {
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .analytical-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        .analytical-card .card-header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 1.5rem;
+        }
+        .analysis-formula {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.2rem;
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            text-align: center;
+        }
+        .interactive-section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        .simulator-container {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border: none;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(240, 147, 251, 0.3);
+        }
+        .nav-link {
+            transition: all 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #f093fb !important;
+            transform: translateY(-2px);
+        }
+        .nav-link.active {
+            color: #f093fb !important;
+            font-weight: bold;
+        }
+        .analysis-technique {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1rem 0;
+        }
+        .instrument-image {
+            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1rem 0;
+            text-align: center;
+        }
+        .hot-topics {
+            background: #e3f2fd;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        .topic-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .topic-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- 页面过渡层 -->
+    <div class="transition-overlay"></div>
+    
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html" data-transition="fade">
+                <span style="color: #f093fb; font-weight: bold;">Chem</span>Reactions
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html" data-transition="fade">首页</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="periodic-table.html" id="elementDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-transition="fade">
+                            元素世界
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="elementDropdown">
+                            <li><a class="dropdown-item" href="periodic-table.html" data-transition="fade">元素周期表</a></li>
+                            <li><a class="dropdown-item" href="element-discovery.html" data-transition="fade">元素发现历史</a></li>
+                            <li><a class="dropdown-item" href="element-categories.html" data-transition="fade">元素分类</a></li>
+                            <li><a class="dropdown-item" href="element-detail.html" data-transition="fade">元素详情</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="reactions.html" id="reactionDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-transition="fade">
+                            化学反应
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="reactionDropdown">
+                            <li><a class="dropdown-item" href="basic-reactions.html" data-transition="fade">基本反应类型</a></li>
+                            <li><a class="dropdown-item" href="redox-reactions.html" data-transition="fade">氧化还原反应</a></li>
+                            <li><a class="dropdown-item" href="acid-base-reactions.html" data-transition="fade">酸碱反应</a></li>
+                            <li><a class="dropdown-item" href="coordination-reactions.html" data-transition="fade">配位反应</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="analytical-chemistry.html" id="chemistryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="true" data-transition="fade">
+                            化学分支
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="chemistryDropdown">
+                            <li><a class="dropdown-item" href="organic-chemistry.html" data-transition="fade">有机化学</a></li>
+                            <li><a class="dropdown-item" href="inorganic-chemistry.html" data-transition="fade">无机化学</a></li>
+                            <li><a class="dropdown-item active" href="analytical-chemistry.html" data-transition="fade">分析化学</a></li>
+                            <li><a class="dropdown-item" href="physical-chemistry.html" data-transition="fade">物理化学</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="applicationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-transition="fade">
+                            应用化学
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="applicationDropdown">
+                            <li><a class="dropdown-item" href="#" data-transition="fade">环境化学</a></li>
+                            <li><a class="dropdown-item" href="#" data-transition="fade">医药化学</a></li>
+                            <li><a class="dropdown-item" href="#" data-transition="fade">材料化学</a></li>
+                            <li><a class="dropdown-item" href="#" data-transition="fade">能源化学</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-transition="fade">学习资源</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="ai-assistant.html" data-transition="fade">AI助手</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="forum.html" data-transition="fade">论坛</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html" data-transition="fade">登录/注册</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 英雄区 -->
+    <section class="hero-section">
+        <div class="container">
+            <h1 class="display-4 mb-4">分析化学</h1>
+            <p class="lead mb-6">探索物质组成、结构和性质的分析方法，从定性到定量的精确测量</p>
+            <a href="#explore" class="btn btn-primary btn-lg">开始探索</a>
+        </div>
+    </section>
+
+    <!-- 主要内容 -->
+    <div class="container" id="explore">
+        <!-- 分析化学概述 -->
+        <section class="section mb-6">
+            <h2 class="section-title">分析化学概述</h2>
+            <p class="text-center text-muted mb-4">了解分析化学的基本概念和研究领域</p>
+            
+            <div class="card mb-4">
+                <div class="card-body">
+                    <p>分析化学是研究物质的组成、结构、性质及其变化规律的科学，通过各种分析方法和仪器设备，对样品进行定性、定量和结构分析。分析化学是化学学科的重要分支，也是许多其他学科的基础工具。</p>
+                    
+                    <h3 class="mt-4 mb-3">分析化学的研究领域</h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="bi bi-check-circle text-primary"></i> 定性分析：确定物质的组成成分</li>
+                                <li class="mb-2"><i class="bi bi-check-circle text-primary"></i> 定量分析：测定物质中各成分的含量</li>
+                                <li class="mb-2"><i class="bi bi-check-circle text-primary"></i> 结构分析：研究物质的分子结构和晶体结构</li>
+                                <li class="mb-2"><i class="bi bi-check-circle text-primary"></i> 表面分析：研究物质表面的组成和性质</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="bi bi-check-circle text-primary"></i> 光谱分析：利用电磁辐射与物质的相互作用</li>
+                                <li class="mb-2"><i class="bi bi-check-circle text-primary"></i> 色谱分析：分离和分析复杂混合物</li>
+                                <li class="mb-2"><i class="bi bi-check-circle text-primary"></i> 电化学分析：利用电化学反应进行分析</li>
+                                <li class="mb-2"><i class="bi bi-check-circle text-primary"></i> 质谱分析：测定物质的分子量和结构</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 分析方法分类 -->
+        <section class="section mb-6">
+            <h2 class="section-title">分析方法分类</h2>
+            <p class="text-center text-muted mb-4">探索不同类型的分析化学方法</p>
+            
+            <div class="row">
+                <!-- 光谱分析 -->
+                <div class="col-md-4">
+                    <div class="analytical-card card">
+                        <div class="card-header">
+                            <h3 class="card-title">光谱分析</h3>
+                        </div>
+                        <div class="card-body">
+                            <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=spectroscopy%20analysis%20laboratory%20equipment%20science%20education&image_size=landscape_4_3" class="card-img-top mb-3" alt="光谱分析">
+                            <p class="card-text">光谱分析是利用物质与电磁辐射的相互作用来分析物质的组成和结构，包括紫外-可见光谱、红外光谱、核磁共振光谱等。</p>
+                            <h4 class="mt-3">应用领域</h4>
+                            <ul class="list-unstyled">
+                                <li class="mb-1"><i class="bi bi-dot text-primary"></i> 有机化合物结构鉴定</li>
+                                <li class="mb-1"><i class="bi bi-dot text-primary"></i> 无机物定性定量分析</li>
+                                <li class="mb-1"><i class="bi bi-dot text-primary"></i> 环境污染物监测</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 色谱分析 -->
+                <div class="col-md-4">
+                    <div class="analytical-card card">
+                        <div class="card-header">
+                            <h3 class="card-title">色谱分析</h3>
+                        </div>
+                        <div class="card-body">
+                            <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=chromatography%20analysis%20laboratory%20equipment%20science%20education&image_size=landscape_4_3" class="card-img-top mb-3" alt="色谱分析">
+                            <p class="card-text">色谱分析是利用混合物中各组分在固定相和流动相之间的分配差异进行分离和分析的方法，包括气相色谱、液相色谱等。</p>
+                            <h4 class="mt-3">应用领域</h4>
+                            <ul class="list-unstyled">
+                                <li class="mb-1"><i class="bi bi-dot text-primary"></i> 药物分析</li>
+                                <li class="mb-1"><i class="bi bi-dot text-primary"></i> 环境监测</li>
+                                <li class="mb-1"><i class="bi bi-dot text-primary"></i> 食品质量控制</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 电化学分析 -->
+                <div class="col-md-4">
+                    <div class="analytical-card card">
+                        <div class="card-header">
+                            <h3 class="card-title">电化学分析</h3>
+                        </div>
+                        <div class="card-body">
+                            <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=electrochemical%20analysis%20laboratory%20equipment%20science%20education&image_size=landscape_4_3" class="card-img-top mb-3" alt="电化学分析">
+                            <p class="card-text">电化学分析是利用电化学反应进行分析的方法，通过测量电流、电位、电导等电化学参数来确定物质的含量和性质。</p>
+                            <h4 class="mt-3">应用领域</h4>
+                            <ul class="list-unstyled">
+                                <li class="mb-1"><i class="bi bi-dot text-primary"></i> 水质分析</li>
+                                <li class="mb-1"><i class="bi bi-dot text-primary"></i> 金属离子测定</li>
+                                <li class="mb-1"><i class="bi bi-dot text-primary"></i> 生物分子检测</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 互动性内容 -->
+        <section class="interactive-section">
+            <h2 class="section-title">互动实验室</h2>
+            <p class="text-center text-muted mb-4">亲自动手探索分析化学的奥秘</p>
+            
+            <div class="simulator-container">
+                <h3 class="mb-4">分析化学模拟器</h3>
+                <p>选择分析方法，观察分析过程和结果：</p>
+                
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="analysis-method" class="form-label">分析方法</label>
+                            <select class="form-select" id="analysis-method">
+                                <option value="">选择方法</option>
+                                <option value="uv-vis">紫外-可见分光光度法</option>
+                                <option value="aas">原子吸收光谱法</option>
+                                <option value="gc">气相色谱法</option>
+                                <option value="hplc">高效液相色谱法</option>
+                                <option value="titration">酸碱滴定法</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="sample-type" class="form-label">样品类型</label>
+                            <select class="form-select" id="sample-type">
+                                <option value="">选择样品</option>
+                                <option value="water">水样</option>
+                                <option value="food">食品</option>
+                                <option value="drug">药物</option>
+                                <option value="environmental">环境样品</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="analyte" class="form-label">分析物</label>
+                    <select class="form-select" id="analyte">
+                        <option value="">选择分析物</option>
+                        <option value="copper">铜离子</option>
+                        <option value="iron">铁离子</option>
+                        <option value="phenol">苯酚</option>
+                        <option value="caffeine">咖啡因</option>
+                        <option value="glucose">葡萄糖</option>
+                    </select>
+                </div>
+                
+                <button class="btn btn-primary mb-4" onclick="simulateAnalysis()">模拟分析</button>
+                
+                <div id="analysis-result" class="mt-4">
+                    <h4>分析结果</h4>
+                    <div id="result-content" class="analysis-formula">
+                        请选择分析方法和样品并点击模拟分析按钮
+                    </div>
+                    <div id="analysis-visualization" class="mt-4 p-4 bg-light rounded-lg">
+                        <h5>分析过程可视化</h5>
+                        <div id="visualization-content" class="text-center py-4">
+                            <p>选择分析方法后将显示分析过程的可视化效果</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 热门分析化学信息 -->
+        <section class="hot-topics mb-6">
+            <h2 class="section-title">热门分析化学信息</h2>
+            <p class="text-center text-muted mb-4">了解最新的分析化学研究和应用</p>
+            
+            <div class="row">
+                <!-- 热门话题 1 -->
+                <div class="col-md-6">
+                    <div class="topic-card">
+                        <h3 class="mb-2">微流控芯片技术的新突破</h3>
+                        <p class="text-muted mb-3">2026年1月28日</p>
+                        <p>研究人员开发出一种新型微流控芯片，能够实现对单个细胞的快速分析，为疾病早期诊断提供了新的技术手段。这种芯片集成了多种分析功能，能够同时检测多种生物标志物。</p>
+                        <a href="#" class="btn btn-outline-primary btn-sm">阅读更多</a>
+                    </div>
+                </div>
+                
+                <!-- 热门话题 2 -->
+                <div class="col-md-6">
+                    <div class="topic-card">
+                        <h3 class="mb-2">便携式光谱仪的开发</h3>
+                        <p class="text-muted mb-3">2026年1月25日</p>
+                        <p>科学家开发出一种小型便携式光谱仪，能够在现场快速分析样品，无需实验室设备。这种光谱仪基于新型纳米材料，具有高灵敏度和高选择性，可应用于环境监测、食品安全等领域。</p>
+                        <a href="#" class="btn btn-outline-primary btn-sm">阅读更多</a>
+                    </div>
+                </div>
+                
+                <!-- 热门话题 3 -->
+                <div class="col-md-6">
+                    <div class="topic-card">
+                        <h3 class="mb-2">人工智能在分析化学中的应用</h3>
+                        <p class="text-muted mb-3">2026年1月20日</p>
+                        <p>研究团队将人工智能技术应用于分析化学，开发出一种能够自动识别和分析复杂光谱数据的系统。这种系统能够大大提高分析效率和准确性，为药物研发和材料科学提供了新的工具。</p>
+                        <a href="#" class="btn btn-outline-primary btn-sm">阅读更多</a>
+                    </div>
+                </div>
+                
+                <!-- 热门话题 4 -->
+                <div class="col-md-6">
+                    <div class="topic-card">
+                        <h3 class="mb-2">单细胞分析技术的进展</h3>
+                        <p class="text-muted mb-3">2026年1月15日</p>
+                        <p>化学家开发出一种高灵敏度的单细胞分析技术，能够检测单个细胞内的代谢产物和信号分子。这种技术为生物学研究和医学诊断提供了新的视角，有助于理解细胞异质性和疾病发生机制。</p>
+                        <a href="#" class="btn btn-outline-primary btn-sm">阅读更多</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 分析化学应用 -->
+        <section class="section mb-6">
+            <h2 class="section-title">分析化学应用</h2>
+            <p class="text-center text-muted mb-4">探索分析化学在现代社会中的广泛应用</p>
+            
+            <div class="row">
+                <!-- 医药领域 -->
+                <div class="col-md-4">
+                    <div class="analytical-card card">
+                        <div class="card-header">
+                            <h3 class="card-title">医药领域</h3>
+                        </div>
+                        <div class="card-body">
+                            <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=pharmaceutical%20analysis%20laboratory%20drug%20testing%20science&image_size=landscape_4_3" class="card-img-top mb-3" alt="医药领域">
+                            <p class="card-text">分析化学在医药领域的应用包括药物质量控制、药物代谢研究、临床检验等，确保药物的安全性和有效性。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 环境监测 -->
+                <div class="col-md-4">
+                    <div class="analytical-card card">
+                        <div class="card-header">
+                            <h3 class="card-title">环境监测</h3>
+                        </div>
+                        <div class="card-body">
+                            <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=environmental%20monitoring%20water%20air%20quality%20testing%20science&image_size=landscape_4_3" class="card-img-top mb-3" alt="环境监测">
+                            <p class="card-text">分析化学在环境监测中的应用包括水质分析、大气污染监测、土壤污染检测等，为环境保护提供科学依据。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 食品安全 -->
+                <div class="col-md-4">
+                    <div class="analytical-card card">
+                        <div class="card-header">
+                            <h3 class="card-title">食品安全</h3>
+                        </div>
+                        <div class="card-body">
+                            <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=food%20safety%20analysis%20laboratory%20testing%20science&image_size=landscape_4_3" class="card-img-top mb-3" alt="食品安全">
+                            <p class="card-text">分析化学在食品安全中的应用包括食品成分分析、农药残留检测、添加剂检测等，确保食品的质量和安全。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>关于项目</h3>
+                    <p>这是一个基于Spring Cloud的化学学习微服务项目，旨在通过微服务架构实现化学知识的管理和学习进度的跟踪。</p>
+                </div>
+                <div class="col-md-4">
+                    <h3>快速链接</h3>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html">首页</a></li>
+                        <li><a href="periodic-table.html">元素周期表</a></li>
+                        <li><a href="reactions.html">化学反应</a></li>
+                        <li><a href="forum.html">论坛</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h3>联系方式</h3>
+                    <p>如有问题或建议，请联系我们。</p>
+                    <p>Email: contact@example.com</p>
+                </div>
+            </div>
+            <div class="border-top border-gray-700 mt-4 pt-4 text-center">
+                <p>&copy; 2026 化学学习微服务项目. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.min.js"></script>
+    <script src="js/page-transition.js"></script>
+    <script>
+        // 分析化学模拟器
+        function simulateAnalysis() {
+            const analysisMethod = document.getElementById('analysis-method').value;
+            const sampleType = document.getElementById('sample-type').value;
+            const analyte = document.getElementById('analyte').value;
+            const resultContent = document.getElementById('result-content');
+            const visualizationContent = document.getElementById('visualization-content');
+            
+            if (!analysisMethod || !sampleType || !analyte) {
+                resultContent.innerHTML = '请选择分析方法、样品类型和分析物';
+                visualizationContent.innerHTML = '<p>选择分析参数后将显示分析过程的可视化效果</p>';
+                return;
+            }
+            
+            // 模拟分析
+            let analysisResult = '';
+            let analysisDescription = '';
+            let analysisVisualization = '';
+            let analysisMethodText = '';
+            
+            if (analysisMethod === 'uv-vis' && analyte === 'phenol') {
+                analysisResult = '苯酚浓度: 0.025 mg/L';
+                analysisDescription = '采用紫外-可见分光光度法，在270 nm波长处测定吸光度，通过标准曲线法计算苯酚浓度。';
+                analysisVisualization = '<div class="text-center"><img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=uv-visible%20spectrophotometer%20analysis%20graph%20spectrum%20scientific%20illustration&image_size=square" alt="紫外-可见分光光度法分析" class="img-fluid rounded" style="max-width: 300px;"></div>';
+                analysisMethodText = '紫外-可见分光光度法';
+            } else if (analysisMethod === 'aas' && analyte === 'copper') {
+                analysisResult = '铜离子浓度: 0.5 mg/L';
+                analysisDescription = '采用原子吸收光谱法，在324.8 nm波长处测定吸光度，通过标准曲线法计算铜离子浓度。';
+                analysisVisualization = '<div class="text-center"><img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=atomic%20absorption%20spectroscopy%20analysis%20graph%20scientific%20illustration&image_size=square" alt="原子吸收光谱法分析" class="img-fluid rounded" style="max-width: 300px;"></div>';
+                analysisMethodText = '原子吸收光谱法';
+            } else if (analysisMethod === 'gc' && analyte === 'caffeine') {
+                analysisResult = '咖啡因含量: 50 mg/100mL';
+                analysisDescription = '采用气相色谱法，使用火焰离子化检测器，通过外标法计算咖啡因含量。';
+                analysisVisualization = '<div class="text-center"><img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=gas%20chromatography%20chromatogram%20peaks%20scientific%20illustration&image_size=square" alt="气相色谱法分析" class="img-fluid rounded" style="max-width: 300px;"></div>';
+                analysisMethodText = '气相色谱法';
+            } else if (analysisMethod === 'hplc' && analyte === 'caffeine') {
+                analysisResult = '咖啡因含量: 48.5 mg/100mL';
+                analysisDescription = '采用高效液相色谱法，使用紫外检测器，通过外标法计算咖啡因含量。';
+                analysisVisualization = '<div class="text-center"><img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=high%20performance%20liquid%20chromatography%20chromatogram%20peaks%20scientific%20illustration&image_size=square" alt="高效液相色谱法分析" class="img-fluid rounded" style="max-width: 300px;"></div>';
+                analysisMethodText = '高效液相色谱法';
+            } else if (analysisMethod === 'titration' && analyte === 'glucose') {
+                analysisResult = '葡萄糖含量: 5.2 mmol/L';
+                analysisDescription = '采用酸碱滴定法，使用酚酞指示剂，通过消耗的标准溶液体积计算葡萄糖含量。';
+                analysisVisualization = '<div class="text-center"><img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=acid-base%20titration%20laboratory%20procedure%20color%20change%20scientific%20illustration&image_size=square" alt="酸碱滴定法分析" class="img-fluid rounded" style="max-width: 300px;"></div>';
+                analysisMethodText = '酸碱滴定法';
+            } else {
+                analysisResult = '分析结果: 未检测到';
+                analysisDescription = '所选分析方法可能不适合该分析物，或样品中分析物浓度低于检测限。';
+                analysisVisualization = '<div class="text-center"><p class="text-muted">无法显示该分析过程的可视化效果</p></div>';
+                analysisMethodText = '所选分析方法';
+            }
+            
+            resultContent.innerHTML = `
+                <strong>分析方法：</strong>${analysisMethodText}<br>
+                <strong>样品类型：</strong>${sampleType}<br>
+                <strong>分析物：</strong>${analyte}<br>
+                <strong>分析结果：</strong>${analysisResult}<br>
+                <strong>分析描述：</strong>${analysisDescription}
+            `;
+            
+            visualizationContent.innerHTML = analysisVisualization;
+        }
+    </script>
+</body>
+</html>

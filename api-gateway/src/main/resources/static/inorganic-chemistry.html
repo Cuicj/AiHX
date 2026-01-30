@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>无机化学 - 化学探索</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/page-transition.css">
+    <style>
+        /* 自定义样式 */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 120px 0 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,%3Csvg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z" fill="%23ffffff" fill-opacity="0.1" fill-rule="evenodd"%3E%3C/path%3E%3C/svg%3E');
+        }
+        .inorganic-card {
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .inorganic-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        .inorganic-card .card-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+        }
+        .reaction-formula {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.2rem;
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            text-align: center;
+        }
+        .interactive-section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        .simulator-container {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+        }
+        .nav-link {
+            transition: all 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #667eea !important;
+            transform: translateY(-2px);
+        }
+        .nav-link.active {
+            color: #667eea !important;
+            font-weight: bold;
+        }
+        .element-group {
+            background: linear-gradient(135deg, #fceabb 0%, #f8b500 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1rem 0;
+        }
+        .crystal-structure {
+            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1rem 0;
+            text-align: center;
+        }
+        .hot-topics {
+            background: #e3f2fd;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        .topic-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .topic-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- 页面过渡层 -->
+    <div class="transition-overlay"></div>
+    
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html" data-transition="fade">
+                <span style="color: #667eea; font-weight: bold;">Chem</span>Reactions
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html" data-transition="fade">首页</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="periodic-table.html" id="elementDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-transition="fade">
+                            元素世界
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="elementDropdown">
+                            <li><a class="dropdown-item" href="periodic-table.html" data-transition="fade">元素周期表</a></li>
+                            <li><a class="dropdown-item" href="element-discovery.html" data-transition="fade">元素发现历史</a></li>
+                            <li><a class="dropdown-item" href="element-categories.html" data-transition="fade">元素分类</a></li>
+                            <li><a class="dropdown-item" href="element-detail.html" data-transition="fade">元素详情</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="reactions.html" id="reactionDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-transition="fade">
+                            化学反应
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="reactionDropdown">
+                            <li><a class="dropdown-item" href="basic-reactions.html" data-transition="fade">基本反应类型</a></li>
+                            <li><a class="dropdown-item" href="redox-reactions.html" data-transition="fade">氧化还原反应</a></li>
+                            <li><a class="dropdown-item" href="acid-base-reactions.html" data-transition="fade">酸碱反应</a></li>
+                            <li><a class="dropdown-item" href="coordination-reactions.html" data-transition="fade">配位反应</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="inorganic-chemistry.html" id="chemistryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="true" data-transition="fade">
+                            化学分支
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="chemistryDropdown">
+                            <li><a class="dropdown-item" href="organic-chemistry.html" data-transition="fade">有机化学</a></li>
+                            <li><a class="dropdown-item active" href="inorganic-chemistry.html" data-transition="fade">无机化学</a></li>
+                            <li><a class="dropdown-item" href="analytical-chemistry.html" data-transition="fade">分析化学</a></li>
+                            <li><a class="dropdown-item" href="physical-chemistry.html" data-transition="fade">物理化学</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="applicationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-transition="fade">
+                            应用化学
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="applicationDropdown">
+                            <li><a class="dropdown-item" href="#" data-transition="fade">环境化学</a></li>
+                            <li><a class="dropdown-item" href="#" data-transition="fade">医药化学</a></li>
+                            <li><a class="dropdown-item" href="#" data-transition="fade">材料化学</a></li>
+                            <li><a class="dropdown-item" href="#" data-transition="fade">能源化学</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-transition="fade">学习资源</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="ai-assistant.html" data-transition="fade">AI助手</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="forum.html" data-transition="fade">论坛</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html" data-transition="fade">登录/注册</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 英雄区 -->
+    <section class="hero-section">
+        <div class="container">
+            <h1 class="display-4 mb-4">无机化学</h1>
+            <p class="lead mb-6">探索无机化合物的结构、性质和反应，从金属到非金属的广阔领域</p>
+            <a href="#explore" class="btn btn-primary btn-lg">开始探索</a>
+        </div>
+    </section>
+
+    <!-- 主要内容 -->
+    <div class="container" id="explore">
+        <!-- 无机化学概述 -->
+        <section class="section mb-6">
+            <h2 class="section-title">无机化学概述</h2>
+            <p class="text-center text-muted mb-4">了解无机化学的基本概念和研究领域</p>
+            
+            <div class="card mb-4">
+                <div class="card-body">
+                    <p>无机化学是研究无机化合物的化学分支，主要关注不含碳-碳键的化合物，包括金属、非金属、盐类、酸、碱等。无机化学是化学学科的重要基础，与材料科学、环境科学、医药学等多个领域密切相关。</p>
+                    
+                    <h3 class="mt-4 mb-3">无机化学的研究领域</h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="bi bi-check-circle text-primary"></i> 元素化学：研究各种元素的性质和行为</li>
+                                <li class="mb-2"><i class="bi bi-check-circle text-primary"></i> 配位化学：研究金属配合物的结构和性质</li>
+                                <li class="mb-2"><i class="bi bi-check-circle text-primary"></i> 固体化学：研究固体材料的结构和性质</li>
+                                <li class="mb-2"><i class="bi bi-check-circle text-primary"></i> 无机合成：开发新的无机化合物和材料</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="bi bi-check-circle text-primary"></i> 无机反应机理：研究无机反应的过程和机制</li>
+                                <li class="mb-2"><i class="bi bi-check-circle text-primary"></i> 生物无机化学：研究生物体内的无机元素和化合物</li>
+                                <li class="mb-2"><i class="bi bi-check-circle text-primary"></i> 环境无机化学：研究环境中的无机污染物</li>
+                                <li class="mb-2"><i class="bi bi-check-circle text-primary"></i> 材料无机化学：开发新型无机功能材料</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 元素分类 -->
+        <section class="section mb-6">
+            <h2 class="section-title">无机元素分类</h2>
+            <p class="text-center text-muted mb-4">探索不同类型的无机元素</p>
+            
+            <div class="row">
+                <!-- 金属元素 -->
+                <div class="col-md-4">
+                    <div class="inorganic-card card">
+                        <div class="card-header">
+                            <h3 class="card-title">金属元素</h3>
+                        </div>
+                        <div class="card-body">
+                            <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=metallic%20elements%20periodic%20table%20shiny%20metals%20science%20education&image_size=landscape_4_3" class="card-img-top mb-3" alt="金属元素">
+                            <p class="card-text">金属元素具有良好的导电性、导热性和延展性，在周期表中占大多数。包括碱金属、碱土金属、过渡金属等。</p>
+                            <h4 class="mt-3">典型金属</h4>
+                            <ul class="list-unstyled">
+                                <li class="mb-1"><i class="bi bi-dot text-primary"></i> 钠 (Na)</li>
+                                <li class="mb-1"><i class="bi bi-dot text-primary"></i> 铁 (Fe)</li>
+                                <li class="mb-1"><i class="bi bi-dot text-primary"></i> 铜 (Cu)</li>
+                                <li class="mb-1"><i class="bi bi-dot text-primary"></i> 金 (Au)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 非金属元素 -->
+                <div class="col-md-4">
+                    <div class="inorganic-card card">
+                        <div class="card-header">
+                            <h3 class="card-title">非金属元素</h3>
+                        </div>
+                        <div class="card-body">
+                            <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=non-metallic%20elements%20periodic%20table%20gases%20solids%20science%20education&image_size=landscape_4_3" class="card-img-top mb-3" alt="非金属元素">
+                            <p class="card-text">非金属元素通常具有较低的导电性和导热性，在周期表右上角。包括卤素、稀有气体、碳、氮、氧等。</p>
+                            <h4 class="mt-3">典型非金属</h4>
+                            <ul class="list-unstyled">
+                                <li class="mb-1"><i class="bi bi-dot text-primary"></i> 氧 (O)</li>
+                                <li class="mb-1"><i class="bi bi-dot text-primary"></i> 氯 (Cl)</li>
+                                <li class="mb-1"><i class="bi bi-dot text-primary"></i> 硫 (S)</li>
+                                <li class="mb-1"><i class="bi bi-dot text-primary"></i> 氮 (N)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 半金属元素 -->
+                <div class="col-md-4">
+                    <div class="inorganic-card card">
+                        <div class="card-header">
+                            <h3 class="card-title">半金属元素</h3>
+                        </div>
+                        <div class="card-body">
+                            <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=metalloid%20elements%20periodic%20table%20semiconductors%20science%20education&image_size=landscape_4_3" class="card-img-top mb-3" alt="半金属元素">
+                            <p class="card-text">半金属元素具有金属和非金属的中间性质，是重要的半导体材料。位于金属和非金属的交界处。</p>
+                            <h4 class="mt-3">典型半金属</h4>
+                            <ul class="list-unstyled">
+                                <li class="mb-1"><i class="bi bi-dot text-primary"></i> 硅 (Si)</li>
+                                <li class="mb-1"><i class="bi bi-dot text-primary"></i> 锗 (Ge)</li>
+                                <li class="mb-1"><i class="bi bi-dot text-primary"></i> 砷 (As)</li>
+                                <li class="mb-1"><i class="bi bi-dot text-primary"></i> 锑 (Sb)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 互动性内容 -->
+        <section class="interactive-section">
+            <h2 class="section-title">互动实验室</h2>
+            <p class="text-center text-muted mb-4">亲自动手探索无机化学反应的奥秘</p>
+            
+            <div class="simulator-container">
+                <h3 class="mb-4">无机化学反应模拟器</h3>
+                <p>选择反应物，观察化学反应的过程和结果：</p>
+                
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="reactant1" class="form-label">反应物 1</label>
+                            <select class="form-select" id="reactant1">
+                                <option value="">选择物质</option>
+                                <option value="NaCl">氯化钠 (NaCl)</option>
+                                <option value="CuSO4">硫酸铜 (CuSO₄)</option>
+                                <option value="NaOH">氢氧化钠 (NaOH)</option>
+                                <option value="HCl">盐酸 (HCl)</option>
+                                <option value="AgNO3">硝酸银 (AgNO₃)</option>
+                                <option value="Fe">铁 (Fe)</option>
+                                <option value="Zn">锌 (Zn)</option>
+                                <option value="Mg">镁 (Mg)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="reactant2" class="form-label">反应物 2</label>
+                            <select class="form-select" id="reactant2">
+                                <option value="">选择物质</option>
+                                <option value="AgNO3">硝酸银 (AgNO₃)</option>
+                                <option value="NaOH">氢氧化钠 (NaOH)</option>
+                                <option value="HCl">盐酸 (HCl)</option>
+                                <option value="H2SO4">硫酸 (H₂SO₄)</option>
+                                <option value="CuSO4">硫酸铜 (CuSO₄)</option>
+                                <option value="O2">氧气 (O₂)</option>
+                                <option value="Cl2">氯气 (Cl₂)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="reaction-type" class="form-label">反应类型</label>
+                    <select class="form-select" id="reaction-type">
+                        <option value="all">所有反应类型</option>
+                        <option value="precipitation">沉淀反应</option>
+                        <option value="acid-base">酸碱反应</option>
+                        <option value="redox">氧化还原反应</option>
+                        <option value="complexation">配位反应</option>
+                    </select>
+                </div>
+                
+                <button class="btn btn-primary mb-4" onclick="simulateInorganicReaction()">模拟反应</button>
+                
+                <div id="reaction-result" class="mt-4">
+                    <h4>反应结果</h4>
+                    <div id="result-content" class="reaction-formula">
+                        请选择反应物并点击模拟反应按钮
+                    </div>
+                    <div id="reaction-visualization" class="mt-4 p-4 bg-light rounded-lg">
+                        <h5>反应可视化</h5>
+                        <div id="visualization-content" class="text-center py-4">
+                            <p>选择反应物后将显示反应过程的可视化效果</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 热门无机化学信息 -->
+        <section class="hot-topics mb-6">
+            <h2 class="section-title">热门无机化学信息</h2>
+            <p class="text-center text-muted mb-4">了解最新的无机化学研究和应用</p>
+            
+            <div class="row">
+                <!-- 热门话题 1 -->
+                <div class="col-md-6">
+                    <div class="topic-card">
+                        <h3 class="mb-2">新型高效催化剂的开发</h3>
+                        <p class="text-muted mb-3">2026年1月28日</p>
+                        <p>研究人员开发出一种基于过渡金属的新型催化剂，能够显著提高氢气生产效率，为清洁能源发展提供了新途径。该催化剂具有高稳定性和选择性，可重复使用多次。</p>
+                        <a href="#" class="btn btn-outline-primary btn-sm">阅读更多</a>
+                    </div>
+                </div>
+                
+                <!-- 热门话题 2 -->
+                <div class="col-md-6">
+                    <div class="topic-card">
+                        <h3 class="mb-2">无机钙钛矿材料的突破</h3>
+                        <p class="text-muted mb-3">2026年1月25日</p>
+                        <p>科学家开发出一种新型无机钙钛矿材料，具有优异的光电性能和稳定性，有望应用于太阳能电池和光电器件。这种材料解决了传统钙钛矿材料的稳定性问题。</p>
+                        <a href="#" class="btn btn-outline-primary btn-sm">阅读更多</a>
+                    </div>
+                </div>
+                
+                <!-- 热门话题 3 -->
+                <div class="col-md-6">
+                    <div class="topic-card">
+                        <h3 class="mb-2">新型超导材料的发现</h3>
+                        <p class="text-muted mb-3">2026年1月20日</p>
+                        <p>研究团队发现了一种在较高温度下表现出超导特性的无机材料，这一突破可能彻底改变能源传输和存储领域。该材料基于氢化物体系，在较低压力下实现了高温超导。</p>
+                        <a href="#" class="btn btn-outline-primary btn-sm">阅读更多</a>
+                    </div>
+                </div>
+                
+                <!-- 热门话题 4 -->
+                <div class="col-md-6">
+                    <div class="topic-card">
+                        <h3 class="mb-2">无机纳米材料在医学中的应用</h3>
+                        <p class="text-muted mb-3">2026年1月15日</p>
+                        <p>化学家开发出一种基于无机纳米粒子的药物递送系统，能够精确靶向癌细胞，提高治疗效果并减少副作用。这种系统利用了纳米粒子的独特物理化学性质。</p>
+                        <a href="#" class="btn btn-outline-primary btn-sm">阅读更多</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 无机材料应用 -->
+        <section class="section mb-6">
+            <h2 class="section-title">无机材料应用</h2>
+            <p class="text-center text-muted mb-4">探索无机化学在现代社会中的广泛应用</p>
+            
+            <div class="row">
+                <!-- 材料科学 -->
+                <div class="col-md-4">
+                    <div class="inorganic-card card">
+                        <div class="card-header">
+                            <h3 class="card-title">材料科学</h3>
+                        </div>
+                        <div class="card-body">
+                            <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=advanced%20materials%20science%20ceramics%20metals%20nanomaterials&image_size=landscape_4_3" class="card-img-top mb-3" alt="材料科学">
+                            <p class="card-text">无机化学在材料科学中发挥着重要作用，包括陶瓷、金属合金、半导体材料等的开发和应用。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 能源领域 -->
+                <div class="col-md-4">
+                    <div class="inorganic-card card">
+                        <div class="card-header">
+                            <h3 class="card-title">能源领域</h3>
+                        </div>
+                        <div class="card-body">
+                            <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=renewable%20energy%20solar%20cells%20batteries%20fuel%20cells&image_size=landscape_4_3" class="card-img-top mb-3" alt="能源领域">
+                            <p class="card-text">无机化学在能源领域的应用包括太阳能电池、燃料电池、锂电池等新型能源材料的开发。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 环境科学 -->
+                <div class="col-md-4">
+                    <div class="inorganic-card card">
+                        <div class="card-header">
+                            <h3 class="card-title">环境科学</h3>
+                        </div>
+                        <div class="card-body">
+                            <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=environmental%20science%20water%20purification%20air%20quality%20pollution%20control&image_size=landscape_4_3" class="card-img-top mb-3" alt="环境科学">
+                            <p class="card-text">无机化学在环境科学中的应用包括水污染治理、大气污染控制、固体废物处理等领域。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>关于项目</h3>
+                    <p>这是一个基于Spring Cloud的化学学习微服务项目，旨在通过微服务架构实现化学知识的管理和学习进度的跟踪。</p>
+                </div>
+                <div class="col-md-4">
+                    <h3>快速链接</h3>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html">首页</a></li>
+                        <li><a href="periodic-table.html">元素周期表</a></li>
+                        <li><a href="reactions.html">化学反应</a></li>
+                        <li><a href="forum.html">论坛</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h3>联系方式</h3>
+                    <p>如有问题或建议，请联系我们。</p>
+                    <p>Email: contact@example.com</p>
+                </div>
+            </div>
+            <div class="border-top border-gray-700 mt-4 pt-4 text-center">
+                <p>&copy; 2026 化学学习微服务项目. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.min.js"></script>
+    <script src="js/page-transition.js"></script>
+    <script>
+        // 无机化学反应模拟器
+        function simulateInorganicReaction() {
+            const reactant1 = document.getElementById('reactant1').value;
+            const reactant2 = document.getElementById('reactant2').value;
+            const reactionType = document.getElementById('reaction-type').value;
+            const resultContent = document.getElementById('result-content');
+            const visualizationContent = document.getElementById('visualization-content');
+            
+            if (!reactant1 || !reactant2) {
+                resultContent.innerHTML = '请选择两种反应物';
+                visualizationContent.innerHTML = '<p>选择反应物后将显示反应过程的可视化效果</p>';
+                return;
+            }
+            
+            // 模拟反应
+            let reactionEquation = '';
+            let reactionDescription = '';
+            let reactionVisualization = '';
+            let reactionTypeText = '';
+            
+            if (reactant1 === 'NaCl' && reactant2 === 'AgNO3') {
+                reactionEquation = 'NaCl + AgNO₃ → AgCl↓ + NaNO₃';
+                reactionDescription = '氯化钠与硝酸银反应生成白色的氯化银沉淀和硝酸钠。这是一个典型的沉淀反应。';
+                reactionVisualization = '<div class="text-center"><img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=sodium%20chloride%20reacting%20with%20silver%20nitrate%20forming%20white%20silver%20chloride%20precipitate%2C%20scientific%20illustration&image_size=square" alt="氯化钠与硝酸银反应" class="img-fluid rounded" style="max-width: 300px;"></div>';
+                reactionTypeText = '沉淀反应、复分解反应';
+            } else if (reactant1 === 'CuSO4' && reactant2 === 'NaOH') {
+                reactionEquation = 'CuSO₄ + 2NaOH → Cu(OH)₂↓ + Na₂SO₄';
+                reactionDescription = '硫酸铜与氢氧化钠反应生成蓝色的氢氧化铜沉淀和硫酸钠。这是一个典型的沉淀反应。';
+                reactionVisualization = '<div class="text-center"><img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=copper%20sulfate%20reacting%20with%20sodium%20hydroxide%20forming%20blue%20copper%20hydroxide%20precipitate%2C%20scientific%20illustration&image_size=square" alt="硫酸铜与氢氧化钠反应" class="img-fluid rounded" style="max-width: 300px;"></div>';
+                reactionTypeText = '沉淀反应、复分解反应';
+            } else if (reactant1 === 'NaOH' && reactant2 === 'HCl') {
+                reactionEquation = 'NaOH + HCl → NaCl + H₂O';
+                reactionDescription = '氢氧化钠与盐酸发生中和反应，生成氯化钠和水。这是一个典型的酸碱反应。';
+                reactionVisualization = '<div class="text-center"><img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=acid-base%20neutralization%20reaction%20between%20sodium%20hydroxide%20and%20hydrochloric%20acid%2C%20scientific%20illustration&image_size=square" alt="氢氧化钠与盐酸反应" class="img-fluid rounded" style="max-width: 300px;"></div>';
+                reactionTypeText = '酸碱反应、复分解反应';
+            } else if (reactant1 === 'Fe' && reactant2 === 'CuSO4') {
+                reactionEquation = 'Fe + CuSO₄ → FeSO₄ + Cu';
+                reactionDescription = '铁与硫酸铜反应，铁置换出铜离子，生成硫酸亚铁和铜单质。溶液颜色从蓝色变为浅绿色。';
+                reactionVisualization = '<div class="text-center"><img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=iron%20reacting%20with%20copper%20sulfate%20forming%20copper%20metal%20and%20green%20solution%2C%20scientific%20illustration&image_size=square" alt="铁与硫酸铜反应" class="img-fluid rounded" style="max-width: 300px;"></div>';
+                reactionTypeText = '置换反应、氧化还原反应';
+            } else if (reactant1 === 'Zn' && reactant2 === 'HCl') {
+                reactionEquation = 'Zn + 2HCl → ZnCl₂ + H₂↑';
+                reactionDescription = '锌与盐酸反应生成氯化锌和氢气。这是一个典型的置换反应，也是金属与酸的反应。';
+                reactionVisualization = '<div class="text-center"><img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=zinc%20reacting%20with%20hydrochloric%20acid%20producing%20hydrogen%20bubbles%2C%20scientific%20illustration&image_size=square" alt="锌与盐酸反应" class="img-fluid rounded" style="max-width: 300px;"></div>';
+                reactionTypeText = '置换反应、氧化还原反应';
+            } else if (reactant1 === 'Mg' && reactant2 === 'O2') {
+                reactionEquation = '2Mg + O₂ → 2MgO';
+                reactionDescription = '镁在氧气中燃烧生成氧化镁，发出耀眼的白光。这是一个典型的化合反应，也是氧化还原反应。';
+                reactionVisualization = '<div class="text-center"><img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=magnesium%20burning%20in%20oxygen%20with%20bright%20white%20light%2C%20scientific%20illustration&image_size=square" alt="镁在氧气中燃烧" class="img-fluid rounded" style="max-width: 300px;"></div>';
+                reactionTypeText = '化合反应、氧化还原反应';
+            } else {
+                reactionEquation = reactant1 + ' + ' + reactant2 + ' → ?';
+                reactionDescription = '这些物质之间可能不会发生反应，或者需要特定的条件。';
+                reactionVisualization = '<div class="text-center"><p class="text-muted">无法显示该反应的可视化效果</p></div>';
+                reactionTypeText = '未知反应类型';
+            }
+            
+            resultContent.innerHTML = `
+                <strong>反应方程式：</strong>${reactionEquation}<br>
+                <strong>反应类型：</strong>${reactionTypeText}<br>
+                <strong>反应描述：</strong>${reactionDescription}
+            `;
+            
+            visualizationContent.innerHTML = reactionVisualization;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>化学反应 - 化学探索</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/page-transition.css">
+    <style>
+        /* 自定义样式 */
+        .reaction-card {
+            transition: all 0.3s ease;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .reaction-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .reaction-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .interactive-section {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .reaction-simulator {
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .reaction-equation {
+            font-family: 'Courier New', monospace;
+            font-size: 1.2rem;
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+        }
+        
+        .hot-topics {
+            background-color: #e3f2fd;
+            border-radius: 10px;
+            padding: 2rem;
+        }
+        
+        .topic-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .topic-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-explore {
+            background-color: #1976d2;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-explore:hover {
+            background-color: #1565c0;
+            transform: translateY(-2px);
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4rem 0;
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- 页面过渡层 -->
+    <div class="transition-overlay"></div>
+    
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html" data-transition="fade">
+                <span class="logo-text">化学探索</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html" data-transition="fade">首页</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="elementDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            元素世界
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="elementDropdown">
+                            <li><a class="dropdown-item" href="periodic-table.html" data-transition="fade">元素周期表</a></li>
+                            <li><a class="dropdown-item" href="element-discovery.html" data-transition="fade">元素发现历史</a></li>
+                            <li><a class="dropdown-item" href="element-categories.html" data-transition="fade">元素分类</a></li>
+                            <li><a class="dropdown-item" href="element-detail.html" data-transition="fade">元素详情</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="reactions.html" id="reactionDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="true" data-transition="fade">
+                            化学反应
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="reactionDropdown">
+                            <li><a class="dropdown-item" href="basic-reactions.html" data-transition="fade">基本反应类型</a></li>
+                            <li><a class="dropdown-item" href="redox-reactions.html" data-transition="fade">氧化还原反应</a></li>
+                            <li><a class="dropdown-item" href="acid-base-reactions.html" data-transition="fade">酸碱反应</a></li>
+                            <li><a class="dropdown-item" href="coordination-reactions.html" data-transition="fade">配位反应</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="chemistryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            化学分支
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="chemistryDropdown">
+                            <li><a class="dropdown-item" href="organic-chemistry.html" data-transition="fade">有机化学</a></li>
+                            <li><a class="dropdown-item" href="inorganic-chemistry.html" data-transition="fade">无机化学</a></li>
+                            <li><a class="dropdown-item" href="analytical-chemistry.html" data-transition="fade">分析化学</a></li>
+                            <li><a class="dropdown-item" href="physical-chemistry.html" data-transition="fade">物理化学</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="applicationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            应用化学
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="applicationDropdown">
+                            <li><a class="dropdown-item" href="#" data-transition="fade">环境化学</a></li>
+                            <li><a class="dropdown-item" href="#" data-transition="fade">医药化学</a></li>
+                            <li><a class="dropdown-item" href="#" data-transition="fade">材料化学</a></li>
+                            <li><a class="dropdown-item" href="#" data-transition="fade">能源化学</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-transition="fade">学习资源</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="ai-assistant.html" data-transition="fade">AI助手</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="forum.html" data-transition="fade">论坛</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html" data-transition="fade">登录/注册</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <h1 class="display-4 mb-4">化学反应</h1>
+            <p class="lead mb-6">探索物质变化的奥秘，从基础反应到复杂化学过程</p>
+            <a href="#explore" class="btn btn-explore">开始探索</a>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container" id="explore">
+        <!-- 化学反应概述 -->
+        <section class="section mb-6">
+            <h2 class="section-title">化学反应概述</h2>
+            <p class="text-center text-muted mb-4">了解化学反应的基本概念和重要性</p>
+            
+            <div class="card mb-4">
+                <div class="card-body">
+                    <p>化学反应是物质之间发生的转化过程，涉及原子的重新组合和化学键的断裂与形成。在这个过程中，反应物转化为产物，同时伴随着能量的变化。化学反应是化学学科的核心内容，也是理解物质世界变化的基础。</p>
+                    
+                    <h3 class="mt-4 mb-3">化学反应的特征</h3>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="bi bi-check-circle text-success"></i> 新物质的生成</li>
+                        <li class="mb-2"><i class="bi bi-check-circle text-success"></i> 化学键的断裂与形成</li>
+                        <li class="mb-2"><i class="bi bi-check-circle text-success"></i> 能量的吸收或释放</li>
+                        <li class="mb-2"><i class="bi bi-check-circle text-success"></i> 质量守恒定律的遵循</li>
+                        <li class="mb-2"><i class="bi bi-check-circle text-success"></i> 原子种类和数量的守恒</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 化学反应分类 -->
+        <section class="section mb-6">
+            <h2 class="section-title">化学反应分类</h2>
+            <p class="text-center text-muted mb-4">探索不同类型的化学反应</p>
+            
+            <div class="row">
+                <!-- 基本反应类型 -->
+                <div class="col-md-3">
+                    <div class="reaction-card card">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=basic%20chemical%20reactions%20experiment%20science%20education&image_size=landscape_4_3" class="card-img-top" alt="基本反应类型">
+                        <div class="card-body text-center">
+                            <div class="reaction-icon">⚗️</div>
+                            <h3 class="card-title">基本反应类型</h3>
+                            <p class="card-text">化合反应、分解反应、置换反应、复分解反应</p>
+                            <a href="basic-reactions.html" class="btn btn-primary">了解更多</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 氧化还原反应 -->
+                <div class="col-md-3">
+                    <div class="reaction-card card">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=redox%20reaction%20electron%20transfer%20chemistry&image_size=landscape_4_3" class="card-img-top" alt="氧化还原反应">
+                        <div class="card-body text-center">
+                            <div class="reaction-icon">⚡</div>
+                            <h3 class="card-title">氧化还原反应</h3>
+                            <p class="card-text">电子转移、氧化数变化、电化学应用</p>
+                            <a href="redox-reactions.html" class="btn btn-primary">了解更多</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 酸碱反应 -->
+                <div class="col-md-3">
+                    <div class="reaction-card card">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=acid%20base%20reaction%20ph%20indicator%20chemistry&image_size=landscape_4_3" class="card-img-top" alt="酸碱反应">
+                        <div class="card-body text-center">
+                            <div class="reaction-icon">🧪</div>
+                            <h3 class="card-title">酸碱反应</h3>
+                            <p class="card-text">质子转移、pH值、酸碱滴定、缓冲溶液</p>
+                            <a href="acid-base-reactions.html" class="btn btn-primary">了解更多</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 配位反应 -->
+                <div class="col-md-3">
+                    <div class="reaction-card card">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=coordination%20complex%20chemistry%20transition%20metals&image_size=landscape_4_3" class="card-img-top" alt="配位反应">
+                        <div class="card-body text-center">
+                            <div class="reaction-icon">🔄</div>
+                            <h3 class="card-title">配位反应</h3>
+                            <p class="card-text">配位化合物、配体、中心离子、配位键</p>
+                            <a href="coordination-reactions.html" class="btn btn-primary">了解更多</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 互动性内容 -->
+        <section class="interactive-section">
+            <h2 class="section-title">互动实验室</h2>
+            <p class="text-center text-muted mb-4">亲自动手探索化学反应的奥秘</p>
+            
+            <div class="reaction-simulator">
+                <h3 class="mb-4">化学反应模拟器</h3>
+                <p>选择反应物，观察化学反应的过程和结果：</p>
+                
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="reactant1" class="form-label">反应物 1</label>
+                            <select class="form-select" id="reactant1">
+                                <option value="">选择物质</option>
+                                <option value="H2">氢气 (H₂)</option>
+                                <option value="O2">氧气 (O₂)</option>
+                                <option value="Fe">铁 (Fe)</option>
+                                <option value="Cu">铜 (Cu)</option>
+                                <option value="Zn">锌 (Zn)</option>
+                                <option value="NaOH">氢氧化钠 (NaOH)</option>
+                                <option value="HCl">盐酸 (HCl)</option>
+                                <option value="H2SO4">硫酸 (H₂SO₄)</option>
+                                <option value="CuSO4">硫酸铜 (CuSO₄)</option>
+                                <option value="AgNO3">硝酸银 (AgNO₃)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="reactant2" class="form-label">反应物 2</label>
+                            <select class="form-select" id="reactant2">
+                                <option value="">选择物质</option>
+                                <option value="O2">氧气 (O₂)</option>
+                                <option value="Cl2">氯气 (Cl₂)</option>
+                                <option value="HCl">盐酸 (HCl)</option>
+                                <option value="H2SO4">硫酸 (H₂SO₄)</option>
+                                <option value="CuSO4">硫酸铜 (CuSO₄)</option>
+                                <option value="AgNO3">硝酸银 (AgNO₃)</option>
+                                <option value="NaOH">氢氧化钠 (NaOH)</option>
+                                <option value="KOH">氢氧化钾 (KOH)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="reaction-type" class="form-label">反应类型</label>
+                    <select class="form-select" id="reaction-type">
+                        <option value="all">所有反应类型</option>
+                        <option value="combination">化合反应</option>
+                        <option value="decomposition">分解反应</option>
+                        <option value="single-replacement">置换反应</option>
+                        <option value="double-replacement">复分解反应</option>
+                        <option value="redox">氧化还原反应</option>
+                    </select>
+                </div>
+                
+                <button class="btn btn-primary mb-4" onclick="simulateReaction()">模拟反应</button>
+                
+                <div id="reaction-result" class="mt-4">
+                    <h4>反应结果</h4>
+                    <div id="result-content" class="reaction-equation">
+                        请选择反应物并点击模拟反应按钮
+                    </div>
+                    <div id="reaction-visualization" class="mt-4 p-4 bg-light rounded-lg">
+                        <h5>反应可视化</h5>
+                        <div id="visualization-content" class="text-center py-4">
+                            <p>选择反应物后将显示反应过程的可视化效果</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 热门化学信息 -->
+        <section class="hot-topics mb-6">
+            <h2 class="section-title">热门化学信息</h2>
+            <p class="text-center text-muted mb-4">了解最新的化学研究和应用</p>
+            
+            <div class="row">
+                <!-- 热门话题 1 -->
+                <div class="col-md-6">
+                    <div class="topic-card">
+                        <h3 class="mb-2">新型催化剂加速二氧化碳转化</h3>
+                        <p class="text-muted mb-3">2026年1月28日</p>
+                        <p>科学家开发出一种新型催化剂，能够高效将二氧化碳转化为有用的化学品，为应对气候变化提供了新的解决方案。该催化剂基于金属有机框架材料，具有高选择性和稳定性。</p>
+                        <a href="#" class="btn btn-outline-primary btn-sm">阅读更多</a>
+                    </div>
+                </div>
+                
+                <!-- 热门话题 2 -->
+                <div class="col-md-6">
+                    <div class="topic-card">
+                        <h3 class="mb-2">量子计算机模拟复杂化学反应</h3>
+                        <p class="text-muted mb-3">2026年1月25日</p>
+                        <p>研究人员使用量子计算机成功模拟了复杂的化学反应过程，为药物研发和材料科学开辟了新的可能性。这一突破使得科学家能够预测和设计以前无法研究的化学反应。</p>
+                        <a href="#" class="btn btn-outline-primary btn-sm">阅读更多</a>
+                    </div>
+                </div>
+                
+                <!-- 热门话题 3 -->
+                <div class="col-md-6">
+                    <div class="topic-card">
+                        <h3 class="mb-2">可降解塑料的新突破</h3>
+                        <p class="text-muted mb-3">2026年1月20日</p>
+                        <p>化学家开发出一种完全可降解的塑料替代品，在自然环境中仅需数月即可完全分解，解决了白色污染问题。这种材料基于植物纤维和生物酶，具有与传统塑料相似的性能。</p>
+                        <a href="#" class="btn btn-outline-primary btn-sm">阅读更多</a>
+                    </div>
+                </div>
+                
+                <!-- 热门话题 4 -->
+                <div class="col-md-6">
+                    <div class="topic-card">
+                        <h3 class="mb-2">室温超导材料的新发现</h3>
+                        <p class="text-muted mb-3">2026年1月15日</p>
+                        <p>科学家发现了一种在室温下表现出超导特性的材料，这一突破可能彻底改变能源传输和存储领域。该材料基于氢化物体系，在高压下实现了室温超导。</p>
+                        <a href="#" class="btn btn-outline-primary btn-sm">阅读更多</a>
+                    </div>
+                </div>
+                
+                <!-- 热门话题 5 -->
+                <div class="col-md-6">
+                    <div class="topic-card">
+                        <h3 class="mb-2">生物启发的新型传感器</h3>
+                        <p class="text-muted mb-3">2026年1月10日</p>
+                        <p>研究人员开发出一种基于生物分子的新型传感器，能够快速检测环境中的有害物质和疾病 biomarkers。这种传感器利用了酶的高度选择性和敏感性。</p>
+                        <a href="#" class="btn btn-outline-primary btn-sm">阅读更多</a>
+                    </div>
+                </div>
+                
+                <!-- 热门话题 6 -->
+                <div class="col-md-6">
+                    <div class="topic-card">
+                        <h3 class="mb-2">绿色氢能生产的新方法</h3>
+                        <p class="text-muted mb-3">2026年1月5日</p>
+                        <p>化学家开发出一种高效的光催化水分解方法，能够利用太阳能生产绿色氢能。这种方法使用新型半导体材料，提高了光吸收效率和电荷分离能力。</p>
+                        <a href="#" class="btn btn-outline-primary btn-sm">阅读更多</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 化学实验安全 -->
+        <section class="section mb-6">
+            <h2 class="section-title">化学实验安全</h2>
+            <p class="text-center text-muted mb-4">了解实验室安全知识，保障实验安全</p>
+            
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="mb-3">实验室安全规则</h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="bi bi-shield-check text-primary"></i> 始终佩戴防护眼镜和实验服</li>
+                                <li class="mb-2"><i class="bi bi-shield-check text-primary"></i> 了解实验中使用的化学品的危险性</li>
+                                <li class="mb-2"><i class="bi bi-shield-check text-primary"></i> 遵循实验步骤，不要随意更改</li>
+                                <li class="mb-2"><i class="bi bi-shield-check text-primary"></i> 保持实验室整洁，避免杂物堆积</li>
+                                <li class="mb-2"><i class="bi bi-shield-check text-primary"></i> 知道紧急洗眼器和灭火器的位置</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="bi bi-shield-check text-primary"></i> 不要在实验室进食或饮水</li>
+                                <li class="mb-2"><i class="bi bi-shield-check text-primary"></i> 正确处理实验废弃物</li>
+                                <li class="mb-2"><i class="bi bi-shield-check text-primary"></i> 实验结束后彻底清洗实验器材</li>
+                                <li class="mb-2"><i class="bi bi-shield-check text-primary"></i> 如有意外，立即报告老师或实验室管理员</li>
+                                <li class="mb-2"><i class="bi bi-shield-check text-primary"></i> 熟悉急救程序和联系方式</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>关于项目</h3>
+                    <p>这是一个基于Spring Cloud的化学学习微服务项目，旨在通过微服务架构实现化学知识的管理和学习进度的跟踪。</p>
+                </div>
+                <div class="col-md-4">
+                    <h3>快速链接</h3>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html">首页</a></li>
+                        <li><a href="periodic-table.html">元素周期表</a></li>
+                        <li><a href="reactions.html">化学反应</a></li>
+                        <li><a href="forum.html">论坛</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h3>联系方式</h3>
+                    <p>如有问题或建议，请联系我们。</p>
+                    <p>Email: contact@example.com</p>
+                </div>
+            </div>
+            <div class="border-top border-gray-700 mt-4 pt-4 text-center">
+                <p>&copy; 2026 化学学习微服务项目. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.min.js"></script>
+    <script>
+        // 化学反应模拟器
+        function simulateReaction() {
+            const reactant1 = document.getElementById('reactant1').value;
+            const reactant2 = document.getElementById('reactant2').value;
+            const reactionType = document.getElementById('reaction-type').value;
+            const resultContent = document.getElementById('result-content');
+            const visualizationContent = document.getElementById('visualization-content');
+            
+            if (!reactant1 || !reactant2) {
+                resultContent.innerHTML = '请选择两种反应物';
+                visualizationContent.innerHTML = '<p>选择反应物后将显示反应过程的可视化效果</p>';
+                return;
+            }
+            
+            // 模拟反应
+            let reactionEquation = '';
+            let reactionDescription = '';
+            let reactionVisualization = '';
+            let reactionTypeText = '';
+            
+            if (reactant1 === 'H2' && reactant2 === 'O2') {
+                reactionEquation = '2H₂ + O₂ → 2H₂O';
+                reactionDescription = '氢气和氧气反应生成水，这是一个放热反应，也是燃料电池的基础反应。';
+                reactionVisualization = '<div class="text-center"><img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=hydrogen%20and%20oxygen%20reaction%20forming%20water%20molecules%2C%20molecular%20visualization%2C%20scientific%20illustration&image_size=square" alt="氢气氧气反应" class="img-fluid rounded" style="max-width: 300px;"></div>';
+                reactionTypeText = '化合反应、氧化还原反应';
+            } else if (reactant1 === 'Fe' && reactant2 === 'CuSO4') {
+                reactionEquation = 'Fe + CuSO₄ → FeSO₄ + Cu';
+                reactionDescription = '铁与硫酸铜反应，铁置换出铜离子，溶液颜色从蓝色变为浅绿色。';
+                reactionVisualization = '<div class="text-center"><img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=iron%20replacing%20copper%20in%20copper%20sulfate%20solution%2C%20blue%20to%20green%20color%20change%2C%20scientific%20illustration&image_size=square" alt="铁与硫酸铜反应" class="img-fluid rounded" style="max-width: 300px;"></div>';
+                reactionTypeText = '置换反应、氧化还原反应';
+            } else if (reactant1 === 'Zn' && reactant2 === 'HCl') {
+                reactionEquation = 'Zn + 2HCl → ZnCl₂ + H₂';
+                reactionDescription = '锌与盐酸反应生成氯化锌和氢气，这是一个典型的置换反应。';
+                reactionVisualization = '<div class="text-center"><img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=zinc%20reacting%20with%20hydrochloric%20acid%20producing%20hydrogen%20bubbles%2C%20scientific%20illustration&image_size=square" alt="锌与盐酸反应" class="img-fluid rounded" style="max-width: 300px;"></div>';
+                reactionTypeText = '置换反应、氧化还原反应';
+            } else if (reactant1 === 'NaOH' && reactant2 === 'HCl') {
+                reactionEquation = 'NaOH + HCl → NaCl + H₂O';
+                reactionDescription = '氢氧化钠与盐酸发生中和反应，生成氯化钠和水。';
+                reactionVisualization = '<div class="text-center"><img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=acid-base%20neutralization%20reaction%20between%20sodium%20hydroxide%20and%20hydrochloric%20acid%2C%20scientific%20illustration&image_size=square" alt="氢氧化钠与盐酸反应" class="img-fluid rounded" style="max-width: 300px;"></div>';
+                reactionTypeText = '复分解反应、酸碱反应';
+            } else if (reactant1 === 'NaOH' && reactant2 === 'H2SO4') {
+                reactionEquation = '2NaOH + H₂SO₄ → Na₂SO₄ + 2H₂O';
+                reactionDescription = '氢氧化钠与硫酸发生中和反应，生成硫酸钠和水。';
+                reactionVisualization = '<div class="text-center"><img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=acid-base%20neutralization%20reaction%20between%20sodium%20hydroxide%20and%20sulfuric%20acid%2C%20scientific%20illustration&image_size=square" alt="氢氧化钠与硫酸反应" class="img-fluid rounded" style="max-width: 300px;"></div>';
+                reactionTypeText = '复分解反应、酸碱反应';
+            } else if (reactant1 === 'CuSO4' && reactant2 === 'NaOH') {
+                reactionEquation = 'CuSO₄ + 2NaOH → Cu(OH)₂↓ + Na₂SO₄';
+                reactionDescription = '硫酸铜与氢氧化钠反应生成蓝色的氢氧化铜沉淀和硫酸钠。';
+                reactionVisualization = '<div class="text-center"><img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=copper%20sulfate%20reacting%20with%20sodium%20hydroxide%20forming%20blue%20copper%20hydroxide%20precipitate%2C%20scientific%20illustration&image_size=square" alt="硫酸铜与氢氧化钠反应" class="img-fluid rounded" style="max-width: 300px;"></div>';
+                reactionTypeText = '复分解反应';
+            } else if (reactant1 === 'HCl' && reactant2 === 'AgNO3') {
+                reactionEquation = 'HCl + AgNO₃ → AgCl↓ + HNO₃';
+                reactionDescription = '盐酸与硝酸银反应生成白色的氯化银沉淀和硝酸。';
+                reactionVisualization = '<div class="text-center"><img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=hydrochloric%20acid%20reacting%20with%20silver%20nitrate%20forming%20white%20silver%20chloride%20precipitate%2C%20scientific%20illustration&image_size=square" alt="盐酸与硝酸银反应" class="img-fluid rounded" style="max-width: 300px;"></div>';
+                reactionTypeText = '复分解反应';
+            } else if (reactant1 === 'Cu' && reactant2 === 'AgNO3') {
+                reactionEquation = 'Cu + 2AgNO₃ → Cu(NO₃)₂ + 2Ag';
+                reactionDescription = '铜与硝酸银反应，铜置换出银离子，生成硝酸铜和银单质。';
+                reactionVisualization = '<div class="text-center"><img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=copper%20reacting%20with%20silver%20nitrate%20forming%20silver%20crystals%20and%20blue%20solution%2C%20scientific%20illustration&image_size=square" alt="铜与硝酸银反应" class="img-fluid rounded" style="max-width: 300px;"></div>';
+                reactionTypeText = '置换反应、氧化还原反应';
+            } else if (reactant1 === 'Zn' && reactant2 === 'CuSO4') {
+                reactionEquation = 'Zn + CuSO₄ → ZnSO₄ + Cu';
+                reactionDescription = '锌与硫酸铜反应，锌置换出铜离子，生成硫酸锌和铜单质。';
+                reactionVisualization = '<div class="text-center"><img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=zinc%20reacting%20with%20copper%20sulfate%20forming%20copper%20metal%20and%20colorless%20solution%2C%20scientific%20illustration&image_size=square" alt="锌与硫酸铜反应" class="img-fluid rounded" style="max-width: 300px;"></div>';
+                reactionTypeText = '置换反应、氧化还原反应';
+            } else {
+                reactionEquation = reactant1 + ' + ' + reactant2 + ' → ?';
+                reactionDescription = '这些物质之间可能不会发生反应，或者需要特定的条件。';
+                reactionVisualization = '<div class="text-center"><p class="text-muted">无法显示该反应的可视化效果</p></div>';
+                reactionTypeText = '未知反应类型';
+            }
+            
+            resultContent.innerHTML = `
+                <strong>反应方程式：</strong>${reactionEquation}<br>
+                <strong>反应类型：</strong>${reactionTypeText}<br>
+                <strong>反应描述：</strong>${reactionDescription}
+            `;
+            
+            visualizationContent.innerHTML = reactionVisualization;
+        }
+    </script>
+</body>
+</html>
