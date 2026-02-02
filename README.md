@@ -151,6 +151,25 @@
 - `AiServiceConstants.java`: AI服务常量
 - `ApiGatewayConstants.java`: API网关常量
 
+### 10. 元素周期表系统
+
+- **元素数据管理**: 存储和管理118种化学元素的详细信息
+- **动态数据获取**: 通过REST API动态获取元素数据，支持数据库驱动
+- **元素详情展示**: 提供完整的元素信息，包括原子序数、符号、名称、原子量、类别、周期、族等
+- **元素属性扩展**: 包含氧化态、常见形态、化学价值、商业价值和应用领域
+- **衰变周期信息**: 支持放射性元素的半衰期和衰变模式信息
+- **页面导航优化**: 确保点击元素后正确跳转到对应的详情页面
+- **增量数据更新**: 支持数据库初始化和增量更新，使用ON DUPLICATE KEY UPDATE机制
+- **错误处理**: 实现API调用失败时的本地数据回退机制
+
+**数据库架构**:
+- `element`表: 存储所有元素的基本信息和扩展属性
+- 支持的字段包括：atomic_number, symbol, name, atomic_mass, category, period, group, is_natural, electron_configuration, description, discovery_year, discoverer, melting_point, boiling_point, density, oxidation_states, common_states, chemical_value, commercial_value, applications, half_life, decay_mode
+
+**初始化脚本**:
+- `create_element_table.sql`: 创建元素表结构
+- `init_element_data.sql`: 初始化所有118种元素的数据
+
 ## 接口说明
 
 ### Exchange Service
@@ -200,6 +219,18 @@
 | `/users/checkin/status` | POST | 签到状态查询（需要userId、deviceId和ipAddress） |
 | `/users/{id}/checkin-records` | GET | 获取用户签到记录 |
 | `/users/{id}/checkin-stats` | GET | 获取用户签到统计（需要month和year） |
+
+### Chemistry Content Service
+
+| 接口 | 方法 | 描述 |
+|------|------|------|
+| `/chemistry/elements` | GET | 获取所有化学元素列表 |
+| `/chemistry/elements/{id}` | GET | 根据ID获取元素详情 |
+| `/chemistry/elements/atomic/{atomicNumber}` | GET | 根据原子序数获取元素详情 |
+| `/chemistry/elements/search` | GET | 搜索化学元素（支持按名称、符号、类别等搜索） |
+| `/chemistry/elements/category/{category}` | GET | 按类别获取元素列表 |
+| `/chemistry/elements/period/{period}` | GET | 按周期获取元素列表 |
+| `/chemistry/elements/group/{group}` | GET | 按族获取元素列表 |
 
 ### Quiz Service
 
@@ -501,20 +532,60 @@ NFT转赠流程中的状态流转如下：
 
 ### 化学内容测试
 
-1. **获取化学元素列表**
+1. **获取所有化学元素列表**
    ```bash
    curl http://localhost:8080/api/chemistry/elements
    ```
 
-2. **获取化学元素详情**
+2. **根据ID获取化学元素详情**
    ```bash
    curl http://localhost:8080/api/chemistry/elements/1
    ```
 
-3. **搜索化学元素**
+3. **根据原子序数获取化学元素详情**
    ```bash
-   curl http://localhost:8080/api/chemistry/elements/search?query=氢
+   curl http://localhost:8080/api/chemistry/elements/atomic/1
    ```
+
+4. **搜索化学元素**
+   ```bash
+   curl "http://localhost:8080/api/chemistry/elements/search?query=氢"
+   ```
+
+5. **按类别获取元素列表**
+   ```bash
+   curl http://localhost:8080/api/chemistry/elements/category/alkali-metal
+   ```
+
+6. **按周期获取元素列表**
+   ```bash
+   curl http://localhost:8080/api/chemistry/elements/period/1
+   ```
+
+7. **按族获取元素列表**
+   ```bash
+   curl http://localhost:8080/api/chemistry/elements/group/1
+   ```
+
+8. **获取元素周期表页面**
+   ```bash
+   curl http://localhost:8443/index.html
+   ```
+
+9. **获取元素详情页面**
+   ```bash
+   curl http://localhost:8443/element-detail.html?atomicNumber=1
+   ```
+
+10. **获取元素分类页面**
+    ```bash
+    curl http://localhost:8443/element-categories.html
+    ```
+
+11. **获取元素发现历史页面**
+    ```bash
+    curl http://localhost:8443/element-discovery.html
+    ```
 
 ### 答题测试
 
