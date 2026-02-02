@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>环境化学 - 化学探索</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/page-transition.css">
+</head>
+<body>
+    <!-- 页面过渡层 -->
+    <div class="transition-overlay"></div>
+    
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html" data-transition="fade">
+                <span class="logo-text">化学探索</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html" data-transition="fade">首页</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="elementDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            元素世界
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="elementDropdown">
+                            <li><a class="dropdown-item" href="periodic-table.html" data-transition="fade">元素周期表</a></li>
+                            <li><a class="dropdown-item" href="element-discovery.html" data-transition="fade">元素发现历史</a></li>
+                            <li><a class="dropdown-item" href="element-categories.html" data-transition="fade">元素分类</a></li>
+                            <li><a class="dropdown-item" href="element-detail.html" data-transition="fade">元素详情</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="reactions.html" id="reactionDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-transition="fade">
+                            化学反应
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="reactionDropdown">
+                            <li><a class="dropdown-item" href="basic-reactions.html" data-transition="fade">基本反应类型</a></li>
+                            <li><a class="dropdown-item" href="redox-reactions.html" data-transition="fade">氧化还原反应</a></li>
+                            <li><a class="dropdown-item" href="acid-base-reactions.html" data-transition="fade">酸碱反应</a></li>
+                            <li><a class="dropdown-item" href="coordination-reactions.html" data-transition="fade">配位反应</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="chemistryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            化学分支
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="chemistryDropdown">
+                            <li><a class="dropdown-item" href="organic-chemistry.html" data-transition="fade">有机化学</a></li>
+                            <li><a class="dropdown-item" href="inorganic-chemistry.html" data-transition="fade">无机化学</a></li>
+                            <li><a class="dropdown-item" href="analytical-chemistry.html" data-transition="fade">分析化学</a></li>
+                            <li><a class="dropdown-item" href="physical-chemistry.html" data-transition="fade">物理化学</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="javascript:void(0)" id="applicationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            应用化学
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="applicationDropdown">
+                            <li><a class="dropdown-item active" href="environmental-chemistry.html" data-transition="fade">环境化学</a></li>
+                            <li><a class="dropdown-item" href="medical-chemistry.html" data-transition="fade">医药化学</a></li>
+                            <li><a class="dropdown-item" href="materials-chemistry.html" data-transition="fade">材料化学</a></li>
+                            <li><a class="dropdown-item" href="energy-chemistry.html" data-transition="fade">能源化学</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="resourcesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            学习资源
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="resourcesDropdown">
+                            <li><a class="dropdown-item" href="study-materials.html" data-transition="fade">学习资料</a></li>
+                            <li><a class="dropdown-item" href="experiments.html" data-transition="fade">实验指导</a></li>
+                            <li><a class="dropdown-item" href="practice-problems.html" data-transition="fade">习题练习</a></li>
+                            <li><a class="dropdown-item" href="reference-books.html" data-transition="fade">参考书籍</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="ai-assistant.html" data-transition="fade">AI助手</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="forum.html" data-transition="fade">论坛</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html" data-transition="fade">登录/注册</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>环境化学</h1>
+            <p>探索化学与环境的相互作用，了解如何通过化学手段保护环境</p>
+            <a href="#explore" class="btn btn-primary btn-lg">开始探索</a>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container" id="explore">
+        <!-- 环境化学简介 -->
+        <section class="section">
+            <h2 class="section-title">环境化学简介</h2>
+            <p class="text-center text-muted mb-4">基础认知 · 了解环境化学的核心概念</p>
+            
+            <div class="card fade-in delay-1">
+                <div class="card-body">
+                    <p>环境化学是研究化学物质在环境中的来源、迁移、转化、归趋以及对生态系统和人类健康影响的科学。它是环境科学的重要分支，也是化学学科的扩展。</p>
+                    <p class="mt-3">环境化学的主要研究内容包括：</p>
+                    <ul class="list-unstyled">
+                        <li>• <span class="keyword">环境污染物</span>的化学特性和行为</li>
+                        <li>• 污染物在大气、水、土壤中的迁移转化规律</li>
+                        <li>• 污染物的生态效应和健康风险</li>
+                        <li>• 环境监测和分析方法</li>
+                        <li>• 污染控制和修复技术</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 大气污染化学 -->
+        <section class="section">
+            <h2 class="section-title">大气污染化学</h2>
+            <p class="text-center text-muted mb-4">专题研究 · 大气中的化学过程</p>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card fade-in delay-1">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=air%20pollution%20chemistry%20smog%20atmospheric%20science&image_size=landscape_4_3" class="card-img-top" alt="大气污染">
+                        <div class="card-body">
+                            <h3 class="card-title">大气污染物</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">颗粒物</span>（PM2.5、PM10）</li>
+                                <li>• <span class="keyword">氮氧化物</span>（NOx）</li>
+                                <li>• <span class="keyword">硫氧化物</span>（SOx）</li>
+                                <li>• <span class="keyword">挥发性有机物</span>（VOCs）</li>
+                                <li>• 臭氧（O₃）</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card fade-in delay-2">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=acid%20rain%20environmental%20impact%20chemistry&image_size=landscape_4_3" class="card-img-top" alt="酸雨形成">
+                        <div class="card-body">
+                            <h3 class="card-title">大气化学过程</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">光化学反应</span>和臭氧形成</li>
+                                <li>• <span class="keyword">酸雨</span>的形成机制</li>
+                                <li>• 烟雾的形成和演化</li>
+                                <li>• 大气颗粒物的化学组成</li>
+                                <li>• 温室气体和气候变化</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 水污染化学 -->
+        <section class="section">
+            <h2 class="section-title">水污染化学</h2>
+            <p class="text-center text-muted mb-4">专题研究 · 水体中的化学过程</p>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card fade-in delay-1">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=water%20pollution%20chemistry%20industrial%20wastewater&image_size=landscape_4_3" class="card-img-top" alt="水污染">
+                        <div class="card-body">
+                            <h3 class="card-title">水污染物</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">有机物污染</span>（COD、BOD）</li>
+                                <li>• <span class="keyword">重金属污染</span>（Hg、Cd、Pb等）</li>
+                                <li>• <span class="keyword">营养物质</span>（氮、磷）</li>
+                                <li>• 农药和兽药残留</li>
+                                <li>• 新兴污染物（ pharmaceuticals、personal care products）</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card fade-in delay-2">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=water%20treatment%20process%20chemical%20purification&image_size=landscape_4_3" class="card-img-top" alt="水处理">
+                        <div class="card-body">
+                            <h3 class="card-title">水污染控制</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">混凝沉淀</span>技术</li>
+                                <li>• <span class="keyword">吸附</span>和离子交换</li>
+                                <li>• <span class="keyword">氧化还原</span>处理</li>
+                                <li>• 生物处理技术</li>
+                                <li>• 膜分离技术</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 土壤污染化学 -->
+        <section class="section">
+            <h2 class="section-title">土壤污染化学</h2>
+            <p class="text-center text-muted mb-4">专题研究 · 土壤中的化学过程</p>
+            
+            <div class="card fade-in delay-1">
+                <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=soil%20pollution%20chemistry%20contaminated%20land&image_size=landscape_16_9" class="card-img-top" alt="土壤污染">
+                <div class="card-body">
+                    <h3 class="card-title">土壤污染物与修复</h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4 class="card-subtitle mb-2 text-muted">主要污染物</h4>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">重金属</span>污染</li>
+                                <li>• <span class="keyword">有机污染物</span>（PAHs、PCBs等）</li>
+                                <li>• 农药残留</li>
+                                <li>• 放射性物质</li>
+                                <li>• 酸碱污染</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h4 class="card-subtitle mb-2 text-muted">修复技术</h4>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">物理修复</span>（挖掘、阻隔）</li>
+                                <li>• <span class="keyword">化学修复</span>（固化稳定化）</li>
+                                <li>• <span class="keyword">生物修复</span>（植物、微生物）</li>
+                                <li>• 联合修复技术</li>
+                                <li>• 原位修复技术</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 绿色化学 -->
+        <section class="section">
+            <h2 class="section-title">绿色化学</h2>
+            <p class="text-center text-muted mb-4">前沿理念 · 可持续发展的化学</p>
+            
+            <div class="card fade-in delay-1">
+                <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=green%20chemistry%20sustainable%20technology%20renewable%20resources&image_size=landscape_16_9" class="card-img-top" alt="绿色化学">
+                <div class="card-body">
+                    <h3 class="card-title">绿色化学原理</h3>
+                    <p>绿色化学是设计化学产品和过程，使其减少或消除有害物质的使用和产生的科学。它的核心原则包括：</p>
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">预防污染</span>优于治理污染</li>
+                                <li>• 原子经济性（最大化原子利用率）</li>
+                                <li>• 设计更安全的化学品</li>
+                                <li>• 设计更安全的溶剂和助剂</li>
+                                <li>• 提高能源效率</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li>• 使用可再生原料</li>
+                                <li>• 减少衍生物的使用</li>
+                                <li>• 催化反应优于化学计量反应</li>
+                                <li>• 设计可降解产品</li>
+                                <li>• 实时分析和污染预防</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 环境监测技术 -->
+        <section class="section">
+            <h2 class="section-title">环境监测技术</h2>
+            <p class="text-center text-muted mb-4">技术应用 · 环境分析的方法与手段</p>
+            
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card fade-in delay-1">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=environmental%20monitoring%20equipment%20sensors%20analysis&image_size=landscape_4_3" class="card-img-top" alt="环境监测">
+                        <div class="card-body">
+                            <h3 class="card-title">常规监测技术</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">分光光度法</span></li>
+                                <li>• <span class="keyword">色谱法</span>（GC、HPLC）</li>
+                                <li>• <span class="keyword">质谱法</span>（MS）</li>
+                                <li>• 电化学分析法</li>
+                                <li>• 原子吸收光谱法</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card fade-in delay-2">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=online%20environmental%20monitoring%20system%20real%20time%20data&image_size=landscape_4_3" class="card-img-top" alt="在线监测">
+                        <div class="card-body">
+                            <h3 class="card-title">在线监测系统</h3>
+                            <ul class="list-unstyled">
+                                <li>• 大气自动监测站</li>
+                                <li>• 水质在线监测系统</li>
+                                <li>• 土壤监测网络</li>
+                                <li>• <span class="keyword">物联网</span>监测技术</li>
+                                <li>• 遥感监测技术</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card fade-in delay-3">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=environmental%20data%20analysis%20software%20dashboard&image_size=landscape_4_3" class="card-img-top" alt="数据分析">
+                        <div class="card-body">
+                            <h3 class="card-title">数据分析与管理</h3>
+                            <ul class="list-unstyled">
+                                <li>• 数据采集与传输</li>
+                                <li>• 数据处理与分析</li>
+                                <li>• <span class="keyword">GIS</span>地理信息系统</li>
+                                <li>• 环境模型预测</li>
+                                <li>• 监测网络优化</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 案例研究 -->
+        <section class="section">
+            <h2 class="section-title">环境化学案例研究</h2>
+            <p class="text-center text-muted mb-4">实际应用 · 环境化学的具体案例</p>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card fade-in delay-1">
+                        <div class="card-header">
+                            <h3 class="card-title">案例一：酸雨的形成与控制</h3>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>背景：</strong>酸雨是指pH值小于5.6的降水，主要由硫氧化物和氮氧化物的排放引起。</p>
+                            <p><strong>化学机制：</strong></p>
+                            <ul class="list-unstyled">
+                                <li>• SO₂ + H₂O → H₂SO₃（亚硫酸）</li>
+                                <li>• H₂SO₃ + O₂ → H₂SO₄（硫酸）</li>
+                                <li>• NOx + H₂O → HNO₃（硝酸）</li>
+                            </ul>
+                            <p><strong>控制措施：</strong>烟气脱硫、脱硝技术，清洁能源替代，机动车尾气控制等。</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card fade-in delay-2">
+                        <div class="card-header">
+                            <h3 class="card-title">案例二：水体富营养化治理</h3>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>背景：</strong>水体富营养化是由于氮、磷等营养物质过多导致藻类大量繁殖的现象。</p>
+                            <p><strong>化学过程：</strong></p>
+                            <ul class="list-unstyled">
+                                <li>• 营养物质输入 → 藻类繁殖 → 溶解氧降低</li>
+                                <li>• 藻类死亡 → 有机物分解 → 进一步耗氧</li>
+                                <li>• 水体缺氧 → 生物死亡 → 水质恶化</li>
+                            </ul>
+                            <p><strong>治理技术：</strong>营养盐控制，藻类去除，生态修复，生物操纵等。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 未来展望 -->
+        <section class="section">
+            <h2 class="section-title">环境化学的未来展望</h2>
+            <p class="text-center text-muted mb-4">发展趋势 · 环境化学的前沿方向</p>
+            
+            <div class="card fade-in delay-1">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h3 class="card-title">前沿研究方向</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">新兴污染物</span>的环境行为</li>
+                                <li>• 环境纳米技术与纳米毒理学</li>
+                                <li>• 气候变化与大气化学</li>
+                                <li>• 环境组学与生物标志物</li>
+                                <li>• 可持续发展与绿色化学</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h3 class="card-title">技术发展趋势</h3>
+                            <ul class="list-unstyled">
+                                <li>• 高精度环境监测技术</li>
+                                <li>• 人工智能在环境化学中的应用</li>
+                                <li>• 大数据与环境模型</li>
+                                <li>• 绿色催化与清洁能源</li>
+                                <li>• 环境修复新材料与新技术</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>关于项目</h3>
+                    <p>这是一个基于Spring Cloud的化学学习微服务项目，旨在通过微服务架构实现化学知识的管理和学习进度的跟踪。</p>
+                </div>
+                <div class="col-md-4">
+                    <h3>快速链接</h3>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html" data-transition="fade">首页</a></li>
+                        <li><a href="periodic-table.html" data-transition="fade">化学元素</a></li>
+                        <li><a href="profile.html" data-transition="fade">用户中心</a></li>
+                        <li><a href="tasks.html" data-transition="fade">学习进度</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h3>联系方式</h3>
+                    <p>如有问题或建议，请联系我们。</p>
+                    <p>Email: contact@example.com</p>
+                </div>
+            </div>
+            <div class="border-top border-gray-700 mt-4 pt-4 text-center">
+                <p>&copy; 2026 化学学习微服务项目. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/constants.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/page-transition.js"></script>
+</body>
+</html>

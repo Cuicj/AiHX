@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>实验指导 - 化学探索</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/page-transition.css">
+</head>
+<body>
+    <!-- 页面过渡层 -->
+    <div class="transition-overlay"></div>
+    
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html" data-transition="fade">
+                <span class="logo-text">化学探索</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html" data-transition="fade">首页</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="elementDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            元素世界
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="elementDropdown">
+                            <li><a class="dropdown-item" href="periodic-table.html" data-transition="fade">元素周期表</a></li>
+                            <li><a class="dropdown-item" href="element-discovery.html" data-transition="fade">元素发现历史</a></li>
+                            <li><a class="dropdown-item" href="element-categories.html" data-transition="fade">元素分类</a></li>
+                            <li><a class="dropdown-item" href="element-detail.html" data-transition="fade">元素详情</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="reactions.html" id="reactionDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-transition="fade">
+                            化学反应
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="reactionDropdown">
+                            <li><a class="dropdown-item" href="basic-reactions.html" data-transition="fade">基本反应类型</a></li>
+                            <li><a class="dropdown-item" href="redox-reactions.html" data-transition="fade">氧化还原反应</a></li>
+                            <li><a class="dropdown-item" href="acid-base-reactions.html" data-transition="fade">酸碱反应</a></li>
+                            <li><a class="dropdown-item" href="coordination-reactions.html" data-transition="fade">配位反应</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="chemistryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            化学分支
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="chemistryDropdown">
+                            <li><a class="dropdown-item" href="organic-chemistry.html" data-transition="fade">有机化学</a></li>
+                            <li><a class="dropdown-item" href="inorganic-chemistry.html" data-transition="fade">无机化学</a></li>
+                            <li><a class="dropdown-item" href="analytical-chemistry.html" data-transition="fade">分析化学</a></li>
+                            <li><a class="dropdown-item" href="physical-chemistry.html" data-transition="fade">物理化学</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="applicationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            应用化学
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="applicationDropdown">
+                            <li><a class="dropdown-item" href="environmental-chemistry.html" data-transition="fade">环境化学</a></li>
+                            <li><a class="dropdown-item" href="medical-chemistry.html" data-transition="fade">医药化学</a></li>
+                            <li><a class="dropdown-item" href="materials-chemistry.html" data-transition="fade">材料化学</a></li>
+                            <li><a class="dropdown-item" href="energy-chemistry.html" data-transition="fade">能源化学</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="javascript:void(0)" id="resourcesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            学习资源
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="resourcesDropdown">
+                            <li><a class="dropdown-item" href="study-materials.html" data-transition="fade">学习资料</a></li>
+                            <li><a class="dropdown-item active" href="experiments.html" data-transition="fade">实验指导</a></li>
+                            <li><a class="dropdown-item" href="practice-problems.html" data-transition="fade">习题练习</a></li>
+                            <li><a class="dropdown-item" href="reference-books.html" data-transition="fade">参考书籍</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="ai-assistant.html" data-transition="fade">AI助手</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="forum.html" data-transition="fade">论坛</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html" data-transition="fade">登录/注册</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>实验指导</h1>
+            <p>提供详细的化学实验指导，确保实验安全与成功</p>
+            <a href="#explore" class="btn btn-primary btn-lg">开始探索</a>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container" id="explore">
+        <!-- 实验安全 -->
+        <section class="section">
+            <h2 class="section-title">实验安全</h2>
+            <p class="text-center text-muted mb-4">安全第一 · 确保实验过程安全</p>
+            
+            <div class="card fade-in delay-1">
+                <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=chemistry%20lab%20safety%20protective%20equipment%20goggles%20gloves&image_size=landscape_16_9" class="card-img-top" alt="实验安全">
+                <div class="card-body">
+                    <h3 class="card-title">安全注意事项</h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4 class="card-subtitle mb-2 text-muted">个人防护</h4>
+                            <ul class="list-unstyled">
+                                <li>• 必须穿戴实验服、安全眼镜和手套</li>
+                                <li>• 长发必须扎起，禁止穿拖鞋和短裤</li>
+                                <li>• 实验过程中禁止饮食和饮水</li>
+                                <li>• 实验结束后必须洗手</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h4 class="card-subtitle mb-2 text-muted">实验室规则</h4>
+                            <ul class="list-unstyled">
+                                <li>• 严格遵守实验操作规程</li>
+                                <li>• 熟悉实验室安全设施位置</li>
+                                <li>• 保持实验室整洁有序</li>
+                                <li>• 实验过程中不得擅自离开</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <h4 class="card-subtitle mb-2 text-muted">紧急情况处理</h4>
+                        <ul class="list-unstyled">
+                            <li>• <span class="keyword">火灾</span>：使用灭火器或沙子灭火，及时报警</li>
+                            <li>• <span class="keyword">化学品灼伤</span>：立即用大量清水冲洗，然后就医</li>
+                            <li>• <span class="keyword">中毒</span>：立即转移到通风处，保持呼吸道通畅，就医</li>
+                            <li>• <span class="keyword">割伤</span>：用清水冲洗伤口，止血，就医</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 基础实验 -->
+        <section class="section">
+            <h2 class="section-title">基础实验</h2>
+            <p class="text-center text-muted mb-4">入门实验 · 掌握基本实验技能</p>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card fade-in delay-1">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=basic%20chemistry%20experiment%20laboratory%20glassware%20techniques&image_size=landscape_4_3" class="card-img-top" alt="基础实验">
+                        <div class="card-body">
+                            <h3 class="card-title">基本操作实验</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">玻璃仪器的使用</span>与洗涤</li>
+                                <li>• <span class="keyword">称量</span>技术（托盘天平、电子天平）</li>
+                                <li>• <span class="keyword">溶液配制</span>（一定浓度溶液的配制）</li>
+                                <li>• <span class="keyword">加热</span>技术（直接加热、水浴加热）</li>
+                                <li>• <span class="keyword">过滤</span>技术（常压过滤、减压过滤）</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card fade-in delay-2">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=chemical%20reaction%20experiments%20color%20changes%20gas%20evolution&image_size=landscape_4_3" class="card-img-top" alt="化学反应实验">
+                        <div class="card-body">
+                            <h3 class="card-title">化学反应实验</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">酸碱中和</span>反应</li>
+                                <li>• <span class="keyword">氧化还原</span>反应</li>
+                                <li>• <span class="keyword">沉淀</span>反应</li>
+                                <li>• <span class="keyword">气体生成</span>反应</li>
+                                <li>• <span class="keyword">焰色</span>反应</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 分析化学实验 -->
+        <section class="section">
+            <h2 class="section-title">分析化学实验</h2>
+            <p class="text-center text-muted mb-4">定量分析 · 掌握分析测试技能</p>
+            
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card fade-in delay-1">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=titration%20experiment%20analytical%20chemistry%20burette%20indicator&image_size=landscape_4_3" class="card-img-top" alt="滴定分析">
+                        <div class="card-body">
+                            <h3 class="card-title">滴定分析</h3>
+                            <ul class="list-unstyled">
+                                <li>• 酸碱滴定</li>
+                                <li>• 配位滴定</li>
+                                <li>• 氧化还原滴定</li>
+                                <li>• 沉淀滴定</li>
+                                <li>• 非水滴定</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card fade-in delay-2">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=spectroscopy%20experiment%20analytical%20chemistry%20instrumentation&image_size=landscape_4_3" class="card-img-top" alt="仪器分析">
+                        <div class="card-body">
+                            <h3 class="card-title">仪器分析</h3>
+                            <ul class="list-unstyled">
+                                <li>• 紫外-可见分光光度法</li>
+                                <li>• 红外光谱法</li>
+                                <li>• 原子吸收光谱法</li>
+                                <li>• 电化学分析法</li>
+                                <li>• 色谱分析法</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card fade-in delay-3">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=quantitative%20analysis%20chemistry%20laboratory%20data%20processing&image_size=landscape_4_3" class="card-img-top" alt="定量分析">
+                        <div class="card-body">
+                            <h3 class="card-title">定量分析</h3>
+                            <ul class="list-unstyled">
+                                <li>• 重量分析法</li>
+                                <li>• 容量分析法</li>
+                                <li>• 误差分析与数据处理</li>
+                                <li>• 不确定度评估</li>
+                                <li>• 标准曲线法</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 有机化学实验 -->
+        <section class="section">
+            <h2 class="section-title">有机化学实验</h2>
+            <p class="text-center text-muted mb-4">有机合成 · 掌握有机实验技能</p>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card fade-in delay-1">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=organic%20chemistry%20experiment%20synthesis%20distillation%20extraction&image_size=landscape_4_3" class="card-img-top" alt="有机合成">
+                        <div class="card-body">
+                            <h3 class="card-title">有机合成实验</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">蒸馏</span>（简单蒸馏、分馏、水蒸气蒸馏）</li>
+                                <li>• <span class="keyword">萃取</span>（液-液萃取、固体萃取）</li>
+                                <li>• <span class="keyword">重结晶</span>与提纯</li>
+                                <li>• <span class="keyword">有机化合物的合成</span>（乙酸乙酯、阿司匹林等）</li>
+                                <li>• <span class="keyword">柱色谱</span>与薄层色谱</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card fade-in delay-2">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=organic%20chemistry%20identification%20functional%20groups%20tests&image_size=landscape_4_3" class="card-img-top" alt="有机化合物鉴定">
+                        <div class="card-body">
+                            <h3 class="card-title">有机化合物鉴定</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">官能团</span>的定性检验</li>
+                                <li>• <span class="keyword">熔点</span>的测定</li>
+                                <li>• <span class="keyword">沸点</span>的测定</li>
+                                <li>• <span class="keyword">折射率</span>的测定</li>
+                                <li>• <span class="keyword">红外光谱</span>解析</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 无机化学实验 -->
+        <section class="section">
+            <h2 class="section-title">无机化学实验</h2>
+            <p class="text-center text-muted mb-4">无机合成 · 掌握无机实验技能</p>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card fade-in delay-1">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=inorganic%20chemistry%20experiment%20synthesis%20coordination%20compounds&image_size=landscape_4_3" class="card-img-top" alt="无机合成">
+                        <div class="card-body">
+                            <h3 class="card-title">无机化合物合成</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">无机盐</span>的合成（硫酸铜、硫酸亚铁等）</li>
+                                <li>• <span class="keyword">配位化合物</span>的合成（硫酸四氨合铜等）</li>
+                                <li>• <span class="keyword">无机材料</span>的制备（分子筛、纳米材料等）</li>
+                                <li>• <span class="keyword">金属单质</span>的制备（电解法、还原法）</li>
+                                <li>• <span class="keyword">非金属单质</span>的制备（氯气、氧气等）</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card fade-in delay-2">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=inorganic%20chemistry%20properties%20experiments%20color%20changes%20reactions&image_size=landscape_4_3" class="card-img-top" alt="无机化合物性质">
+                        <div class="card-body">
+                            <h3 class="card-title">无机化合物性质</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">元素性质</span>实验（金属活动性顺序）</li>
+                                <li>• <span class="keyword">化合物性质</span>实验（酸碱性、氧化还原性）</li>
+                                <li>• <span class="keyword">配位化合物</span>的性质（稳定性、颜色）</li>
+                                <li>• <span class="keyword">无机离子</span>的定性分析</li>
+                                <li>• <span class="keyword">沉淀溶解平衡</span>实验</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 物理化学实验 -->
+        <section class="section">
+            <h2 class="section-title">物理化学实验</h2>
+            <p class="text-center text-muted mb-4">物化测量 · 掌握物理化学实验技能</p>
+            
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card fade-in delay-1">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=physical%20chemistry%20experiment%20thermodynamics%20calorimetry&image_size=landscape_4_3" class="card-img-top" alt="热力学实验">
+                        <div class="card-body">
+                            <h3 class="card-title">热力学实验</h3>
+                            <ul class="list-unstyled">
+                                <li>• 燃烧热的测定</li>
+                                <li>• 溶解热的测定</li>
+                                <li>• 中和热的测定</li>
+                                <li>• 相变热的测定</li>
+                                <li>• 热力学函数的测定</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card fade-in delay-2">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=physical%20chemistry%20experiment%20kinetics%20reaction%20rate&image_size=landscape_4_3" class="card-img-top" alt="动力学实验">
+                        <div class="card-body">
+                            <h3 class="card-title">动力学实验</h3>
+                            <ul class="list-unstyled">
+                                <li>• 反应速率常数的测定</li>
+                                <li>• 活化能的测定</li>
+                                <li>• 催化剂对反应速率的影响</li>
+                                <li>• 复杂反应动力学研究</li>
+                                <li>• 光化学反应动力学</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card fade-in delay-3">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=physical%20chemistry%20experiment%20electrochemistry%20conductivity%20electrodes&image_size=landscape_4_3" class="card-img-top" alt="电化学实验">
+                        <div class="card-body">
+                            <h3 class="card-title">电化学实验</h3>
+                            <ul class="list-unstyled">
+                                <li>• 溶液电导的测定</li>
+                                <li>• 电池电动势的测定</li>
+                                <li>• 极化曲线的测定</li>
+                                <li>• 电解实验</li>
+                                <li>• 腐蚀实验</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 实验数据处理 -->
+        <section class="section">
+            <h2 class="section-title">实验数据处理</h2>
+            <p class="text-center text-muted mb-4">数据处理 · 正确分析实验数据</p>
+            
+            <div class="card fade-in delay-1">
+                <div class="card-body">
+                    <h3 class="card-title">数据处理方法</h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4 class="card-subtitle mb-2 text-muted">数据记录与整理</h4>
+                            <ul class="list-unstyled">
+                                <li>• 实验数据的规范记录</li>
+                                <li>• 原始数据的整理与表格化</li>
+                                <li>• 有效数字的正确使用</li>
+                                <li>• 数据单位的统一与转换</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h4 class="card-subtitle mb-2 text-muted">数据分析与处理</h4>
+                            <ul class="list-unstyled">
+                                <li>• 误差分析与不确定度评估</li>
+                                <li>• 数据的统计处理</li>
+                                <li>• 图表的绘制与分析</li>
+                                <li>• 线性回归与拟合</li>
+                                <li>• 计算机软件的应用（Excel、Origin等）</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 实验报告撰写 -->
+        <section class="section">
+            <h2 class="section-title">实验报告撰写</h2>
+            <p class="text-center text-muted mb-4">报告撰写 · 规范完成实验报告</p>
+            
+            <div class="card fade-in delay-1">
+                <div class="card-body">
+                    <h3 class="card-title">实验报告结构</h3>
+                    <ul class="list-unstyled">
+                        <li>• <span class="keyword">实验目的</span>：明确实验的目标和要求</li>
+                        <li>• <span class="keyword">实验原理</span>：阐述实验的理论基础和化学反应方程式</li>
+                        <li>• <span class="keyword">实验仪器与试剂</span>：列出使用的仪器、试剂及其规格</li>
+                        <li>• <span class="keyword">实验步骤</span>：详细描述实验操作过程</li>
+                        <li>• <span class="keyword">实验数据与处理</span>：记录原始数据，进行数据处理和分析</li>
+                        <li>• <span class="keyword">实验结果与讨论</span>：呈现实验结果，分析实验现象，讨论误差原因</li>
+                        <li>• <span class="keyword">结论</span>：总结实验的主要发现和结论</li>
+                        <li>• <span class="keyword">思考题</span>：回答实验指导书中的思考题</li>
+                        <li>• <span class="keyword">参考文献</span>：列出实验中参考的文献</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 虚拟实验室 -->
+        <section class="section">
+            <h2 class="section-title">虚拟实验室</h2>
+            <p class="text-center text-muted mb-4">虚拟实验 · 安全便捷的实验体验</p>
+            
+            <div class="card fade-in delay-1">
+                <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=virtual%20chemistry%20laboratory%20online%20experiment%20simulation&image_size=landscape_16_9" class="card-img-top" alt="虚拟实验室">
+                <div class="card-body">
+                    <h3 class="card-title">虚拟实验平台</h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4 class="card-subtitle mb-2 text-muted">虚拟实验的优势</h4>
+                            <ul class="list-unstyled">
+                                <li>• 安全：避免危险化学品和操作</li>
+                                <li>• 经济：节省实验材料和仪器成本</li>
+                                <li>• 灵活：可随时随地进行实验</li>
+                                <li>• 直观：通过动画展示实验过程</li>
+                                <li>• 可重复：可多次进行同一种实验</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h4 class="card-subtitle mb-2 text-muted">推荐虚拟实验平台</h4>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">ChemCollective</span>：免费的虚拟化学实验室</li>
+                                <li>• <span class="keyword">Virtual Chemistry Lab</span>：交互式化学实验模拟</li>
+                                <li>• <span class="keyword">PhET Interactive Simulations</span>：物理和化学模拟</li>
+                                <li>• <span class="keyword">Labster</span>：虚拟实验室平台</li>
+                                <li>• <span class="keyword">ChemLab</span>：化学实验模拟软件</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 实验设计 -->
+        <section class="section">
+            <h2 class="section-title">实验设计</h2>
+            <p class="text-center text-muted mb-4">设计思路 · 掌握实验设计方法</p>
+            
+            <div class="card fade-in delay-1">
+                <div class="card-body">
+                    <h3 class="card-title">实验设计原则</h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4 class="card-subtitle mb-2 text-muted">设计步骤</h4>
+                            <ul class="list-unstyled">
+                                <li>• 明确实验目的和要求</li>
+                                <li>• 查阅相关文献和资料</li>
+                                <li>• 选择合适的实验方法和原理</li>
+                                <li>• 确定实验仪器和试剂</li>
+                                <li>• 设计详细的实验步骤</li>
+                                <li>• 制定数据记录和处理方案</li>
+                                <li>• 评估实验的安全性和可行性</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h4 class="card-subtitle mb-2 text-muted">注意事项</h4>
+                            <ul class="list-unstyled">
+                                <li>• 实验设计要科学合理</li>
+                                <li>• 实验条件要可控制</li>
+                                <li>• 实验步骤要详细具体</li>
+                                <li>• 要考虑实验的安全性</li>
+                                <li>• 要考虑实验的可重复性</li>
+                                <li>• 要考虑实验的环保性</li>
+                                <li>• 要考虑实验的成本效益</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>关于项目</h3>
+                    <p>这是一个基于Spring Cloud的化学学习微服务项目，旨在通过微服务架构实现化学知识的管理和学习进度的跟踪。</p>
+                </div>
+                <div class="col-md-4">
+                    <h3>快速链接</h3>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html" data-transition="fade">首页</a></li>
+                        <li><a href="periodic-table.html" data-transition="fade">化学元素</a></li>
+                        <li><a href="profile.html" data-transition="fade">用户中心</a></li>
+                        <li><a href="tasks.html" data-transition="fade">学习进度</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h3>联系方式</h3>
+                    <p>如有问题或建议，请联系我们。</p>
+                    <p>Email: contact@example.com</p>
+                </div>
+            </div>
+            <div class="border-top border-gray-700 mt-4 pt-4 text-center">
+                <p>&copy; 2026 化学学习微服务项目. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/constants.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/page-transition.js"></script>
+</body>
+</html>

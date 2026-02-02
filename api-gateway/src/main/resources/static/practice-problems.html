@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>习题练习 - 化学探索</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/page-transition.css">
+</head>
+<body>
+    <!-- 页面过渡层 -->
+    <div class="transition-overlay"></div>
+    
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html" data-transition="fade">
+                <span class="logo-text">化学探索</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html" data-transition="fade">首页</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="elementDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            元素世界
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="elementDropdown">
+                            <li><a class="dropdown-item" href="periodic-table.html" data-transition="fade">元素周期表</a></li>
+                            <li><a class="dropdown-item" href="element-discovery.html" data-transition="fade">元素发现历史</a></li>
+                            <li><a class="dropdown-item" href="element-categories.html" data-transition="fade">元素分类</a></li>
+                            <li><a class="dropdown-item" href="element-detail.html" data-transition="fade">元素详情</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="reactions.html" id="reactionDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-transition="fade">
+                            化学反应
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="reactionDropdown">
+                            <li><a class="dropdown-item" href="basic-reactions.html" data-transition="fade">基本反应类型</a></li>
+                            <li><a class="dropdown-item" href="redox-reactions.html" data-transition="fade">氧化还原反应</a></li>
+                            <li><a class="dropdown-item" href="acid-base-reactions.html" data-transition="fade">酸碱反应</a></li>
+                            <li><a class="dropdown-item" href="coordination-reactions.html" data-transition="fade">配位反应</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="chemistryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            化学分支
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="chemistryDropdown">
+                            <li><a class="dropdown-item" href="organic-chemistry.html" data-transition="fade">有机化学</a></li>
+                            <li><a class="dropdown-item" href="inorganic-chemistry.html" data-transition="fade">无机化学</a></li>
+                            <li><a class="dropdown-item" href="analytical-chemistry.html" data-transition="fade">分析化学</a></li>
+                            <li><a class="dropdown-item" href="physical-chemistry.html" data-transition="fade">物理化学</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="applicationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            应用化学
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="applicationDropdown">
+                            <li><a class="dropdown-item" href="environmental-chemistry.html" data-transition="fade">环境化学</a></li>
+                            <li><a class="dropdown-item" href="medical-chemistry.html" data-transition="fade">医药化学</a></li>
+                            <li><a class="dropdown-item" href="materials-chemistry.html" data-transition="fade">材料化学</a></li>
+                            <li><a class="dropdown-item" href="energy-chemistry.html" data-transition="fade">能源化学</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="javascript:void(0)" id="resourcesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            学习资源
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="resourcesDropdown">
+                            <li><a class="dropdown-item" href="study-materials.html" data-transition="fade">学习资料</a></li>
+                            <li><a class="dropdown-item" href="experiments.html" data-transition="fade">实验指导</a></li>
+                            <li><a class="dropdown-item active" href="practice-problems.html" data-transition="fade">习题练习</a></li>
+                            <li><a class="dropdown-item" href="reference-books.html" data-transition="fade">参考书籍</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="ai-assistant.html" data-transition="fade">AI助手</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="forum.html" data-transition="fade">论坛</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html" data-transition="fade">登录/注册</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>习题练习</h1>
+            <p>提供丰富的化学习题，帮助您巩固知识和提高解题能力</p>
+            <a href="#explore" class="btn btn-primary btn-lg">开始探索</a>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container" id="explore">
+        <!-- 习题练习简介 -->
+        <section class="section">
+            <h2 class="section-title">习题练习简介</h2>
+            <p class="text-center text-muted mb-4">练习概述 · 了解我们提供的习题</p>
+            
+            <div class="card fade-in delay-1">
+                <div class="card-body">
+                    <p>习题练习是学习化学的重要环节，通过做题可以巩固所学知识，提高解题能力，培养思维方法。我们提供了丰富的化学习题，涵盖从基础到高级的各个层次，适合不同学习阶段的学生使用。</p>
+                    <p class="mt-3">我们的习题包括：</p>
+                    <ul class="list-unstyled">
+                        <li>• <span class="keyword">基础概念</span>习题：巩固化学基本概念</li>
+                        <li>• <span class="keyword">章节练习</span>：按章节分类的习题</li>
+                        <li>• <span class="keyword">综合习题</span>：跨章节的综合练习</li>
+                        <li>• <span class="keyword">高考真题</span>：历年高考化学试题</li>
+                        <li>• <span class="keyword">考研真题</span>：历年考研化学试题</li>
+                        <li>• <span class="keyword">竞赛试题</span>：化学竞赛相关试题</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 基础概念习题 -->
+        <section class="section">
+            <h2 class="section-title">基础概念习题</h2>
+            <p class="text-center text-muted mb-4">基础知识 · 巩固化学基本概念</p>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card fade-in delay-1">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=basic%20chemistry%20concepts%20periodic%20table%20atomic%20structure&image_size=landscape_4_3" class="card-img-top" alt="基础概念">
+                        <div class="card-body">
+                            <h3 class="card-title">化学基本概念</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">物质的组成与分类</span>习题</li>
+                                <li>• <span class="keyword">化学用语</span>（元素符号、化学式、化学方程式）习题</li>
+                                <li>• <span class="keyword">原子结构</span>与元素周期律习题</li>
+                                <li>• <span class="keyword">化学键</span>与分子结构习题</li>
+                                <li>• <span class="keyword">化学反应基本类型</span>习题</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card fade-in delay-2">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=chemical%20calculations%20stoichiometry%20mole%20concept&image_size=landscape_4_3" class="card-img-top" alt="化学计算">
+                        <div class="card-body">
+                            <h3 class="card-title">化学计算</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">物质的量</span>相关计算</li>
+                                <li>• <span class="keyword">化学式</span>的有关计算</li>
+                                <li>• <span class="keyword">化学方程式</span>的有关计算</li>
+                                <li>• <span class="keyword">溶液浓度</span>的有关计算</li>
+                                <li>• <span class="keyword">化学平衡</span>的有关计算</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 章节练习 -->
+        <section class="section">
+            <h2 class="section-title">章节练习</h2>
+            <p class="text-center text-muted mb-4">按章练习 · 系统巩固各章节知识</p>
+            
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card fade-in delay-1">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=inorganic%20chemistry%20exercises%20elements%20compounds%20periodic%20table&image_size=landscape_4_3" class="card-img-top" alt="无机化学">
+                        <div class="card-body">
+                            <h3 class="card-title">无机化学</h3>
+                            <ul class="list-unstyled">
+                                <li>• 元素周期律</li>
+                                <li>• 碱金属与碱土金属</li>
+                                <li>• 卤素</li>
+                                <li>• 氧族元素</li>
+                                <li>• 氮族元素</li>
+                                <li>• 碳族元素</li>
+                                <li>• 过渡金属</li>
+                                <li>• 配位化合物</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card fade-in delay-2">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=organic%20chemistry%20exercises%20functional%20groups%20reactions&image_size=landscape_4_3" class="card-img-top" alt="有机化学">
+                        <div class="card-body">
+                            <h3 class="card-title">有机化学</h3>
+                            <ul class="list-unstyled">
+                                <li>• 有机化合物的分类与命名</li>
+                                <li>• 烃类（烷烃、烯烃、炔烃、芳香烃）</li>
+                                <li>• 卤代烃</li>
+                                <li>• 醇、酚、醚</li>
+                                <li>• 醛、酮、羧酸</li>
+                                <li>• 含氮有机化合物</li>
+                                <li>• 糖、蛋白质、核酸</li>
+                                <li>• 有机合成</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card fade-in delay-3">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=physical%20chemistry%20exercises%20thermodynamics%20kinetics%20equilibrium&image_size=landscape_4_3" class="card-img-top" alt="物理化学">
+                        <div class="card-body">
+                            <h3 class="card-title">物理化学</h3>
+                            <ul class="list-unstyled">
+                                <li>• 热力学第一定律</li>
+                                <li>• 热力学第二定律</li>
+                                <li>• 化学平衡</li>
+                                <li>• 相平衡</li>
+                                <li>• 电化学</li>
+                                <li>• 化学动力学</li>
+                                <li>• 表面化学</li>
+                                <li>• 胶体化学</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 综合习题 -->
+        <section class="section">
+            <h2 class="section-title">综合习题</h2>
+            <p class="text-center text-muted mb-4">综合练习 · 提高综合应用能力</p>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card fade-in delay-1">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=comprehensive%20chemistry%20exercises%20problem%20solving%20critical%20thinking&image_size=landscape_4_3" class="card-img-top" alt="综合习题">
+                        <div class="card-body">
+                            <h3 class="card-title">学科内综合</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">无机-有机综合</span>习题</li>
+                                <li>• <span class="keyword">无机-物化综合</span>习题</li>
+                                <li>• <span class="keyword">有机-物化综合</span>习题</li>
+                                <li>• <span class="keyword">实验综合</span>习题</li>
+                                <li>• <span class="keyword">工业流程</span>综合习题</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card fade-in delay-2">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=interdisciplinary%20chemistry%20exercises%20biology%20physics%20environmental%20science&image_size=landscape_4_3" class="card-img-top" alt="跨学科综合">
+                        <div class="card-body">
+                            <h3 class="card-title">跨学科综合</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">化学-生物</span>综合习题</li>
+                                <li>• <span class="keyword">化学-物理</span>综合习题</li>
+                                <li>• <span class="keyword">化学-环境</span>综合习题</li>
+                                <li>• <span class="keyword">化学-材料</span>综合习题</li>
+                                <li>• <span class="keyword">化学-能源</span>综合习题</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 考试真题 -->
+        <section class="section">
+            <h2 class="section-title">考试真题</h2>
+            <p class="text-center text-muted mb-4">真题练习 · 熟悉考试题型和难度</p>
+            
+            <div class="card fade-in delay-1">
+                <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=chemistry%20exam%20papers%20test%20questions%20standardized%20tests&image_size=landscape_16_9" class="card-img-top" alt="考试真题">
+                <div class="card-body">
+                    <h3 class="card-title">考试真题分类</h3>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h4 class="card-subtitle mb-2 text-muted">高考真题</h4>
+                            <ul class="list-unstyled">
+                                <li>• 全国卷</li>
+                                <li>• 地方卷</li>
+                                <li>• 新课标卷</li>
+                                <li>• 自主命题卷</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4">
+                            <h4 class="card-subtitle mb-2 text-muted">考研真题</h4>
+                            <ul class="list-unstyled">
+                                <li>• 全国统考</li>
+                                <li>• 院校自主命题</li>
+                                <li>• 专业硕士</li>
+                                <li>• 学术硕士</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4">
+                            <h4 class="card-subtitle mb-2 text-muted">竞赛真题</h4>
+                            <ul class="list-unstyled">
+                                <li>• 全国高中化学竞赛</li>
+                                <li>• 国际化学奥林匹克</li>
+                                <li>• 大学生化学竞赛</li>
+                                <li>• 专业技能竞赛</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 解题技巧 -->
+        <section class="section">
+            <h2 class="section-title">解题技巧</h2>
+            <p class="text-center text-muted mb-4">技巧指导 · 提高解题效率</p>
+            
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card fade-in delay-1">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=problem%20solving%20techniques%20chemistry%20strategies%20critical%20thinking&image_size=landscape_4_3" class="card-img-top" alt="解题技巧">
+                        <div class="card-body">
+                            <h3 class="card-title">通用解题技巧</h3>
+                            <ul class="list-unstyled">
+                                <li>• 仔细审题，理解题意</li>
+                                <li>• 寻找解题突破口</li>
+                                <li>• 建立知识联系</li>
+                                <li>• 运用逻辑推理</li>
+                                <li>• 验证答案正确性</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card fade-in delay-2">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=multiple%20choice%20questions%20chemistry%20exam%20strategies&image_size=landscape_4_3" class="card-img-top" alt="选择题技巧">
+                        <div class="card-body">
+                            <h3 class="card-title">选择题技巧</h3>
+                            <ul class="list-unstyled">
+                                <li>• 排除法</li>
+                                <li>• 直接法</li>
+                                <li>• 验证法</li>
+                                <li>• 特殊值法</li>
+                                <li>• 守恒法</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card fade-in delay-3">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=calculation%20problems%20chemistry%20numerical%20skills%20formulas&image_size=landscape_4_3" class="card-img-top" alt="计算题技巧">
+                        <div class="card-body">
+                            <h3 class="card-title">计算题技巧</h3>
+                            <ul class="list-unstyled">
+                                <li>• 关系式法</li>
+                                <li>• 差量法</li>
+                                <li>• 极值法</li>
+                                <li>• 平均值法</li>
+                                <li>• 十字交叉法</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 习题解析 -->
+        <section class="section">
+            <h2 class="section-title">习题解析</h2>
+            <p class="text-center text-muted mb-4">解析指导 · 理解解题思路</p>
+            
+            <div class="card fade-in delay-1">
+                <div class="card-body">
+                    <h3 class="card-title">解析内容</h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4 class="card-subtitle mb-2 text-muted">解析方法</h4>
+                            <ul class="list-unstyled">
+                                <li>• 详细的解题步骤</li>
+                                <li>• 关键知识点的解析</li>
+                                <li>• 常见错误的分析</li>
+                                <li>• 解题思路的引导</li>
+                                <li>• 同类问题的拓展</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h4 class="card-subtitle mb-2 text-muted">解析形式</h4>
+                            <ul class="list-unstyled">
+                                <li>• 文字解析</li>
+                                <li>• 图表解析</li>
+                                <li>• 视频解析</li>
+                                <li>• 交互式解析</li>
+                                <li>• 思维导图解析</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 练习策略 -->
+        <section class="section">
+            <h2 class="section-title">练习策略</h2>
+            <p class="text-center text-muted mb-4">策略指导 · 制定有效的练习计划</p>
+            
+            <div class="card fade-in delay-1">
+                <div class="card-body">
+                    <h3 class="card-title">练习策略建议</h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4 class="card-subtitle mb-2 text-muted">不同阶段的练习策略</h4>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">基础阶段</span>：以基础概念习题为主，注重知识巩固</li>
+                                <li>• <span class="keyword">提高阶段</span>：以章节练习为主，注重知识系统化</li>
+                                <li>• <span class="keyword">冲刺阶段</span>：以综合习题和真题为主，注重应试能力</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h4 class="card-subtitle mb-2 text-muted">练习方法建议</h4>
+                            <ul class="list-unstyled">
+                                <li>• 定期练习，保持手感</li>
+                                <li>• 错题整理，查漏补缺</li>
+                                <li>• 限时练习，提高速度</li>
+                                <li>• 举一反三，触类旁通</li>
+                                <li>• 建立错题本，避免重复错误</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 在线测试 -->
+        <section class="section">
+            <h2 class="section-title">在线测试</h2>
+            <p class="text-center text-muted mb-4">在线练习 · 即时反馈学习效果</p>
+            
+            <div class="card fade-in delay-1">
+                <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=online%20chemistry%20test%20digital%20learning%20interactive%20quiz&image_size=landscape_16_9" class="card-img-top" alt="在线测试">
+                <div class="card-body">
+                    <h3 class="card-title">在线测试功能</h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4 class="card-subtitle mb-2 text-muted">测试类型</h4>
+                            <ul class="list-unstyled">
+                                <li>• 章节测试</li>
+                                <li>• 综合测试</li>
+                                <li>• 模拟考试</li>
+                                <li>• 专项练习</li>
+                                <li>• 个性化测试</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h4 class="card-subtitle mb-2 text-muted">测试功能</h4>
+                            <ul class="list-unstyled">
+                                <li>• 即时评分</li>
+                                <li>• 详细解析</li>
+                                <li>• 错题收集</li>
+                                <li>• 学习进度跟踪</li>
+                                <li>• 能力评估报告</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 未来规划 -->
+        <section class="section">
+            <h2 class="section-title">未来规划</h2>
+            <p class="text-center text-muted mb-4">发展计划 · 习题资源的更新与扩展</p>
+            
+            <div class="card fade-in delay-1">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h3 class="card-title">近期计划</h3>
+                            <ul class="list-unstyled">
+                                <li>• 扩充章节练习的题量</li>
+                                <li>• 增加更多的高考和考研真题</li>
+                                <li>• 开发在线测试系统</li>
+                                <li>• 增加视频解析内容</li>
+                                <li>• 更新竞赛试题</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h3 class="card-title">长期规划</h3>
+                            <ul class="list-unstyled">
+                                <li>• 建立智能题库系统</li>
+                                <li>• 开发自适应学习系统</li>
+                                <li>• 构建个性化练习方案</li>
+                                <li>• 建立学习社区，促进交流</li>
+                                <li>• 拓展国际化学习题资源</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>关于项目</h3>
+                    <p>这是一个基于Spring Cloud的化学学习微服务项目，旨在通过微服务架构实现化学知识的管理和学习进度的跟踪。</p>
+                </div>
+                <div class="col-md-4">
+                    <h3>快速链接</h3>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html" data-transition="fade">首页</a></li>
+                        <li><a href="periodic-table.html" data-transition="fade">化学元素</a></li>
+                        <li><a href="profile.html" data-transition="fade">用户中心</a></li>
+                        <li><a href="tasks.html" data-transition="fade">学习进度</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h3>联系方式</h3>
+                    <p>如有问题或建议，请联系我们。</p>
+                    <p>Email: contact@example.com</p>
+                </div>
+            </div>
+            <div class="border-top border-gray-700 mt-4 pt-4 text-center">
+                <p>&copy; 2026 化学学习微服务项目. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/constants.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/page-transition.js"></script>
+</body>
+</html>

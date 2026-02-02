@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>能源化学 - 化学探索</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/page-transition.css">
+</head>
+<body>
+    <!-- 页面过渡层 -->
+    <div class="transition-overlay"></div>
+    
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html" data-transition="fade">
+                <span class="logo-text">化学探索</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html" data-transition="fade">首页</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="elementDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            元素世界
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="elementDropdown">
+                            <li><a class="dropdown-item" href="periodic-table.html" data-transition="fade">元素周期表</a></li>
+                            <li><a class="dropdown-item" href="element-discovery.html" data-transition="fade">元素发现历史</a></li>
+                            <li><a class="dropdown-item" href="element-categories.html" data-transition="fade">元素分类</a></li>
+                            <li><a class="dropdown-item" href="element-detail.html" data-transition="fade">元素详情</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="reactions.html" id="reactionDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-transition="fade">
+                            化学反应
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="reactionDropdown">
+                            <li><a class="dropdown-item" href="basic-reactions.html" data-transition="fade">基本反应类型</a></li>
+                            <li><a class="dropdown-item" href="redox-reactions.html" data-transition="fade">氧化还原反应</a></li>
+                            <li><a class="dropdown-item" href="acid-base-reactions.html" data-transition="fade">酸碱反应</a></li>
+                            <li><a class="dropdown-item" href="coordination-reactions.html" data-transition="fade">配位反应</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="chemistryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            化学分支
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="chemistryDropdown">
+                            <li><a class="dropdown-item" href="organic-chemistry.html" data-transition="fade">有机化学</a></li>
+                            <li><a class="dropdown-item" href="inorganic-chemistry.html" data-transition="fade">无机化学</a></li>
+                            <li><a class="dropdown-item" href="analytical-chemistry.html" data-transition="fade">分析化学</a></li>
+                            <li><a class="dropdown-item" href="physical-chemistry.html" data-transition="fade">物理化学</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="javascript:void(0)" id="applicationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            应用化学
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="applicationDropdown">
+                            <li><a class="dropdown-item" href="environmental-chemistry.html" data-transition="fade">环境化学</a></li>
+                            <li><a class="dropdown-item" href="medical-chemistry.html" data-transition="fade">医药化学</a></li>
+                            <li><a class="dropdown-item" href="materials-chemistry.html" data-transition="fade">材料化学</a></li>
+                            <li><a class="dropdown-item active" href="energy-chemistry.html" data-transition="fade">能源化学</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="resourcesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            学习资源
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="resourcesDropdown">
+                            <li><a class="dropdown-item" href="study-materials.html" data-transition="fade">学习资料</a></li>
+                            <li><a class="dropdown-item" href="experiments.html" data-transition="fade">实验指导</a></li>
+                            <li><a class="dropdown-item" href="practice-problems.html" data-transition="fade">习题练习</a></li>
+                            <li><a class="dropdown-item" href="reference-books.html" data-transition="fade">参考书籍</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="ai-assistant.html" data-transition="fade">AI助手</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="forum.html" data-transition="fade">论坛</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html" data-transition="fade">登录/注册</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>能源化学</h1>
+            <p>探索能源的转化、存储与利用，了解能源科学的前沿发展</p>
+            <a href="#explore" class="btn btn-primary btn-lg">开始探索</a>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container" id="explore">
+        <!-- 能源化学简介 -->
+        <section class="section">
+            <h2 class="section-title">能源化学简介</h2>
+            <p class="text-center text-muted mb-4">基础认知 · 了解能源化学的核心概念</p>
+            
+            <div class="card fade-in delay-1">
+                <div class="card-body">
+                    <p>能源化学是研究能源的转化、存储、利用及其相关化学过程的科学。它是能源科学与化学的交叉学科，是解决全球能源挑战的关键学科。</p>
+                    <p class="mt-3">能源化学的主要研究内容包括：</p>
+                    <ul class="list-unstyled">
+                        <li>• <span class="keyword">能源转化</span>过程的化学原理</li>
+                        <li>• 能源存储材料的设计与合成</li>
+                        <li>• 能源利用的效率与环境影响</li>
+                        <li>• 新能源技术的开发与应用</li>
+                        <li>• 能源系统的优化与集成</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 能源分类 -->
+        <section class="section">
+            <h2 class="section-title">能源分类</h2>
+            <p class="text-center text-muted mb-4">分类体系 · 了解不同类型的能源</p>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card fade-in delay-1">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=energy%20sources%20classification%20fossil%20fuels%20renewable%20energy&image_size=landscape_4_3" class="card-img-top" alt="能源分类">
+                        <div class="card-body">
+                            <h3 class="card-title">按来源分类</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">化石能源</span>（煤、石油、天然气）</li>
+                                <li>• <span class="keyword">可再生能源</span>（太阳能、风能、水能等）</li>
+                                <li>• <span class="keyword">核能</span>（裂变能、聚变能）</li>
+                                <li>• <span class="keyword">生物质能</span>（农作物秸秆、沼气等）</li>
+                                <li>• <span class="keyword">地热能</span>（地下热能）</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card fade-in delay-2">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=energy%20forms%20primary%20secondary%20energy%20carriers&image_size=landscape_4_3" class="card-img-top" alt="能源形式">
+                        <div class="card-body">
+                            <h3 class="card-title">按形式分类</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">一次能源</span>（直接从自然界获取）</li>
+                                <li>• <span class="keyword">二次能源</span>（经过加工转换）</li>
+                                <li>• <span class="keyword">能源载体</span>（电力、氢能等）</li>
+                                <li>• <span class="keyword">储能介质</span>（电池、储热材料等）</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 传统能源 -->
+        <section class="section">
+            <h2 class="section-title">传统能源</h2>
+            <p class="text-center text-muted mb-4">化石能源 · 了解传统能源的利用</p>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card fade-in delay-1">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=fossil%20fuels%20coal%20oil%20natural%20gas%20energy%20sources&image_size=landscape_4_3" class="card-img-top" alt="化石能源">
+                        <div class="card-body">
+                            <h3 class="card-title">化石能源的利用</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">煤炭</span>：火力发电、煤化工</li>
+                                <li>• <span class="keyword">石油</span>：炼制汽油、柴油、化工原料</li>
+                                <li>• <span class="keyword">天然气</span>：发电、供热、化工原料</li>
+                                <li>• 化石能源的清洁利用技术</li>
+                                <li>• 碳捕获与封存（CCUS）技术</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card fade-in delay-2">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=combustion%20process%20energy%20conversion%20chemical%20reactions&image_size=landscape_4_3" class="card-img-top" alt="燃烧过程">
+                        <div class="card-body">
+                            <h3 class="card-title">燃烧与能量转化</h3>
+                            <ul class="list-unstyled">
+                                <li>• 燃烧反应的化学原理</li>
+                                <li>• 燃烧过程的热力学分析</li>
+                                <li>• 燃烧产物的环境影响</li>
+                                <li>• 高效燃烧技术</li>
+                                <li>• 污染物控制技术</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 可再生能源 -->
+        <section class="section">
+            <h2 class="section-title">可再生能源</h2>
+            <p class="text-center text-muted mb-4">清洁能源 · 了解可再生能源的开发</p>
+            
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card fade-in delay-1">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=solar%20energy%20photovoltaic%20cells%20solar%20panels&image_size=landscape_4_3" class="card-img-top" alt="太阳能">
+                        <div class="card-body">
+                            <h3 class="card-title">太阳能</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">光伏发电</span>（PV）</li>
+                                <li>• <span class="keyword">光热发电</span>（CSP）</li>
+                                <li>• 太阳能电池材料</li>
+                                <li>• 太阳能的存储与利用</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card fade-in delay-2">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=wind%20energy%20wind%20turbines%20renewable%20power&image_size=landscape_4_3" class="card-img-top" alt="风能">
+                        <div class="card-body">
+                            <h3 class="card-title">风能</h3>
+                            <ul class="list-unstyled">
+                                <li>• 风力发电原理</li>
+                                <li>• 风能资源评估</li>
+                                <li>• 风力发电机技术</li>
+                                <li>• 风能的并网技术</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card fade-in delay-3">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=hydroelectric%20power%20water%20energy%20renewable%20resources&image_size=landscape_4_3" class="card-img-top" alt="水能">
+                        <div class="card-body">
+                            <h3 class="card-title">水能</h3>
+                            <ul class="list-unstyled">
+                                <li>• 水力发电原理</li>
+                                <li>• 水电站类型</li>
+                                <li>• 潮汐能与波浪能</li>
+                                <li>• 水电的环境影响</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 能源存储 -->
+        <section class="section">
+            <h2 class="section-title">能源存储</h2>
+            <p class="text-center text-muted mb-4">存储技术 · 了解能源的存储方法</p>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card fade-in delay-1">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=batteries%20energy%20storage%20lithium%20ion%20battery%20technology&image_size=landscape_4_3" class="card-img-top" alt="电池储能">
+                        <div class="card-body">
+                            <h3 class="card-title">电化学储能</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">锂离子电池</span>（LIB）</li>
+                                <li>• <span class="keyword">铅酸电池</span></li>
+                                <li>• <span class="keyword">镍氢电池</span>（Ni-MH）</li>
+                                <li>• <span class="keyword">钠电池</span>（钠离子、钠硫）</li>
+                                <li>• <span class="keyword">液流电池</span>（钒液流、锌溴）</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card fade-in delay-2">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=hydrogen%20energy%20fuel%20cells%20hydrogen%20storage&image_size=landscape_4_3" class="card-img-top" alt="氢能">
+                        <div class="card-body">
+                            <h3 class="card-title">氢能与燃料电池</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">氢的制备</span>（电解水、重整）</li>
+                                <li>• <span class="keyword">氢的存储</span>（高压、液氢、储氢材料）</li>
+                                <li>• <span class="keyword">燃料电池</span>（PEMFC、SOFC）</li>
+                                <li>• 氢能的应用领域</li>
+                                <li>• 氢能源系统集成</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 能源材料 -->
+        <section class="section">
+            <h2 class="section-title">能源材料</h2>
+            <p class="text-center text-muted mb-4">材料科学 · 了解能源相关材料</p>
+            
+            <div class="card fade-in delay-1">
+                <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=energy%20materials%20advanced%20battery%20materials%20fuel%20cell%20components&image_size=landscape_16_9" class="card-img-top" alt="能源材料">
+                <div class="card-body">
+                    <h3 class="card-title">关键能源材料</h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4 class="card-subtitle mb-2 text-muted">电池材料</h4>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">正极材料</span>（LiCoO₂、LiFePO₄）</li>
+                                <li>• <span class="keyword">负极材料</span>（石墨、硅碳）</li>
+                                <li>• <span class="keyword">电解液</span>（锂盐、溶剂）</li>
+                                <li>• <span class="keyword">隔膜</span>（多孔膜）</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h4 class="card-subtitle mb-2 text-muted">催化材料</h4>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">燃料电池催化剂</span>（Pt基、非Pt）</li>
+                                <li>• <span class="keyword">电解水催化剂</span>（OER、HER）</li>
+                                <li>• <span class="keyword">光催化剂</span>（TiO₂、g-C₃N₄）</li>
+                                <li>• <span class="keyword">重整催化剂</span>（Ni基）</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 能源转化技术 -->
+        <section class="section">
+            <h2 class="section-title">能源转化技术</h2>
+            <p class="text-center text-muted mb-4">转化过程 · 了解能源的转化技术</p>
+            
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card fade-in delay-1">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=electrolysis%20water%20splitting%20hydrogen%20production&image_size=landscape_4_3" class="card-img-top" alt="电解水">
+                        <div class="card-body">
+                            <h3 class="card-title">电解技术</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">碱性电解</span></li>
+                                <li>• <span class="keyword">质子交换膜电解</span>（PEM）</li>
+                                <li>• <span class="keyword">固体氧化物电解</span>（SOEC）</li>
+                                <li>• 电解效率优化</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card fade-in delay-2">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=photocatalysis%20solar%20energy%20conversion%20water%20splitting&image_size=landscape_4_3" class="card-img-top" alt="光催化">
+                        <div class="card-body">
+                            <h3 class="card-title">光催化技术</h3>
+                            <ul class="list-unstyled">
+                                <li>• 光催化水分解</li>
+                                <li>• 光催化CO₂还原</li>
+                                <li>• 光催化污染物降解</li>
+                                <li>• 光催化剂的设计</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card fade-in delay-3">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=thermochemical%20processes%20energy%20conversion%20chemical%20reactions&image_size=landscape_4_3" class="card-img-top" alt="热化学">
+                        <div class="card-body">
+                            <h3 class="card-title">热化学技术</h3>
+                            <ul class="list-unstyled">
+                                <li>• 热化学循环制氢</li>
+                                <li>• 生物质热解</li>
+                                <li>• 煤气化</li>
+                                <li>• 热化学储能</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 案例研究 -->
+        <section class="section">
+            <h2 class="section-title">能源技术案例</h2>
+            <p class="text-center text-muted mb-4">实际案例 · 了解能源技术的应用</p>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card fade-in delay-1">
+                        <div class="card-header">
+                            <h3 class="card-title">案例一：锂离子电池的发展</h3>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>背景：</strong>锂离子电池是目前应用最广泛的二次电池，广泛用于手机、笔记本电脑、电动汽车等领域。</p>
+                            <p><strong>发展历程：</strong></p>
+                            <ul class="list-unstyled">
+                                <li>• 1980年代：古迪纳夫等人开发LiCoO₂正极材料</li>
+                                <li>• 1991年：索尼公司推出首个商用锂离子电池</li>
+                                <li>• 2000年代：磷酸铁锂（LiFePO₄）正极材料商业化</li>
+                                <li>• 2019年：古迪纳夫等人获得诺贝尔化学奖</li>
+                            </ul>
+                            <p><strong>未来方向：</strong>高能量密度、长循环寿命、高安全性</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card fade-in delay-2">
+                        <div class="card-header">
+                            <h3 class="card-title">案例二：燃料电池汽车</h3>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>背景：</strong>燃料电池汽车是一种以氢气为燃料，通过电化学反应产生电能驱动的新能源汽车。</p>
+                            <p><strong>技术特点：</strong></p>
+                            <ul class="list-unstyled">
+                                <li>• 高效：能量转换效率可达60%以上</li>
+                                <li>• 清洁：产物只有水，零排放</li>
+                                <li>• 快速加氢：3-5分钟即可加满</li>
+                                <li>• 长续航：续航里程可达500-700公里</li>
+                            </ul>
+                            <p><strong>挑战：</strong>氢的制备、存储、运输及成本</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 未来展望 -->
+        <section class="section">
+            <h2 class="section-title">能源化学的未来展望</h2>
+            <p class="text-center text-muted mb-4">发展趋势 · 能源化学的前沿方向</p>
+            
+            <div class="card fade-in delay-1">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h3 class="card-title">前沿研究方向</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">人工光合作用</span></li>
+                                <li>• <span class="keyword">生物质能</span>的高效转化</li>
+                                <li>• <span class="keyword">先进核能</span>（聚变能、小型模块化反应堆）</li>
+                                <li>• <span class="keyword">能源互联网</span>与智能电网</li>
+                                <li>• <span class="keyword">碳中和</span>技术路径</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h3 class="card-title">技术发展趋势</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">人工智能</span>辅助能源系统优化</li>
+                                <li>• <span class="keyword">大数据</span>在能源管理中的应用</li>
+                                <li>• <span class="keyword">纳米技术</span>在能源材料中的应用</li>
+                                <li>• <span class="keyword">先进表征技术</span>的发展</li>
+                                <li>• <span class="keyword">系统集成</span>与多能互补</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>关于项目</h3>
+                    <p>这是一个基于Spring Cloud的化学学习微服务项目，旨在通过微服务架构实现化学知识的管理和学习进度的跟踪。</p>
+                </div>
+                <div class="col-md-4">
+                    <h3>快速链接</h3>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html" data-transition="fade">首页</a></li>
+                        <li><a href="periodic-table.html" data-transition="fade">化学元素</a></li>
+                        <li><a href="profile.html" data-transition="fade">用户中心</a></li>
+                        <li><a href="tasks.html" data-transition="fade">学习进度</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h3>联系方式</h3>
+                    <p>如有问题或建议，请联系我们。</p>
+                    <p>Email: contact@example.com</p>
+                </div>
+            </div>
+            <div class="border-top border-gray-700 mt-4 pt-4 text-center">
+                <p>&copy; 2026 化学学习微服务项目. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/constants.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/page-transition.js"></script>
+</body>
+</html>

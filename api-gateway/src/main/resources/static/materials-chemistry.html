@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>材料化学 - 化学探索</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/page-transition.css">
+</head>
+<body>
+    <!-- 页面过渡层 -->
+    <div class="transition-overlay"></div>
+    
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html" data-transition="fade">
+                <span class="logo-text">化学探索</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html" data-transition="fade">首页</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="elementDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            元素世界
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="elementDropdown">
+                            <li><a class="dropdown-item" href="periodic-table.html" data-transition="fade">元素周期表</a></li>
+                            <li><a class="dropdown-item" href="element-discovery.html" data-transition="fade">元素发现历史</a></li>
+                            <li><a class="dropdown-item" href="element-categories.html" data-transition="fade">元素分类</a></li>
+                            <li><a class="dropdown-item" href="element-detail.html" data-transition="fade">元素详情</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="reactions.html" id="reactionDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-transition="fade">
+                            化学反应
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="reactionDropdown">
+                            <li><a class="dropdown-item" href="basic-reactions.html" data-transition="fade">基本反应类型</a></li>
+                            <li><a class="dropdown-item" href="redox-reactions.html" data-transition="fade">氧化还原反应</a></li>
+                            <li><a class="dropdown-item" href="acid-base-reactions.html" data-transition="fade">酸碱反应</a></li>
+                            <li><a class="dropdown-item" href="coordination-reactions.html" data-transition="fade">配位反应</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="chemistryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            化学分支
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="chemistryDropdown">
+                            <li><a class="dropdown-item" href="organic-chemistry.html" data-transition="fade">有机化学</a></li>
+                            <li><a class="dropdown-item" href="inorganic-chemistry.html" data-transition="fade">无机化学</a></li>
+                            <li><a class="dropdown-item" href="analytical-chemistry.html" data-transition="fade">分析化学</a></li>
+                            <li><a class="dropdown-item" href="physical-chemistry.html" data-transition="fade">物理化学</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="javascript:void(0)" id="applicationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            应用化学
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="applicationDropdown">
+                            <li><a class="dropdown-item" href="environmental-chemistry.html" data-transition="fade">环境化学</a></li>
+                            <li><a class="dropdown-item" href="medical-chemistry.html" data-transition="fade">医药化学</a></li>
+                            <li><a class="dropdown-item active" href="materials-chemistry.html" data-transition="fade">材料化学</a></li>
+                            <li><a class="dropdown-item" href="energy-chemistry.html" data-transition="fade">能源化学</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="resourcesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            学习资源
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="resourcesDropdown">
+                            <li><a class="dropdown-item" href="study-materials.html" data-transition="fade">学习资料</a></li>
+                            <li><a class="dropdown-item" href="experiments.html" data-transition="fade">实验指导</a></li>
+                            <li><a class="dropdown-item" href="practice-problems.html" data-transition="fade">习题练习</a></li>
+                            <li><a class="dropdown-item" href="reference-books.html" data-transition="fade">参考书籍</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="ai-assistant.html" data-transition="fade">AI助手</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="forum.html" data-transition="fade">论坛</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html" data-transition="fade">登录/注册</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>材料化学</h1>
+            <p>探索材料的设计、合成与应用，了解材料科学的前沿发展</p>
+            <a href="#explore" class="btn btn-primary btn-lg">开始探索</a>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container" id="explore">
+        <!-- 材料化学简介 -->
+        <section class="section">
+            <h2 class="section-title">材料化学简介</h2>
+            <p class="text-center text-muted mb-4">基础认知 · 了解材料化学的核心概念</p>
+            
+            <div class="card fade-in delay-1">
+                <div class="card-body">
+                    <p>材料化学是研究材料的设计、合成、结构、性能及其应用的科学。它是材料科学与化学的交叉学科，是现代材料科学的重要基础。</p>
+                    <p class="mt-3">材料化学的主要研究内容包括：</p>
+                    <ul class="list-unstyled">
+                        <li>• <span class="keyword">材料的设计</span>和分子工程</li>
+                        <li>• 材料的化学合成方法</li>
+                        <li>• 材料的结构与性能关系</li>
+                        <li>• 材料的表征技术</li>
+                        <li>• 新材料的开发与应用</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 材料分类 -->
+        <section class="section">
+            <h2 class="section-title">材料分类</h2>
+            <p class="text-center text-muted mb-4">分类体系 · 了解不同类型的材料</p>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card fade-in delay-1">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=materials%20science%20classification%20different%20types%20of%20materials&image_size=landscape_4_3" class="card-img-top" alt="材料分类">
+                        <div class="card-body">
+                            <h3 class="card-title">传统材料</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">金属材料</span>（钢铁、铝合金等）</li>
+                                <li>• <span class="keyword">无机非金属材料</span>（陶瓷、玻璃等）</li>
+                                <li>• <span class="keyword">高分子材料</span>（塑料、橡胶等）</li>
+                                <li>• <span class="keyword">复合材料</span>（玻璃钢、碳纤维复合材料等）</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card fade-in delay-2">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=advanced%20materials%20nanotechnology%20smart%20materials&image_size=landscape_4_3" class="card-img-top" alt="先进材料">
+                        <div class="card-body">
+                            <h3 class="card-title">先进材料</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">纳米材料</span>（纳米粒子、纳米线等）</li>
+                                <li>• <span class="keyword">智能材料</span>（形状记忆合金、压电材料等）</li>
+                                <li>• <span class="keyword">功能材料</span>（磁性材料、光学材料等）</li>
+                                <li>• <span class="keyword">生物材料</span>（组织工程材料、药物递送材料等）</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 材料合成技术 -->
+        <section class="section">
+            <h2 class="section-title">材料合成技术</h2>
+            <p class="text-center text-muted mb-4">合成方法 · 了解材料的制备技术</p>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card fade-in delay-1">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=materials%20synthesis%20chemical%20methods%20laboratory%20techniques&image_size=landscape_4_3" class="card-img-top" alt="材料合成">
+                        <div class="card-body">
+                            <h3 class="card-title">化学合成方法</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">溶胶-凝胶法</span>（Sol-Gel）</li>
+                                <li>• <span class="keyword">水热/溶剂热合成</span></li>
+                                <li>• <span class="keyword">气相沉积法</span>（CVD、PVD）</li>
+                                <li>• <span class="keyword">固相合成</span>方法</li>
+                                <li>• <span class="keyword">模板法</span>合成</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card fade-in delay-2">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=materials%20processing%20techniques%20manufacturing%20methods&image_size=landscape_4_3" class="card-img-top" alt="材料加工">
+                        <div class="card-body">
+                            <h3 class="card-title">材料加工技术</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">熔融加工</span>（注塑、挤出等）</li>
+                                <li>• <span class="keyword">烧结技术</span>（陶瓷、粉末冶金）</li>
+                                <li>• <span class="keyword">热处理</span>工艺</li>
+                                <li>• <span class="keyword">表面处理</span>技术</li>
+                                <li>• <span class="keyword">3D打印</span>技术</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 材料表征技术 -->
+        <section class="section">
+            <h2 class="section-title">材料表征技术</h2>
+            <p class="text-center text-muted mb-4">表征方法 · 了解材料的分析技术</p>
+            
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card fade-in delay-1">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=materials%20characterization%20techniques%20microscopy%20analysis&image_size=landscape_4_3" class="card-img-top" alt="材料表征">
+                        <div class="card-body">
+                            <h3 class="card-title">微观结构表征</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">光学显微镜</span>（OM）</li>
+                                <li>• <span class="keyword">扫描电子显微镜</span>（SEM）</li>
+                                <li>• <span class="keyword">透射电子显微镜</span>（TEM）</li>
+                                <li>• <span class="keyword">原子力显微镜</span>（AFM）</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card fade-in delay-2">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=spectroscopy%20techniques%20material%20analysis%20equipment&image_size=landscape_4_3" class="card-img-top" alt="光谱分析">
+                        <div class="card-body">
+                            <h3 class="card-title">光谱分析技术</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">X射线衍射</span>（XRD）</li>
+                                <li>• <span class="keyword">红外光谱</span>（IR）</li>
+                                <li>• <span class="keyword">拉曼光谱</span>（Raman）</li>
+                                <li>• <span class="keyword">紫外-可见光谱</span>（UV-Vis）</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card fade-in delay-3">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=material%20properties%20testing%20mechanical%20analysis&image_size=landscape_4_3" class="card-img-top" alt="性能测试">
+                        <div class="card-body">
+                            <h3 class="card-title">性能测试技术</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">力学性能</span>测试</li>
+                                <li>• <span class="keyword">热性能</span>测试（DSC、TGA）</li>
+                                <li>• <span class="keyword">电学性能</span>测试</li>
+                                <li>• <span class="keyword">磁学性能</span>测试</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 功能材料 -->
+        <section class="section">
+            <h2 class="section-title">功能材料</h2>
+            <p class="text-center text-muted mb-4">专题研究 · 了解具有特殊功能的材料</p>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card fade-in delay-1">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=functional%20materials%20advanced%20properties%20special%20functions&image_size=landscape_4_3" class="card-img-top" alt="功能材料">
+                        <div class="card-body">
+                            <h3 class="card-title">光电功能材料</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">半导体材料</span>（Si、GaAs等）</li>
+                                <li>• <span class="keyword">光致发光材料</span>（荧光粉、量子点）</li>
+                                <li>• <span class="keyword">光伏材料</span>（太阳能电池材料）</li>
+                                <li>• <span class="keyword">光电导材料</span>（光敏电阻材料）</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card fade-in delay-2">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=magnetic%20materials%20electrical%20properties%20smart%20materials&image_size=landscape_4_3" class="card-img-top" alt="磁性材料">
+                        <div class="card-body">
+                            <h3 class="card-title">电磁功能材料</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">磁性材料</span>（铁氧体、稀土永磁）</li>
+                                <li>• <span class="keyword">超导材料</span>（高温超导体）</li>
+                                <li>• <span class="keyword">压电材料</span>（PZT、石英）</li>
+                                <li>• <span class="keyword">铁电材料</span>（BaTiO₃等）</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 纳米材料 -->
+        <section class="section">
+            <h2 class="section-title">纳米材料</h2>
+            <p class="text-center text-muted mb-4">前沿领域 · 了解纳米尺度的材料</p>
+            
+            <div class="card fade-in delay-1">
+                <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=nanomaterials%20nanotechnology%20tiny%20particles%20advanced%20materials&image_size=landscape_16_9" class="card-img-top" alt="纳米材料">
+                <div class="card-body">
+                    <h3 class="card-title">纳米材料的种类与应用</h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4 class="card-subtitle mb-2 text-muted">纳米材料种类</h4>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">零维纳米材料</span>（纳米粒子、量子点）</li>
+                                <li>• <span class="keyword">一维纳米材料</span>（纳米线、纳米管）</li>
+                                <li>• <span class="keyword">二维纳米材料</span>（石墨烯、MoS₂）</li>
+                                <li>• <span class="keyword">三维纳米材料</span>（纳米多孔材料）</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h4 class="card-subtitle mb-2 text-muted">纳米材料应用</h4>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">纳米电子学</span>（纳米器件、传感器）</li>
+                                <li>• <span class="keyword">纳米医学</span>（药物递送、成像）</li>
+                                <li>• <span class="keyword">纳米催化</span>（高效催化剂）</li>
+                                <li>• <span class="keyword">纳米复合材料</span>（增强材料）</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 生物材料 -->
+        <section class="section">
+            <h2 class="section-title">生物材料</h2>
+            <p class="text-center text-muted mb-4">交叉领域 · 了解与生物相关的材料</p>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card fade-in delay-1">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=biomaterials%20medical%20applications%20tissue%20engineering&image_size=landscape_4_3" class="card-img-top" alt="生物材料">
+                        <div class="card-body">
+                            <h3 class="card-title">生物医用材料</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">金属生物材料</span>（钛合金、不锈钢）</li>
+                                <li>• <span class="keyword">聚合物生物材料</span>（PLA、PGA）</li>
+                                <li>• <span class="keyword">陶瓷生物材料</span>（羟基磷灰石）</li>
+                                <li>• <span class="keyword">组织工程支架</span>材料</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card fade-in delay-2">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=biodegradable%20materials%20sustainable%20environmentally%20friendly&image_size=landscape_4_3" class="card-img-top" alt="可降解材料">
+                        <div class="card-body">
+                            <h3 class="card-title">环境友好材料</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">可降解聚合物</span>（PHB、淀粉基塑料）</li>
+                                <li>• <span class="keyword">生物基材料</span>（纤维素、甲壳素）</li>
+                                <li>• <span class="keyword">绿色复合材料</span>（天然纤维增强）</li>
+                                <li>• <span class="keyword">环境修复材料</span>（吸附材料）</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 案例研究 -->
+        <section class="section">
+            <h2 class="section-title">材料研发案例</h2>
+            <p class="text-center text-muted mb-4">实际案例 · 了解材料研发的过程</p>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card fade-in delay-1">
+                        <div class="card-header">
+                            <h3 class="card-title">案例一：石墨烯的发现与应用</h3>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>背景：</strong>石墨烯是由碳原子组成的二维材料，具有优异的电学、热学和力学性能。</p>
+                            <p><strong>研发历程：</strong></p>
+                            <ul class="list-unstyled">
+                                <li>• 2004年：盖姆和诺沃肖洛夫用机械剥离法制备石墨烯</li>
+                                <li>• 2010年：两人因石墨烯研究获得诺贝尔物理学奖</li>
+                                <li>• 后续发展：化学气相沉积法（CVD）大规模制备</li>
+                                <li>• 应用领域：电子器件、复合材料、传感器等</li>
+                            </ul>
+                            <p><strong>性能特点：</strong>高导电性、高热导率、高强度、高透明度</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card fade-in delay-2">
+                        <div class="card-header">
+                            <h3 class="card-title">案例二：锂离子电池材料的发展</h3>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>背景：</strong>锂离子电池是现代便携式电子设备和电动汽车的主要能源存储装置。</p>
+                            <p><strong>关键材料：</strong></p>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">正极材料</span>：LiCoO₂、LiFePO₄、NCM等</li>
+                                <li>• <span class="keyword">负极材料</span>：石墨、硅碳复合材料</li>
+                                <li>• <span class="keyword">电解液</span>：碳酸酯溶剂+锂盐</li>
+                                <li>• <span class="keyword">隔膜</span>：聚丙烯/聚乙烯多孔膜</li>
+                            </ul>
+                            <p><strong>发展趋势：</strong>高能量密度、长循环寿命、高安全性</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 未来展望 -->
+        <section class="section">
+            <h2 class="section-title">材料化学的未来展望</h2>
+            <p class="text-center text-muted mb-4">发展趋势 · 材料化学的前沿方向</p>
+            
+            <div class="card fade-in delay-1">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h3 class="card-title">前沿研究方向</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">智能材料</span>和自适应材料</li>
+                                <li>• <span class="keyword">量子材料</span>和拓扑材料</li>
+                                <li>• <span class="keyword">仿生材料</span>和生物启发材料</li>
+                                <li>• <span class="keyword">二维材料</span>的制备与应用</li>
+                                <li>• <span class="keyword">复合材料</span>的多功能设计</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h3 class="card-title">技术发展趋势</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">人工智能</span>辅助材料设计</li>
+                                <li>• <span class="keyword">高通量实验</span>和材料基因组</li>
+                                <li>• <span class="keyword">精准合成</span>和原子级制造</li>
+                                <li>• <span class="keyword">可持续材料</span>和绿色制造</li>
+                                <li>• <span class="keyword">先进表征技术</span>的发展</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>关于项目</h3>
+                    <p>这是一个基于Spring Cloud的化学学习微服务项目，旨在通过微服务架构实现化学知识的管理和学习进度的跟踪。</p>
+                </div>
+                <div class="col-md-4">
+                    <h3>快速链接</h3>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html" data-transition="fade">首页</a></li>
+                        <li><a href="periodic-table.html" data-transition="fade">化学元素</a></li>
+                        <li><a href="profile.html" data-transition="fade">用户中心</a></li>
+                        <li><a href="tasks.html" data-transition="fade">学习进度</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h3>联系方式</h3>
+                    <p>如有问题或建议，请联系我们。</p>
+                    <p>Email: contact@example.com</p>
+                </div>
+            </div>
+            <div class="border-top border-gray-700 mt-4 pt-4 text-center">
+                <p>&copy; 2026 化学学习微服务项目. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/constants.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/page-transition.js"></script>
+</body>
+</html>

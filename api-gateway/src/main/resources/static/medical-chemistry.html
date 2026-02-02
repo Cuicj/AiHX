@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>医药化学 - 化学探索</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/page-transition.css">
+</head>
+<body>
+    <!-- 页面过渡层 -->
+    <div class="transition-overlay"></div>
+    
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html" data-transition="fade">
+                <span class="logo-text">化学探索</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html" data-transition="fade">首页</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="elementDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            元素世界
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="elementDropdown">
+                            <li><a class="dropdown-item" href="periodic-table.html" data-transition="fade">元素周期表</a></li>
+                            <li><a class="dropdown-item" href="element-discovery.html" data-transition="fade">元素发现历史</a></li>
+                            <li><a class="dropdown-item" href="element-categories.html" data-transition="fade">元素分类</a></li>
+                            <li><a class="dropdown-item" href="element-detail.html" data-transition="fade">元素详情</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="reactions.html" id="reactionDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-transition="fade">
+                            化学反应
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="reactionDropdown">
+                            <li><a class="dropdown-item" href="basic-reactions.html" data-transition="fade">基本反应类型</a></li>
+                            <li><a class="dropdown-item" href="redox-reactions.html" data-transition="fade">氧化还原反应</a></li>
+                            <li><a class="dropdown-item" href="acid-base-reactions.html" data-transition="fade">酸碱反应</a></li>
+                            <li><a class="dropdown-item" href="coordination-reactions.html" data-transition="fade">配位反应</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="chemistryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            化学分支
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="chemistryDropdown">
+                            <li><a class="dropdown-item" href="organic-chemistry.html" data-transition="fade">有机化学</a></li>
+                            <li><a class="dropdown-item" href="inorganic-chemistry.html" data-transition="fade">无机化学</a></li>
+                            <li><a class="dropdown-item" href="analytical-chemistry.html" data-transition="fade">分析化学</a></li>
+                            <li><a class="dropdown-item" href="physical-chemistry.html" data-transition="fade">物理化学</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="javascript:void(0)" id="applicationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            应用化学
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="applicationDropdown">
+                            <li><a class="dropdown-item" href="environmental-chemistry.html" data-transition="fade">环境化学</a></li>
+                            <li><a class="dropdown-item active" href="medical-chemistry.html" data-transition="fade">医药化学</a></li>
+                            <li><a class="dropdown-item" href="materials-chemistry.html" data-transition="fade">材料化学</a></li>
+                            <li><a class="dropdown-item" href="energy-chemistry.html" data-transition="fade">能源化学</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="resourcesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            学习资源
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="resourcesDropdown">
+                            <li><a class="dropdown-item" href="study-materials.html" data-transition="fade">学习资料</a></li>
+                            <li><a class="dropdown-item" href="experiments.html" data-transition="fade">实验指导</a></li>
+                            <li><a class="dropdown-item" href="practice-problems.html" data-transition="fade">习题练习</a></li>
+                            <li><a class="dropdown-item" href="reference-books.html" data-transition="fade">参考书籍</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="ai-assistant.html" data-transition="fade">AI助手</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="forum.html" data-transition="fade">论坛</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html" data-transition="fade">登录/注册</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>医药化学</h1>
+            <p>探索化学在医药领域的应用，了解药物的设计、合成与作用机制</p>
+            <a href="#explore" class="btn btn-primary btn-lg">开始探索</a>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container" id="explore">
+        <!-- 医药化学简介 -->
+        <section class="section">
+            <h2 class="section-title">医药化学简介</h2>
+            <p class="text-center text-muted mb-4">基础认知 · 了解医药化学的核心概念</p>
+            
+            <div class="card fade-in delay-1">
+                <div class="card-body">
+                    <p>医药化学是研究药物的设计、合成、结构与活性关系、代谢和作用机制的科学。它是连接化学和医学的桥梁，也是药物研发的核心学科。</p>
+                    <p class="mt-3">医药化学的主要研究内容包括：</p>
+                    <ul class="list-unstyled">
+                        <li>• <span class="keyword">药物分子设计</span>和优化</li>
+                        <li>• 药物的化学合成方法</li>
+                        <li>• 药物的构效关系（SAR）研究</li>
+                        <li>• 药物的代谢和毒理学</li>
+                        <li>• 药物递送系统</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 药物分类 -->
+        <section class="section">
+            <h2 class="section-title">药物分类</h2>
+            <p class="text-center text-muted mb-4">分类体系 · 了解不同类型的药物</p>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card fade-in delay-1">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=pharmaceutical%20drugs%20classification%20medicines%20tablets&image_size=landscape_4_3" class="card-img-top" alt="药物分类">
+                        <div class="card-body">
+                            <h3 class="card-title">按化学结构分类</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">生物碱类</span>（如吗啡、咖啡因）</li>
+                                <li>• <span class="keyword">抗生素类</span>（如青霉素、头孢菌素）</li>
+                                <li>• <span class="keyword">甾体类</span>（如可的松、睾酮）</li>
+                                <li>• <span class="keyword">维生素类</span>（如维生素C、维生素D）</li>
+                                <li>• <span class="keyword">核苷类</span>（如阿昔洛韦、齐多夫定）</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card fade-in delay-2">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=pharmacology%20drug%20action%20mechanisms%20receptors&image_size=landscape_4_3" class="card-img-top" alt="药物作用">
+                        <div class="card-body">
+                            <h3 class="card-title">按作用机制分类</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">受体激动剂/拮抗剂</span></li>
+                                <li>• <span class="keyword">酶抑制剂</span></li>
+                                <li>• <span class="keyword">离子通道调节剂</span></li>
+                                <li>• <span class="keyword">核酸抑制剂</span></li>
+                                <li>• <span class="keyword">免疫调节剂</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 药物设计与合成 -->
+        <section class="section">
+            <h2 class="section-title">药物设计与合成</h2>
+            <p class="text-center text-muted mb-4">核心技术 · 药物研发的关键步骤</p>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card fade-in delay-1">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=drug%20design%20molecular%20modeling%20computer%20aided%20drug%20design&image_size=landscape_4_3" class="card-img-top" alt="药物设计">
+                        <div class="card-body">
+                            <h3 class="card-title">药物设计方法</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">基于靶点的药物设计</span>（SBDD）</li>
+                                <li>• <span class="keyword">基于配体的药物设计</span>（LBDD）</li>
+                                <li>• <span class="keyword">计算机辅助药物设计</span>（CADD）</li>
+                                <li>• <span class="keyword">高通量筛选</span>（HTS）</li>
+                                <li>• <span class="keyword">组合化学</span>技术</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card fade-in delay-2">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=organic%20synthesis%20chemical%20reactions%20laboratory%20drug%20synthesis&image_size=landscape_4_3" class="card-img-top" alt="药物合成">
+                        <div class="card-body">
+                            <h3 class="card-title">药物合成技术</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">经典有机合成</span>方法</li>
+                                <li>• <span class="keyword">催化反应</span>（如钯催化偶联）</li>
+                                <li>• <span class="keyword">不对称合成</span>技术</li>
+                                <li>• <span class="keyword">固相合成</span>方法</li>
+                                <li>• <span class="keyword">连续流合成</span>技术</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 药物作用机制 -->
+        <section class="section">
+            <h2 class="section-title">药物作用机制</h2>
+            <p class="text-center text-muted mb-4">作用原理 · 了解药物如何发挥作用</p>
+            
+            <div class="card fade-in delay-1">
+                <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=drug%20mechanism%20of%20action%20receptor%20binding%20cell%20signaling&image_size=landscape_16_9" class="card-img-top" alt="药物作用机制">
+                <div class="card-body">
+                    <h3 class="card-title">主要作用机制</h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4 class="card-subtitle mb-2 text-muted">受体相互作用</h4>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">受体激动剂</span>：激活受体产生效应</li>
+                                <li>• <span class="keyword">受体拮抗剂</span>：阻断受体活性</li>
+                                <li>• <span class="keyword">部分激动剂</span>：部分激活受体</li>
+                                <li>• <span class="keyword">反向激动剂</span>：抑制受体基础活性</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h4 class="card-subtitle mb-2 text-muted">酶抑制作用</h4>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">不可逆抑制剂</span>：共价结合酶活性位点</li>
+                                <li>• <span class="keyword">可逆抑制剂</span>：非共价结合酶</li>
+                                <li>• <span class="keyword">竞争性抑制剂</span>：与底物竞争结合</li>
+                                <li>• <span class="keyword">非竞争性抑制剂</span>：结合酶的其他位点</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 药物代谢 -->
+        <section class="section">
+            <h2 class="section-title">药物代谢</h2>
+            <p class="text-center text-muted mb-4">代谢过程 · 了解药物在体内的变化</p>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card fade-in delay-1">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=drug%20metabolism%20liver%20enzymes%20biotransformation&image_size=landscape_4_3" class="card-img-top" alt="药物代谢">
+                        <div class="card-body">
+                            <h3 class="card-title">药物代谢反应</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">I相反应</span>：氧化、还原、水解</li>
+                                <li>• <span class="keyword">II相反应</span>：结合反应（葡萄糖醛酸化、硫酸化等）</li>
+                                <li>• 主要代谢器官：肝脏（细胞色素P450酶系）</li>
+                                <li>• 其他代谢部位：肠道、肾脏、肺等</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card fade-in delay-2">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=pharmacokinetics%20drug%20absorption%20distribution%20metabolism%20excretion&image_size=landscape_4_3" class="card-img-top" alt="药代动力学">
+                        <div class="card-body">
+                            <h3 class="card-title">药代动力学</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">吸收</span>（Absorption）：药物进入血液循环</li>
+                                <li>• <span class="keyword">分布</span>（Distribution）：药物在体内的分布</li>
+                                <li>• <span class="keyword">代谢</span>（Metabolism）：药物的生物转化</li>
+                                <li>• <span class="keyword">排泄</span>（Excretion）：药物从体内排出</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 药物递送系统 -->
+        <section class="section">
+            <h2 class="section-title">药物递送系统</h2>
+            <p class="text-center text-muted mb-4">递送技术 · 提高药物疗效的方法</p>
+            
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card fade-in delay-1">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=drug%20delivery%20systems%20nanoparticles%20targeted%20delivery&image_size=landscape_4_3" class="card-img-top" alt="药物递送">
+                        <div class="card-body">
+                            <h3 class="card-title">纳米药物递送</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">脂质体</span>（Liposomes）</li>
+                                <li>• <span class="keyword">纳米粒</span>（Nanoparticles）</li>
+                                <li>• <span class="keyword">聚合物胶束</span>（Polymer Micelles）</li>
+                                <li>• <span class="keyword">树状大分子</span>（Dendrimers）</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card fade-in delay-2">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=controlled%20release%20drug%20delivery%20sustained%20release%20formulations&image_size=landscape_4_3" class="card-img-top" alt="控释系统">
+                        <div class="card-body">
+                            <h3 class="card-title">控释系统</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">缓释制剂</span>（Sustained Release）</li>
+                                <li>• <span class="keyword">控释制剂</span>（Controlled Release）</li>
+                                <li>• <span class="keyword">脉冲释药</span>（Pulsatile Release）</li>
+                                <li>• <span class="keyword">靶向释药</span>（Targeted Delivery）</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card fade-in delay-3">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=transdermal%20drug%20delivery%20patches%20skin%20delivery&image_size=landscape_4_3" class="card-img-top" alt="透皮递送">
+                        <div class="card-body">
+                            <h3 class="card-title">其他递送方式</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">透皮递送</span>（Transdermal Delivery）</li>
+                                <li>• <span class="keyword">肺部递送</span>（Pulmonary Delivery）</li>
+                                <li>• <span class="keyword">鼻腔递送</span>（Nasal Delivery）</li>
+                                <li>• <span class="keyword">眼部递送</span>（Ocular Delivery）</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 案例研究 -->
+        <section class="section">
+            <h2 class="section-title">药物研发案例</h2>
+            <p class="text-center text-muted mb-4">实际案例 · 了解药物研发的过程</p>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card fade-in delay-1">
+                        <div class="card-header">
+                            <h3 class="card-title">案例一：阿司匹林的发现与发展</h3>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>背景：</strong>阿司匹林是世界上使用最广泛的药物之一，具有解热、镇痛、抗炎和抗血小板聚集作用。</p>
+                            <p><strong>研发历程：</strong></p>
+                            <ul class="list-unstyled">
+                                <li>• 1828年：从柳树皮中提取水杨酸</li>
+                                <li>• 1897年：霍夫曼合成乙酰水杨酸</li>
+                                <li>• 1899年：拜耳公司将其命名为阿司匹林并推向市场</li>
+                                <li>• 1971年：约翰·文发现其作用机制（抑制前列腺素合成）</li>
+                            </ul>
+                            <p><strong>化学结构：</strong>乙酰水杨酸（C₉H₈O₄）</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card fade-in delay-2">
+                        <div class="card-header">
+                            <h3 class="card-title">案例二：青霉素的发现</h3>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>背景：</strong>青霉素是第一种抗生素，彻底改变了医学实践，挽救了无数生命。</p>
+                            <p><strong>发现历程：</strong></p>
+                            <ul class="list-unstyled">
+                                <li>• 1928年：弗莱明发现青霉素</li>
+                                <li>• 1940年：弗洛里和钱恩分离纯化青霉素</li>
+                                <li>• 1943年：青霉素开始大规模生产</li>
+                                <li>• 1945年：三人共同获得诺贝尔生理学或医学奖</li>
+                            </ul>
+                            <p><strong>化学结构：</strong>β-内酰胺类抗生素</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 未来展望 -->
+        <section class="section">
+            <h2 class="section-title">医药化学的未来展望</h2>
+            <p class="text-center text-muted mb-4">发展趋势 · 医药化学的前沿方向</p>
+            
+            <div class="card fade-in delay-1">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h3 class="card-title">前沿研究方向</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">精准医疗</span>和个体化药物</li>
+                                <li>• <span class="keyword">靶向药物</span>和免疫治疗</li>
+                                <li>• <span class="keyword">基因治疗</span>和细胞治疗</li>
+                                <li>• <span class="keyword">人工智能</span>辅助药物设计</li>
+                                <li>• <span class="keyword">天然产物</span>的开发利用</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h3 class="card-title">技术发展趋势</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">高通量筛选</span>技术</li>
+                                <li>• <span class="keyword">基因组学</span>和蛋白质组学</li>
+                                <li>• <span class="keyword">结构生物学</span>技术</li>
+                                <li>• <span class="keyword">合成生物学</span>在药物研发中的应用</li>
+                                <li>• <span class="keyword">3D打印</span>药物制剂</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>关于项目</h3>
+                    <p>这是一个基于Spring Cloud的化学学习微服务项目，旨在通过微服务架构实现化学知识的管理和学习进度的跟踪。</p>
+                </div>
+                <div class="col-md-4">
+                    <h3>快速链接</h3>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html" data-transition="fade">首页</a></li>
+                        <li><a href="periodic-table.html" data-transition="fade">化学元素</a></li>
+                        <li><a href="profile.html" data-transition="fade">用户中心</a></li>
+                        <li><a href="tasks.html" data-transition="fade">学习进度</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h3>联系方式</h3>
+                    <p>如有问题或建议，请联系我们。</p>
+                    <p>Email: contact@example.com</p>
+                </div>
+            </div>
+            <div class="border-top border-gray-700 mt-4 pt-4 text-center">
+                <p>&copy; 2026 化学学习微服务项目. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/constants.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/page-transition.js"></script>
+</body>
+</html>

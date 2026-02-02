@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>参考书籍 - 化学探索</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/page-transition.css">
+</head>
+<body>
+    <!-- 页面过渡层 -->
+    <div class="transition-overlay"></div>
+    
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html" data-transition="fade">
+                <span class="logo-text">化学探索</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html" data-transition="fade">首页</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="elementDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            元素世界
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="elementDropdown">
+                            <li><a class="dropdown-item" href="periodic-table.html" data-transition="fade">元素周期表</a></li>
+                            <li><a class="dropdown-item" href="element-discovery.html" data-transition="fade">元素发现历史</a></li>
+                            <li><a class="dropdown-item" href="element-categories.html" data-transition="fade">元素分类</a></li>
+                            <li><a class="dropdown-item" href="element-detail.html" data-transition="fade">元素详情</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="reactions.html" id="reactionDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-transition="fade">
+                            化学反应
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="reactionDropdown">
+                            <li><a class="dropdown-item" href="basic-reactions.html" data-transition="fade">基本反应类型</a></li>
+                            <li><a class="dropdown-item" href="redox-reactions.html" data-transition="fade">氧化还原反应</a></li>
+                            <li><a class="dropdown-item" href="acid-base-reactions.html" data-transition="fade">酸碱反应</a></li>
+                            <li><a class="dropdown-item" href="coordination-reactions.html" data-transition="fade">配位反应</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="chemistryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            化学分支
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="chemistryDropdown">
+                            <li><a class="dropdown-item" href="organic-chemistry.html" data-transition="fade">有机化学</a></li>
+                            <li><a class="dropdown-item" href="inorganic-chemistry.html" data-transition="fade">无机化学</a></li>
+                            <li><a class="dropdown-item" href="analytical-chemistry.html" data-transition="fade">分析化学</a></li>
+                            <li><a class="dropdown-item" href="physical-chemistry.html" data-transition="fade">物理化学</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="applicationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            应用化学
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="applicationDropdown">
+                            <li><a class="dropdown-item" href="environmental-chemistry.html" data-transition="fade">环境化学</a></li>
+                            <li><a class="dropdown-item" href="medical-chemistry.html" data-transition="fade">医药化学</a></li>
+                            <li><a class="dropdown-item" href="materials-chemistry.html" data-transition="fade">材料化学</a></li>
+                            <li><a class="dropdown-item" href="energy-chemistry.html" data-transition="fade">能源化学</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="javascript:void(0)" id="resourcesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            学习资源
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="resourcesDropdown">
+                            <li><a class="dropdown-item" href="study-materials.html" data-transition="fade">学习资料</a></li>
+                            <li><a class="dropdown-item" href="experiments.html" data-transition="fade">实验指导</a></li>
+                            <li><a class="dropdown-item" href="practice-problems.html" data-transition="fade">习题练习</a></li>
+                            <li><a class="dropdown-item active" href="reference-books.html" data-transition="fade">参考书籍</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="ai-assistant.html" data-transition="fade">AI助手</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="forum.html" data-transition="fade">论坛</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html" data-transition="fade">登录/注册</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>参考书籍</h1>
+            <p>推荐优质的化学参考书籍，帮助您深入学习化学知识</p>
+            <a href="#explore" class="btn btn-primary btn-lg">开始探索</a>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container" id="explore">
+        <!-- 参考书籍简介 -->
+        <section class="section">
+            <h2 class="section-title">参考书籍简介</h2>
+            <p class="text-center text-muted mb-4">书籍概述 · 了解我们推荐的参考书籍</p>
+            
+            <div class="card fade-in delay-1">
+                <div class="card-body">
+                    <p>参考书籍是学习化学的重要资源，一本好的参考书可以帮助您系统地学习化学知识，深入理解化学概念，掌握化学原理。我们推荐了一系列优质的化学参考书籍，涵盖从基础到高级的各个层次，适合不同学习阶段的学生使用。</p>
+                    <p class="mt-3">我们的推荐书籍包括：</p>
+                    <ul class="list-unstyled">
+                        <li>• <span class="keyword">基础教材</span>：适合初学者的入门教材</li>
+                        <li>• <span class="keyword">专业教材</span>：适合大学生和研究生的专业书籍</li>
+                        <li>• <span class="keyword">参考工具书</span>：字典、手册、百科全书等</li>
+                        <li>• <span class="keyword">科普读物</span>：适合大众阅读的化学科普书籍</li>
+                        <li>• <span class="keyword">专业专著</span>：特定领域的深入研究书籍</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 基础教材 -->
+        <section class="section">
+            <h2 class="section-title">基础教材</h2>
+            <p class="text-center text-muted mb-4">入门书籍 · 适合初学者的化学教材</p>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card fade-in delay-1">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=basic%20chemistry%20textbook%20introduction%20for%20beginners%20high%20school&image_size=landscape_4_3" class="card-img-top" alt="基础教材">
+                        <div class="card-body">
+                            <h3 class="card-title">中学化学教材</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">《化学（必修）》</span>（人民教育出版社）</li>
+                                <li>• <span class="keyword">《化学（选修）》</span>（人民教育出版社）</li>
+                                <li>• <span class="keyword">《无机化学基础》</span>（北京师范大学出版社）</li>
+                                <li>• <span class="keyword">《有机化学基础》</span>（高等教育出版社）</li>
+                                <li>• <span class="keyword">《化学原理》</span>（上海科学技术出版社）</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card fade-in delay-2">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=college%20chemistry%20textbook%20general%20chemistry%20introduction&image_size=landscape_4_3" class="card-img-top" alt="大学基础教材">
+                        <div class="card-body">
+                            <h3 class="card-title">大学基础教材</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">《普通化学原理》</span>（华彤文等，北京大学出版社）</li>
+                                <li>• <span class="keyword">《无机化学》</span>（宋天佑等，高等教育出版社）</li>
+                                <li>• <span class="keyword">《有机化学》</span>（胡宏纹，高等教育出版社）</li>
+                                <li>• <span class="keyword">《分析化学》</span>（武汉大学，高等教育出版社）</li>
+                                <li>• <span class="keyword">《物理化学》</span>（傅献彩等，高等教育出版社）</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 专业教材 -->
+        <section class="section">
+            <h2 class="section-title">专业教材</h2>
+            <p class="text-center text-muted mb-4">深入学习 · 适合专业学习的化学书籍</p>
+            
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card fade-in delay-1">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=advanced%20inorganic%20chemistry%20textbook%20coordination%20compounds%20transition%20metals&image_size=landscape_4_3" class="card-img-top" alt="无机化学">
+                        <div class="card-body">
+                            <h3 class="card-title">无机化学</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">《高等无机化学》</span>（F.A. Cotton等）</li>
+                                <li>• <span class="keyword">《配位化学》</span>（游效曾，高等教育出版社）</li>
+                                <li>• <span class="keyword">《无机合成》</span>（John Wiley & Sons）</li>
+                                <li>• <span class="keyword">《元素化学》</span>（格林伍德等）</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card fade-in delay-2">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=advanced%20organic%20chemistry%20textbook%20reaction%20mechanisms%20synthesis&image_size=landscape_4_3" class="card-img-top" alt="有机化学">
+                        <div class="card-body">
+                            <h3 class="card-title">有机化学</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">《Advanced Organic Chemistry》</span>（J. March）</li>
+                                <li>• <span class="keyword">《有机合成》</span>（Smith, M.B.）</li>
+                                <li>• <span class="keyword">《有机反应机理》</span>（Carey, F.A.）</li>
+                                <li>• <span class="keyword">《立体化学》</span>（Eliel, E.L.）</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card fade-in delay-3">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=advanced%20physical%20chemistry%20textbook%20thermodynamics%20quantum%20mechanics&image_size=landscape_4_3" class="card-img-top" alt="物理化学">
+                        <div class="card-body">
+                            <h3 class="card-title">物理化学</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">《Physical Chemistry》</span>（Atkins, P.W.）</li>
+                                <li>• <span class="keyword">《量子化学》</span>（Ira N. Levine）</li>
+                                <li>• <span class="keyword">《统计热力学》</span>（梁希侠等）</li>
+                                <li>• <span class="keyword">《电化学原理》</span>（李荻，北京航空航天大学出版社）</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 参考工具书 -->
+        <section class="section">
+            <h2 class="section-title">参考工具书</h2>
+            <p class="text-center text-muted mb-4">实用工具 · 化学学习的参考工具书</p>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card fade-in delay-1">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=chemistry%20reference%20books%20dictionaries%20handbooks%20encyclopedias&image_size=landscape_4_3" class="card-img-top" alt="参考工具书">
+                        <div class="card-body">
+                            <h3 class="card-title">化学字典与手册</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">《化学字典》</span>（中国大百科全书出版社）</li>
+                                <li>• <span class="keyword">《CRC Handbook of Chemistry and Physics》</span></li>
+                                <li>• <span class="keyword">《兰氏化学手册》</span>（Lange's Handbook of Chemistry）</li>
+                                <li>• <span class="keyword">《无机化学命名原则》</span>（中国化学会）</li>
+                                <li>• <span class="keyword">《有机化合物命名原则》</span>（中国化学会）</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card fade-in delay-2">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=chemistry%20encyclopedia%20comprehensive%20reference%20books%20multi-volume&image_size=landscape_4_3" class="card-img-top" alt="百科全书">
+                        <div class="card-body">
+                            <h3 class="card-title">百科全书与丛书</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">《中国大百科全书·化学卷》</span></li>
+                                <li>• <span class="keyword">《Encyclopedia of Chemistry》</span></li>
+                                <li>• <span class="keyword">《化学进展丛书》</span>（科学出版社）</li>
+                                <li>• <span class="keyword">《现代化学基础丛书》</span>（科学出版社）</li>
+                                <li>• <span class="keyword">《无机化学丛书》</span>（科学出版社）</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 科普读物 -->
+        <section class="section">
+            <h2 class="section-title">科普读物</h2>
+            <p class="text-center text-muted mb-4">趣味阅读 · 适合大众的化学科普书籍</p>
+            
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card fade-in delay-1">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=popular%20chemistry%20books%20science%20popularization%20interesting%20reading&image_size=landscape_4_3" class="card-img-top" alt="科普读物">
+                        <div class="card-body">
+                            <h3 class="card-title">化学科普</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">《元素的故事》</span>（依·尼查叶夫）</li>
+                                <li>• <span class="keyword">《化学简史》</span>（J.R.柏廷顿）</li>
+                                <li>• <span class="keyword">《视觉之旅：神奇的化学元素》</span>（西奥多·格雷）</li>
+                                <li>• <span class="keyword">《魔鬼化学》</span>（山姆·基恩）</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card fade-in delay-2">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=chemistry%20in%20everyday%20life%20popular%20science%20books%20practical%20applications&image_size=landscape_4_3" class="card-img-top" alt="生活中的化学">
+                        <div class="card-body">
+                            <h3 class="card-title">生活中的化学</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">《生活中的化学》</span>（刘旦初）</li>
+                                <li>• <span class="keyword">《厨房里的化学》</span>（袁乃驹）</li>
+                                <li>• <span class="keyword">《化妆品中的化学》</span>（裘炳毅）</li>
+                                <li>• <span class="keyword">《药物与化学》</span>（张礼和等）</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card fade-in delay-3">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=chemistry%20history%20books%20scientific%20biographies%20discoveries&image_size=landscape_4_3" class="card-img-top" alt="化学史">
+                        <div class="card-body">
+                            <h3 class="card-title">化学史与传记</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">《化学史》</span>（郭保章）</li>
+                                <li>• <span class="keyword">《诺贝尔奖中的化学故事》</span>（金仲珏等）</li>
+                                <li>• <span class="keyword">《居里夫人传》</span>（艾芙·居里）</li>
+                                <li>• <span class="keyword">《门捷列夫传》</span>（鲍·米·凯德洛夫）</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 专业专著 -->
+        <section class="section">
+            <h2 class="section-title">专业专著</h2>
+            <p class="text-center text-muted mb-4">深入研究 · 化学特定领域的专著</p>
+            
+            <div class="card fade-in delay-1">
+                <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=specialized%20chemistry%20monographs%20advanced%20research%20books%20specific%20fields&image_size=landscape_16_9" class="card-img-top" alt="专业专著">
+                <div class="card-body">
+                    <h3 class="card-title">专业专著分类</h3>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h4 class="card-subtitle mb-2 text-muted">材料化学</h4>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">《材料化学》</span>（Michael F. Ashby）</li>
+                                <li>• <span class="keyword">《纳米材料化学》</span>（任红轩等）</li>
+                                <li>• <span class="keyword">《高分子化学》</span>（Paul J. Flory）</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4">
+                            <h4 class="card-subtitle mb-2 text-muted">环境化学</h4>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">《环境化学》</span>（Stanley E. Manahan）</li>
+                                <li>• <span class="keyword">《大气化学》</span>（John H. Seinfeld）</li>
+                                <li>• <span class="keyword">《水污染控制化学》</span>（汤鸿霄）</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4">
+                            <h4 class="card-subtitle mb-2 text-muted">医药化学</h4>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">《药物化学》</span>（David J. Triggle）</li>
+                                <li>• <span class="keyword">《生物无机化学》</span>（Stephen J. Lippard）</li>
+                                <li>• <span class="keyword">《天然药物化学》</span>（吴立军）</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 书籍选择指南 -->
+        <section class="section">
+            <h2 class="section-title">书籍选择指南</h2>
+            <p class="text-center text-muted mb-4">选择建议 · 如何选择适合自己的化学书籍</p>
+            
+            <div class="card fade-in delay-1">
+                <div class="card-body">
+                    <h3 class="card-title">书籍选择建议</h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4 class="card-subtitle mb-2 text-muted">根据学习阶段选择</h4>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">中学阶段</span>：选择基础教材和科普读物，注重基础知识的学习和兴趣的培养</li>
+                                <li>• <span class="keyword">大学阶段</span>：选择专业教材和参考工具书，注重系统知识的学习和专业技能的培养</li>
+                                <li>• <span class="keyword">研究生阶段</span>：选择专业专著和前沿研究书籍，注重深入研究和创新能力的培养</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h4 class="card-subtitle mb-2 text-muted">选择书籍的注意事项</h4>
+                            <ul class="list-unstyled">
+                                <li>• 选择权威出版社和知名作者的书籍</li>
+                                <li>• 注意书籍的出版时间，选择最新版本</li>
+                                <li>• 参考书籍的目录和内容简介</li>
+                                <li>• 查看书籍的评价和推荐</li>
+                                <li>• 根据自己的学习目标和兴趣选择</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 电子书资源 -->
+        <section class="section">
+            <h2 class="section-title">电子书资源</h2>
+            <p class="text-center text-muted mb-4">数字资源 · 化学电子书和在线资源</p>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card fade-in delay-1">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=chemistry%20eBooks%20digital%20books%20online%20resources&image_size=landscape_4_3" class="card-img-top" alt="电子书">
+                        <div class="card-body">
+                            <h3 class="card-title">电子书平台</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">中国知网</span>（CNKI）</li>
+                                <li>• <span class="keyword">万方数据</span></li>
+                                <li>• <span class="keyword">维普资讯</span></li>
+                                <li>• <span class="keyword">ScienceDirect</span></li>
+                                <li>• <span class="keyword">SpringerLink</span></li>
+                                <li>• <span class="keyword">Wiley Online Library</span></li>
+                                <li>• <span class="keyword">ACS Publications</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card fade-in delay-2">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=online%20chemistry%20resources%20websites%20databases%20educational%20portals&image_size=landscape_4_3" class="card-img-top" alt="在线资源">
+                        <div class="card-body">
+                            <h3 class="card-title">在线资源</h3>
+                            <ul class="list-unstyled">
+                                <li>• <span class="keyword">中国化学会</span>官网</li>
+                                <li>• <span class="keyword">美国化学会</span>（ACS）官网</li>
+                                <li>• <span class="keyword">皇家化学会</span>（RSC）官网</li>
+                                <li>• <span class="keyword">ChemSpider</span>（化学数据库）</li>
+                                <li>• <span class="keyword">PubChem</span>（化合物数据库）</li>
+                                <li>• <span class="keyword">IUPAC</span>（国际纯粹与应用化学联合会）官网</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 未来规划 -->
+        <section class="section">
+            <h2 class="section-title">未来规划</h2>
+            <p class="text-center text-muted mb-4">发展计划 · 参考书籍资源的更新与扩展</p>
+            
+            <div class="card fade-in delay-1">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h3 class="card-title">近期计划</h3>
+                            <ul class="list-unstyled">
+                                <li>• 扩充各分支学科的推荐书籍</li>
+                                <li>• 增加更多的外文原版书籍推荐</li>
+                                <li>• 开发书籍评论和推荐功能</li>
+                                <li>• 建立书籍资源共享平台</li>
+                                <li>• 增加书籍的电子书链接</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h3 class="card-title">长期规划</h3>
+                            <ul class="list-unstyled">
+                                <li>• 建立完整的化学书籍数据库</li>
+                                <li>• 开发智能书籍推荐系统</li>
+                                <li>• 构建书籍内容摘要和索引</li>
+                                <li>• 建立学习社区，促进书籍讨论</li>
+                                <li>• 拓展国际化学书籍资源</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>关于项目</h3>
+                    <p>这是一个基于Spring Cloud的化学学习微服务项目，旨在通过微服务架构实现化学知识的管理和学习进度的跟踪。</p>
+                </div>
+                <div class="col-md-4">
+                    <h3>快速链接</h3>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html" data-transition="fade">首页</a></li>
+                        <li><a href="periodic-table.html" data-transition="fade">化学元素</a></li>
+                        <li><a href="profile.html" data-transition="fade">用户中心</a></li>
+                        <li><a href="tasks.html" data-transition="fade">学习进度</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h3>联系方式</h3>
+                    <p>如有问题或建议，请联系我们。</p>
+                    <p>Email: contact@example.com</p>
+                </div>
+            </div>
+            <div class="border-top border-gray-700 mt-4 pt-4 text-center">
+                <p>&copy; 2026 化学学习微服务项目. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/constants.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/page-transition.js"></script>
+</body>
+</html>
