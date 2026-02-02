@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>发布任务 - 化学探索</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/page-transition.css" rel="stylesheet">
+    <style>
+        /* 自定义样式 */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 100px 0 60px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,%3Csvg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z" fill="%23ffffff" fill-opacity="0.1" fill-rule="evenodd"%3E%3C/path%3E%3C/svg%3E');
+        }
+        .container {
+            max-width: 900px;
+        }
+        .form-container {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            margin-top: -50px;
+            position: relative;
+            z-index: 10;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: block;
+            color: #333;
+        }
+        .form-control {
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            padding: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            outline: none;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+        .btn-secondary {
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+        }
+        .form-section {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .form-section:last-child {
+            border-bottom: none;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        .product-list {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+        }
+        .product-item {
+            padding: 10px;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .product-item:hover {
+            background-color: #f8f9fa;
+        }
+        .product-item.selected {
+            background-color: #e3f2fd;
+            border-left: 4px solid #667eea;
+        }
+        .product-item:last-child {
+            border-bottom: none;
+        }
+        .product-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .product-desc {
+            font-size: 14px;
+            color: #666;
+        }
+        .alert {
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html" data-transition="fade">
+                <span style="color: #667eea; font-weight: bold;">Chem</span>Reactions
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html" data-transition="fade">首页</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="periodic-table.html" id="elementDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-transition="fade">
+                            元素世界
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="elementDropdown">
+                            <li><a class="dropdown-item" href="periodic-table.html" data-transition="fade">元素周期表</a></li>
+                            <li><a class="dropdown-item" href="element-discovery.html" data-transition="fade">元素发现历史</a></li>
+                            <li><a class="dropdown-item" href="element-categories.html" data-transition="fade">元素分类</a></li>
+                            <li><a class="dropdown-item" href="element-detail.html" data-transition="fade">元素详情</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="reactions.html" id="reactionDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-transition="fade">
+                            化学反应
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="reactionDropdown">
+                            <li><a class="dropdown-item" href="basic-reactions.html" data-transition="fade">基本反应类型</a></li>
+                            <li><a class="dropdown-item" href="redox-reactions.html" data-transition="fade">氧化还原反应</a></li>
+                            <li><a class="dropdown-item" href="acid-base-reactions.html" data-transition="fade">酸碱反应</a></li>
+                            <li><a class="dropdown-item" href="coordination-reactions.html" data-transition="fade">配位反应</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="organic-chemistry.html" id="chemistryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-transition="fade">
+                            化学分支
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="chemistryDropdown">
+                            <li><a class="dropdown-item" href="organic-chemistry.html" data-transition="fade">有机化学</a></li>
+                            <li><a class="dropdown-item" href="inorganic-chemistry.html" data-transition="fade">无机化学</a></li>
+                            <li><a class="dropdown-item" href="analytical-chemistry.html" data-transition="fade">分析化学</a></li>
+                            <li><a class="dropdown-item" href="physical-chemistry.html" data-transition="fade">物理化学</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="publish.html" data-transition="fade">发布任务</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="my-nfts.html" data-transition="fade">我的NFT</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="ai-assistant.html" data-transition="fade">AI助手</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="forum.html" data-transition="fade">论坛</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 英雄区 -->
+    <section class="hero-section">
+        <div class="container">
+            <h1 class="display-4 mb-4">发布任务</h1>
+            <p class="lead">创建新的化学研究任务，设置接收条件和奖励</p>
+        </div>
+    </section>
+
+    <!-- 表单容器 -->
+    <div class="container mb-10">
+        <div class="form-container">
+            <form id="publish-form">
+                <!-- 任务基本信息 -->
+                <div class="form-section">
+                    <h2 class="section-title">任务基本信息</h2>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="task-title">任务标题</label>
+                        <input type="text" class="form-control" id="task-title" placeholder="输入任务标题" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="task-type">任务类型</label>
+                        <select class="form-control" id="task-type" required>
+                            <option value="">加载任务类型中...</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="task-description">任务描述</label>
+                        <textarea class="form-control" id="task-description" rows="4" placeholder="详细描述任务内容、要求和目标" required></textarea>
+                    </div>
+                </div>
+                
+                <!-- 接收设置 -->
+                <div class="form-section">
+                    <h2 class="section-title">接收设置</h2>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="receiver-count">接收人数</label>
+                        <input type="number" class="form-control" id="receiver-count" min="1" max="100" placeholder="设置最多接收任务的人数" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">接收条件</label>
+                        <div class="product-list" id="product-list">
+                            <!-- 产品列表将通过JavaScript动态生成 -->
+                            <div class="text-center py-4 text-muted">加载产品中...</div>
+                        </div>
+                        <small class="form-text text-muted">选择完成任务所需的产品/元素</small>
+                    </div>
+                </div>
+                
+                <!-- 奖励设置 -->
+                <div class="form-section">
+                    <h2 class="section-title">奖励设置</h2>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="reward-points">积分奖励</label>
+                        <input type="number" class="form-control" id="reward-points" min="0" placeholder="设置完成任务的积分奖励" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="reward-description">其他奖励</label>
+                        <input type="text" class="form-control" id="reward-description" placeholder="设置其他奖励（如NFT、证书等）">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="task-deadline">截止日期</label>
+                        <input type="date" class="form-control" id="task-deadline" required>
+                    </div>
+                </div>
+                
+                <!-- 提交按钮 -->
+                <div class="text-center">
+                    <button type="button" class="btn btn-secondary me-3" onclick="window.location.href='index.html'">取消</button>
+                    <button type="submit" class="btn btn-primary">发布任务</button>
+                </div>
+            </form>
+            
+            <!-- 成功提示 -->
+            <div id="success-alert" class="alert alert-success mt-4" style="display: none;">
+                <strong>发布成功！</strong> 任务已成功发布，等待用户接收。
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer bg-dark text-white py-8">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>关于项目</h3>
+                    <p>这是一个基于Spring Cloud的化学学习微服务项目，旨在通过微服务架构实现化学知识的管理和学习进度的跟踪。</p>
+                </div>
+                <div class="col-md-4">
+                    <h3>快速链接</h3>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html" class="text-white text-decoration-none">首页</a></li>
+                        <li><a href="periodic-table.html" class="text-white text-decoration-none">元素周期表</a></li>
+                        <li><a href="reactions.html" class="text-white text-decoration-none">化学反应</a></li>
+                        <li><a href="forum.html" class="text-white text-decoration-none">论坛</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h3>联系方式</h3>
+                    <p>如有问题或建议，请联系我们。</p>
+                    <p>Email: contact@example.com</p>
+                </div>
+            </div>
+            <div class="border-top border-gray-700 mt-4 pt-4 text-center">
+                <p>&copy; 2026 化学学习微服务项目. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/page-transition.js"></script>
+    <script>
+        // 页面加载时初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTaskTypes();
+            loadProducts();
+            initFormSubmit();
+        });
+
+        // 加载任务类型
+        function loadTaskTypes() {
+            const taskTypeSelect = document.getElementById('task-type');
+            
+            fetch('/api/tasks/types')
+                .then(response => response.json())
+                .then(data => {
+                    taskTypeSelect.innerHTML = '<option value="">选择任务类型</option>';
+                    data.forEach(taskType => {
+                        const option = document.createElement('option');
+                        option.value = taskType.id;
+                        option.textContent = taskType.name;
+                        taskTypeSelect.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('加载任务类型失败:', error);
+                    // 加载失败时使用默认任务类型
+                    taskTypeSelect.innerHTML = `
+                        <option value="">选择任务类型</option>
+                        <option value="1">元素合成</option>
+                        <option value="2">化学研究</option>
+                        <option value="3">元素收集</option>
+                        <option value="4">实验验证</option>
+                        <option value="5">数据分析</option>
+                    `;
+                });
+        }
+
+        // 加载产品列表
+        function loadProducts() {
+            const productList = document.getElementById('product-list');
+            
+            // 模拟产品数据
+            setTimeout(() => {
+                const products = [
+                    {
+                        id: 1,
+                        name: '氢元素 (H)',
+                        description: '第一号元素，最轻的元素',
+                        type: 'element'
+                    },
+                    {
+                        id: 2,
+                        name: '氧元素 (O)',
+                        description: '第八号元素，生命必需元素',
+                        type: 'element'
+                    },
+                    {
+                        id: 3,
+                        name: '碳元素 (C)',
+                        description: '第六号元素，有机化合物的基础',
+                        type: 'element'
+                    },
+                    {
+                        id: 4,
+                        name: '水分子 (H2O)',
+                        description: '由氢和氧组成的化合物',
+                        type: 'compound'
+                    },
+                    {
+                        id: 5,
+                        name: '二氧化碳 (CO2)',
+                        description: '由碳和氧组成的化合物',
+                        type: 'compound'
+                    },
+                    {
+                        id: 6,
+                        name: '甲烷 (CH4)',
+                        description: '最简单的有机化合物',
+                        type: 'compound'
+                    },
+                    {
+                        id: 7,
+                        name: '实验器材套装',
+                        description: '基础化学实验器材',
+                        type: 'equipment'
+                    },
+                    {
+                        id: 8,
+                        name: '光谱分析仪',
+                        description: '用于元素分析的仪器',
+                        type: 'equipment'
+                    }
+                ];
+                
+                renderProducts(productList, products);
+            }, 1000);
+        }
+
+        // 渲染产品列表
+        function renderProducts(container, products) {
+            container.innerHTML = '';
+            
+            products.forEach(product => {
+                const productItem = document.createElement('div');
+                productItem.className = 'product-item';
+                productItem.dataset.productId = product.id;
+                productItem.dataset.productName = product.name;
+                
+                productItem.innerHTML = `
+                    <div class="product-name">${product.name}</div>
+                    <div class="product-desc">${product.description}</div>
+                `;
+                
+                // 添加点击事件
+                productItem.addEventListener('click', function() {
+                    this.classList.toggle('selected');
+                });
+                
+                container.appendChild(productItem);
+            });
+        }
+
+        // 初始化表单提交
+        function initFormSubmit() {
+            const form = document.getElementById('publish-form');
+            const successAlert = document.getElementById('success-alert');
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // 获取表单数据
+                const taskTitle = document.getElementById('task-title').value;
+                const taskTypeId = document.getElementById('task-type').value;
+                const taskDescription = document.getElementById('task-description').value;
+                const receiverCount = document.getElementById('receiver-count').value;
+                const rewardPoints = document.getElementById('reward-points').value;
+                const rewardDescription = document.getElementById('reward-description').value;
+                const taskDeadline = document.getElementById('task-deadline').value;
+                
+                // 获取选中的产品
+                const selectedProducts = [];
+                document.querySelectorAll('.product-item.selected').forEach(item => {
+                    selectedProducts.push({
+                        id: item.dataset.productId,
+                        name: item.dataset.productName
+                    });
+                });
+                
+                // 模拟提交
+                successAlert.style.display = 'block';
+                
+                // 重置表单
+                setTimeout(() => {
+                    form.reset();
+                    document.querySelectorAll('.product-item.selected').forEach(item => {
+                        item.classList.remove('selected');
+                    });
+                    successAlert.style.display = 'none';
+                    
+                    // 跳转到任务列表页面（如果存在）
+                    // window.location.href = 'tasks.html';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>

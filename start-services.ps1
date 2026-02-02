@@ -1,71 +1,76 @@
-Write-Host "Starting Chemistry Learning Project Services..." -ForegroundColor Green
+Write-Host "Starting Chemistry Learning Project Services..."
 
-# 启动Eureka Server
-Write-Host "Starting Eureka Server..." -ForegroundColor Cyan
-Start-Process -FilePath "powershell.exe" -ArgumentList "-NoExit", "-Command", "cd 'f:\TEST\CMateData\eureka-server'; mvn spring-boot:run"
-
-# 等待Eureka Server启动
-Write-Host "Waiting for Eureka Server to start..." -ForegroundColor Yellow
+# Start Eureka Server
+Write-Host "Starting Eureka Server..."
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "Set-Location 'f:\TEST\CMateData\eureka-server'; mvn spring-boot:run"
+# Wait for Eureka Server to start
 Start-Sleep -Seconds 10
 
-# 启动API Gateway
-Write-Host "Starting API Gateway..." -ForegroundColor Cyan
-Start-Process -FilePath "powershell.exe" -ArgumentList "-NoExit", "-Command", "cd 'f:\TEST\CMateData\api-gateway'; mvn spring-boot:run"
-
-# 等待API Gateway启动
-Write-Host "Waiting for API Gateway to start..." -ForegroundColor Yellow
+# Start API Gateway
+Write-Host "Starting API Gateway..."
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "Set-Location 'f:\TEST\CMateData\api-gateway'; mvn spring-boot:run"
+# Wait for API Gateway to start
 Start-Sleep -Seconds 5
 
-# 启动Chemistry Service
-Write-Host "Starting Chemistry Service..." -ForegroundColor Cyan
-Start-Process -FilePath "powershell.exe" -ArgumentList "-NoExit", "-Command", "cd 'f:\TEST\CMateData\chemistry-service'; mvn spring-boot:run"
-
-# 等待Chemistry Service启动
-Write-Host "Waiting for Chemistry Service to start..." -ForegroundColor Yellow
+# Start User Auth Service
+Write-Host "Starting User Auth Service..."
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "Set-Location 'f:\TEST\CMateData\user-auth-service'; mvn spring-boot:run"
+# Wait for User Auth Service to start
 Start-Sleep -Seconds 5
 
-# 启动User Service
-Write-Host "Starting User Service..." -ForegroundColor Cyan
-Start-Process -FilePath "powershell.exe" -ArgumentList "-NoExit", "-Command", "cd 'f:\TEST\CMateData\user-service'; mvn spring-boot:run"
-
-# 等待User Service启动
-Write-Host "Waiting for User Service to start..." -ForegroundColor Yellow
+# Start Resource Service
+Write-Host "Starting Resource Service..."
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "Set-Location 'f:\TEST\CMateData\resource-service'; mvn spring-boot:run"
+# Wait for Resource Service to start
 Start-Sleep -Seconds 5
 
-# 启动Learning Progress Service
-Write-Host "Starting Learning Progress Service..." -ForegroundColor Cyan
-Start-Process -FilePath "powershell.exe" -ArgumentList "-NoExit", "-Command", "cd 'f:\TEST\CMateData\learning-progress-service'; mvn spring-boot:run"
-
-# 启动Data Source Service
-Write-Host "Starting Data Source Service..." -ForegroundColor Cyan
-Start-Process -FilePath "powershell.exe" -ArgumentList "-NoExit", "-Command", "cd 'f:\TEST\CMateData\data-source-service'; mvn spring-boot:run"
-
-# 等待Data Source Service启动
-Write-Host "Waiting for Data Source Service to start..." -ForegroundColor Yellow
+# Start Chemistry Content Service
+Write-Host "Starting Chemistry Content Service..."
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "Set-Location 'f:\TEST\CMateData\chemistry-content-service'; mvn spring-boot:run"
+# Wait for Chemistry Content Service to start
 Start-Sleep -Seconds 5
 
-# 启动AI Service
-Write-Host "Starting AI Service..." -ForegroundColor Cyan
-Start-Process -FilePath "powershell.exe" -ArgumentList "-NoExit", "-Command", "cd 'f:\TEST\CMateData\ai-service'; mvn spring-boot:run"
-
-# 等待AI Service启动
-Write-Host "Waiting for AI Service to start..." -ForegroundColor Yellow
+# Start Quiz Service
+Write-Host "Starting Quiz Service..."
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "Set-Location 'f:\TEST\CMateData\quiz-service'; mvn spring-boot:run"
+# Wait for Quiz Service to start
 Start-Sleep -Seconds 5
 
-# 启动Task Management Service
-Write-Host "Starting Task Management Service..." -ForegroundColor Cyan
-Start-Process -FilePath "powershell.exe" -ArgumentList "-NoExit", "-Command", "cd 'f:\TEST\CMateData\task-management-service'; mvn spring-boot:run"
+# Start Reward Service
+Write-Host "Starting Reward Service..."
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "Set-Location 'f:\TEST\CMateData\reward-service'; mvn spring-boot:run"
+# Wait for Reward Service to start
+Start-Sleep -Seconds 5
 
-Write-Host "All services have been started!" -ForegroundColor Green
-Write-Host "You can access the services at:" -ForegroundColor White
-Write-Host "Eureka Server: http://localhost:8761" -ForegroundColor White
-Write-Host "API Gateway: http://localhost:8080" -ForegroundColor White
-Write-Host "Chemistry Service: http://localhost:8081" -ForegroundColor White
-Write-Host "User Service: http://localhost:8082" -ForegroundColor White
-Write-Host "Learning Progress Service: http://localhost:8085" -ForegroundColor White
-Write-Host "Data Source Service: http://localhost:8086" -ForegroundColor White
-Write-Host "AI Service: http://localhost:8087" -ForegroundColor White
-Write-Host "Task Management Service: http://localhost:8088" -ForegroundColor White
+# Start Learning Service
+Write-Host "Starting Learning Service..."
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "Set-Location 'f:\TEST\CMateData\learning-service'; mvn spring-boot:run"
+# Wait for Learning Service to start
+Start-Sleep -Seconds 5
 
-Write-Host "Press Enter to exit..." -ForegroundColor Yellow
-Read-Host
+# Start Task Management Service
+Write-Host "Starting Task Management Service..."
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "Set-Location 'f:\TEST\CMateData\task-management-service'; mvn spring-boot:run"
+
+# Start NFT Marketplace Service
+Write-Host "Starting NFT Marketplace Service..."
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "Set-Location 'f:\TEST\CMateData\nft-marketplace-service'; mvn spring-boot:run"
+
+# Wait for all services to start
+Write-Host "所有服务启动中，请等待10秒..."
+Start-Sleep -Seconds 10
+
+Write-Host "All services have been started!"
+Write-Host "You can access the services at:"
+Write-Host "Eureka Server: http://localhost:8761"
+Write-Host "API Gateway: https://localhost:8443"
+Write-Host "User Auth Service: http://localhost:8081"
+Write-Host "Resource Service: http://localhost:8082"
+Write-Host "Chemistry Content Service: http://localhost:8083"
+Write-Host "Quiz Service: http://localhost:8084"
+Write-Host "Reward Service: http://localhost:8085"
+Write-Host "Learning Service: http://localhost:8086"
+Write-Host "Task Management Service: http://localhost:8087"
+Write-Host "NFT Marketplace Service: http://localhost:8088"
+Write-Host "定时任务管理页面: https://localhost:8443/tasks.html"
+Write-Host "NFT商城页面: https://localhost:8443/nft-marketplace.html"

@@ -193,6 +193,20 @@ services:
       - SPRING_PROFILES_ACTIVE=docker
       - SPRING_RABBITMQ_HOST=rabbitmq
 
+  task-management-service:
+    build:
+      context: ./task-management-service
+      dockerfile: Dockerfile
+    ports:
+      - "8088:8088"
+    networks:
+      - cmatenet
+    depends_on:
+      - eureka-server
+      - harbor
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
 networks:
   cmatenet:
     driver: bridge

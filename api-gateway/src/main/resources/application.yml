@@ -17,6 +17,9 @@ spring:
   #       min-idle: 0
   #       max-wait: -1ms
   cloud:
+    compatibility-verifier:
+      enabled: false
+
     gateway:
       routes:
         # 用户认证服务路由

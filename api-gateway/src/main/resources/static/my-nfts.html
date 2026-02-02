@@ -302,6 +302,14 @@
         </div>
 
         <div class="section">
+            <h2 class="section-title">最新活动</h2>
+            <div id="latest-activities" class="nft-grid">
+                <!-- 活动卡片将通过JavaScript动态生成 -->
+                <div class="loading">加载中...</div>
+            </div>
+        </div>
+
+        <div class="section">
             <h2 class="section-title">已购买NFT</h2>
             <div id="my-nfts" class="nft-grid">
                 <div class="loading">加载中...</div>
@@ -341,8 +349,140 @@
 
         // 页面加载时初始化数据
         window.onload = function() {
+            loadLatestActivities();
             loadMyNfts();
         };
+
+        // 加载最新活动
+        function loadLatestActivities() {
+            const container = document.getElementById('latest-activities');
+            container.innerHTML = '<div class="loading">加载中...</div>';
+
+            // 模拟最新活动数据
+            setTimeout(() => {
+                const activities = [
+                    {
+                        id: 1,
+                        title: '元素合成',
+                        description: '将多个元素NFT合成为更稀有的高级元素',
+                        icon: '⚗️',
+                        status: 'available',
+                        rewards: '高级元素NFT, 100积分',
+                        type: 'synthesis'
+                    },
+                    {
+                        id: 2,
+                        title: '每日资源领取',
+                        description: '领取今日的免费资源包',
+                        icon: '🎁',
+                        status: 'available',
+                        rewards: '50积分, 随机元素碎片',
+                        type: 'resource'
+                    },
+                    {
+                        id: 3,
+                        title: '研究任务',
+                        description: '完成化学研究任务获得奖励',
+                        icon: '🔬',
+                        status: 'available',
+                        rewards: '200积分, 研究证书',
+                        type: 'task'
+                    },
+                    {
+                        id: 4,
+                        title: '个人委托',
+                        description: '发布或接受元素收集委托',
+                        icon: '📋',
+                        status: 'available',
+                        rewards: '委托报酬, 声誉值',
+                        type: 'delegation'
+                    }
+                ];
+                
+                renderActivities(container, activities);
+            }, 1000);
+        }
+
+        // 渲染活动列表
+        function renderActivities(container, activities) {
+            if (!activities || activities.length === 0) {
+                container.innerHTML = '<div class="empty">暂无可用活动</div>';
+                return;
+            }
+
+            container.innerHTML = '';
+            activities.forEach(activity => {
+                const activityCard = createActivityCard(activity);
+                container.appendChild(activityCard);
+            });
+        }
+
+        // 创建活动卡片
+        function createActivityCard(activity) {
+            const card = document.createElement('div');
+            card.className = 'nft-card';
+
+            card.innerHTML = `
+                <div class="nft-info" style="padding: 20px;">
+                    <div style="display: flex; align-items: center; margin-bottom: 16px;">
+                        <div style="font-size: 32px; margin-right: 16px;">${activity.icon}</div>
+                        <h3 class="nft-name" style="margin: 0;">${activity.title}</h3>
+                    </div>
+                    <p class="nft-collection" style="margin-bottom: 12px;">${activity.description}</p>
+                    <p class="nft-meta" style="margin-bottom: 8px;"><strong>奖励:</strong> ${activity.rewards}</p>
+                    <div class="nft-footer">
+                        <span class="nft-blockchain">${activity.status === 'available' ? '可参与' : '已完成'}</span>
+                        <div class="nft-actions">
+                            <button class="btn btn-sm btn-primary" onclick="participateActivity(${activity.id}, '${activity.type}')">立即参与</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            return card;
+        }
+
+        // 参与活动
+        function participateActivity(activityId, activityType) {
+            switch (activityType) {
+                case 'synthesis':
+                    openSynthesisModal();
+                    break;
+                case 'resource':
+                    claimResource();
+                    break;
+                case 'task':
+                    openTaskModal();
+                    break;
+                case 'delegation':
+                    openDelegationModal();
+                    break;
+                default:
+                    alert('参与活动: ' + activityId);
+            }
+        }
+
+        // 打开元素合成模态框
+        function openSynthesisModal() {
+            alert('元素合成功能开发中，敬请期待！');
+        }
+
+        // 领取资源
+        function claimResource() {
+            alert('每日资源领取成功！获得50积分和随机元素碎片。');
+            // 重新加载活动列表
+            loadLatestActivities();
+        }
+
+        // 打开任务模态框
+        function openTaskModal() {
+            alert('研究任务功能开发中，敬请期待！');
+        }
+
+        // 打开个人委托模态框
+        function openDelegationModal() {
+            alert('个人委托功能开发中，敬请期待！');
+        }
 
         // 加载我的NFT
         function loadMyNfts() {
