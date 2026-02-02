@@ -1,17 +1,17 @@
 #!/usr/bin/env powershell
 
-# CMateData Project Auto Start Script
-# Function: Automatically start all necessary services, including Eureka Server, API Gateway, User Auth Service, etc.
+# CMateData Full Project Auto Start Script
+# Function: Automatically start MySQL, Redis, and all necessary services
 
 Write-Host "=======================================" -ForegroundColor Green
-Write-Host "CMateData Project Auto Start Script" -ForegroundColor Green
+Write-Host "CMateData Full Project Auto Start Script" -ForegroundColor Green
 Write-Host "=======================================" -ForegroundColor Green
 
 # Check necessary dependencies
 Write-Host "Checking necessary dependencies..." -ForegroundColor Cyan
 Write-Host ""
 
-# Check Java
+# Set Java 17 as the default for this session
 $javaHome = "C:\Program Files\Java\jdk-17"
 if (-not (Test-Path $javaHome)) {
     Write-Host "Error: Java 17 not found at $javaHome" -ForegroundColor Red
@@ -19,10 +19,10 @@ if (-not (Test-Path $javaHome)) {
     exit 1
 }
 
-# Set Java 17 as the default for this session
 $env:JAVA_HOME = $javaHome
 $env:PATH = "$javaHome\bin;$env:PATH"
 
+# Check Java
 $javaVersion = java -version 2>&1
 if ($LASTEXITCODE -ne 0) {
     Write-Host "Error: Java not found" -ForegroundColor Red
@@ -40,6 +40,52 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 Write-Host "✓ Dependencies checked successfully" -ForegroundColor Green
+Write-Host ""
+
+# Start MySQL
+Write-Host "Starting MySQL..." -ForegroundColor Cyan
+Write-Host ""
+try {
+    # Check if MySQL service is running
+    $mysqlStatus = Get-Service -Name "MySQL*" -ErrorAction SilentlyContinue
+    if ($mysqlStatus -and $mysqlStatus.Status -eq "Running") {
+        Write-Host "✓ MySQL is already running" -ForegroundColor Green
+    } else {
+        # Start MySQL service
+        Start-Service -Name "MySQL*" -ErrorAction SilentlyContinue
+        Write-Host "✓ MySQL started" -ForegroundColor Green
+    }
+} catch {
+    Write-Host "⚠️  MySQL service not found or failed to start" -ForegroundColor Yellow
+    Write-Host "Continuing with other services..." -ForegroundColor Cyan
+}
+Write-Host ""
+
+# Start Redis
+Write-Host "Starting Redis..." -ForegroundColor Cyan
+Write-Host ""
+$redisPath = "D:\redis\Redis-x64-3.2.100"
+$redisExe = "$redisPath\redis-server.exe"
+
+if (Test-Path $redisExe) {
+    # Check if Redis is already running
+    $redisProcess = Get-Process | Where-Object { $_.ProcessName -eq "redis-server" }
+    if ($redisProcess) {
+        Write-Host "✓ Redis is already running" -ForegroundColor Green
+    } else {
+        # Start Redis
+        Start-Process -FilePath $redisExe -WorkingDirectory $redisPath -WindowStyle Normal
+        Write-Host "✓ Redis started" -ForegroundColor Green
+    }
+} else {
+    Write-Host "⚠️  Redis not found at $redisExe" -ForegroundColor Yellow
+    Write-Host "Continuing with other services..." -ForegroundColor Cyan
+}
+Write-Host ""
+
+# Wait for MySQL and Redis to start
+Write-Host "Waiting 5 seconds for MySQL and Redis to initialize..." -ForegroundColor Cyan
+Start-Sleep -Seconds 5
 Write-Host ""
 
 # Start Eureka Server
@@ -73,6 +119,8 @@ Write-Host ""
 Write-Host "=======================================" -ForegroundColor Green
 Write-Host "Startup completed! Service status:" -ForegroundColor Green
 Write-Host "=======================================" -ForegroundColor Green
+Write-Host "MySQL: Checked and started if needed" -ForegroundColor White
+Write-Host "Redis: Checked and started if needed" -ForegroundColor White
 Write-Host "Eureka Server: http://localhost:8761" -ForegroundColor White
 Write-Host "API Gateway: http://localhost:8080" -ForegroundColor White
 Write-Host "User Auth Service: http://localhost:8081" -ForegroundColor White
